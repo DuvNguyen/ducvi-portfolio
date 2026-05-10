@@ -1,9 +1,9 @@
 .home-hero {
   color: #fff;
   background: linear-gradient(
-      to right,
-      rgba($themeClrPrimary, 0.8),
-      rgba($themeClrPrimary, 0.8)
+      135deg,
+      rgba($themeClrPrimary, 0.9),
+      rgba($themeClrSecondary, 0.9)
     ),
     url(../../assets/svg/common-bg.svg);
   background-position: center;
@@ -148,6 +148,14 @@
 
     &-img-cont {
       overflow: hidden;
+      border-radius: $commonBorderRadius;
+      box-shadow: $commonShadow;
+      transition: $commonTransition;
+
+      &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
     }
     &-img {
       width: 100%;
@@ -198,9 +206,9 @@
   background-position: center;
 
   &__form-container {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background: rgba(#fff, 2);
-    padding: 4rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    background: #fff;
+    padding: 5rem;
     margin-top: 6rem;
     max-width: 80rem;
     text-align: right;

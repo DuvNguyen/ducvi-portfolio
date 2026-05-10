@@ -2,13 +2,20 @@
   display: flex;
   flex-wrap: wrap;
   &__skill {
-    padding: 1rem 2rem;
+    padding: 1rem 2.2rem;
     margin-bottom: 1.5rem;
     margin-right: 1.5rem;
-    font-size: 1.6rem;
-    background: rgba(#999, 0.2);
+    font-size: 1.5rem;
+    background: rgba($themeClrPrimary, 0.1);
     border-radius: $commonBorderRadius;
     font-weight: 600;
-    color: #777;
+    color: $themeClrSecondary;
+    transition: $commonTransition;
+    border: 1px solid rgba($themeClrPrimary, 0.1);
+
+    &:hover {
+      background: rgba($themeClrPrimary, 0.2);
+      transform: translateY(-2px);
+    }
   }
 }

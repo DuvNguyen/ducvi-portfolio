@@ -933,5 +933,52 @@ textarea {
     top: 27px;
   }
 }
+.project-details__gallery {
+  margin-top: 8rem;
+}
+.project-details__gallery-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+.project-details__gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+}
+.project-details__gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.project-details__gallery-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+.project-details__gallery-item img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.project-details__gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+@media only screen and (max-width: 37.5em) {
+  .project-details__gallery {
+    margin-top: 5rem;
+  }
+  .project-details__gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
 
 /*# sourceMappingURL=style.css.map */

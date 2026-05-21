@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Slack | Real-time Chat Platform Case Study</title>
+    <meta name="description" content="Detailed overview of Slack, a real-time chat platform built with NestJS, Next.js, and a microservices architecture." />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__content">
+        <div class="header__logo-container">
+          <div class="header__logo-img-cont">
+            <img
+              src="./assets/png/avatar.png"
+              alt="Vi Nguyen Logo Image"
+              class="header__logo-img"
+            />
+          </div>
+          <span class="header__logo-sub">Vi Nguyen</span>
+        </div>
+        <div class="header__main">
+          <ul class="header__links">
+            <li class="header__link-wrapper">
+              <a href="./index.html" class="header__link"> Home </a>
+            </li>
+            <li class="header__link-wrapper">
+              <a href="./index.html#about" class="header__link">About </a>
+            </li>
+            <li class="header__link-wrapper">
+              <a href="./index.html#projects" class="header__link">
+                Projects
+              </a>
+            </li>
+
+          </ul>
+          <div class="header__main-ham-menu-cont">
+            <img
+              src="./assets/svg/ham-menu.svg"
+              alt="hamburger menu"
+              class="header__main-ham-menu"
+            />
+            <img
+              src="./assets/svg/ham-menu-close.svg"
+              alt="hamburger menu close"
+              class="header__main-ham-menu-close d-none"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="header__sm-menu">
+        <div class="header__sm-menu-content">
+          <ul class="header__sm-menu-links">
+            <li class="header__sm-menu-link">
+              <a href="./index.html"> Home </a>
+            </li>
+
+            <li class="header__sm-menu-link">
+              <a href="./index.html#about"> About </a>
+            </li>
+
+            <li class="header__sm-menu-link">
+              <a href="./index.html#projects"> Projects </a>
+            </li>
+
+
+          </ul>
+        </div>
+      </div>
+    </header>
+    <section class="project-cs-hero">
+      <div class="project-cs-hero__content">
+        <h1 class="heading-primary">Slack</h1>
+        <div class="project-cs-hero__info">
+          <p class="text-primary">
+            A modern, high-performance, real-time Slack clone designed with a decoupled microservice architecture using NestJS, Next.js, Apache Kafka, and WebSockets.
+          </p>
+        </div>
+        <div class="project-cs-hero__cta">
+          <a href="https://github.com/DuvNguyen/slack-backend" class="btn btn--bg" target="_blank">Backend Repo</a>
+          <a href="https://github.com/DuvNguyen/slack-frontend" class="btn btn--bg btn--hero-inv" target="_blank" rel="noreferrer">Frontend Repo</a>
+        </div>
+      </div>
+    </section>
+    <section class="project-details">
+      <div class="main-container">
+        <div class="project-details__content">
+          <div class="project-details__showcase-img-cont">
+            <img
+              src="./assets/png/slack/homepage.png"
+              alt="Slack Homepage"
+              class="project-details__showcase-img"
+            />
+          </div>
+          <div class="project-details__content-main">
+            <div class="project-details__desc">
+              <h3 class="project-details__content-title">Project Overview</h3>
+              <p class="project-details__desc-para">
+                Slack is a comprehensive real-time communication platform built on a decoupled microservices architecture. Designed to emulate the core functionalities of Slack, it scales efficiently to support secure instant messaging, workspace configuration, and real-time updates.
+              </p>
+              <p class="project-details__desc-para">
+                The backend utilizes a <strong>Database-per-Service</strong> pattern with three distinct PostgreSQL databases mapped via <strong>TypeORM</strong>. A reverse-proxy <strong>API Gateway</strong> serves as the unified entry point for client traffic. This gateway forwards authentication, user settings, and SSO requests to the Identity Service, workspace and channel updates to the Workspace Service, and live messages to the Chat Service.
+              </p>
+              <p class="project-details__desc-para">
+                Real-time communications are enabled by <strong>WebSockets (Socket.IO)</strong>, which are horizontally scaled using a <strong>Redis Adapter</strong>. Asynchronous background event streams are managed using <strong>Apache Kafka</strong>, ensuring reliability. The frontend is built on <strong>Next.js</strong> and styled with <strong>Tailwind CSS</strong> to deliver a highly interactive, responsive user experience.
+              </p>
+            </div>
+            <div class="project-details__tools-used">
+              <h3 class="project-details__content-title">Tools Used</h3>
+              <div class="skills">
+                <div class="skills__skill">NestJS</div>
+                <div class="skills__skill">Next.js</div>
+                <div class="skills__skill">TypeScript</div>
+                <div class="skills__skill">PostgreSQL</div>
+                <div class="skills__skill">TypeORM</div>
+                <div class="skills__skill">Redis</div>
+                <div class="skills__skill">Apache Kafka</div>
+                <div class="skills__skill">Socket.IO</div>
+                <div class="skills__skill">Tailwind CSS</div>
+                <div class="skills__skill">Cloudinary</div>
+                <div class="skills__skill">Docker</div>
+                <div class="skills__skill">OAuth2 / JWT</div>
+              </div>
+            </div>
+            <div class="project-details__links">
+              <h3 class="project-details__content-title">See Code</h3>
+              <a
+                href="https://github.com/DuvNguyen/slack-backend"
+                class="btn btn--med btn--theme project-details__links-btn"
+                target="_blank"
+                >Backend Repo</a
+              >
+              <a
+                href="https://github.com/DuvNguyen/slack-frontend"
+                class="btn btn--med btn--theme-inv project-details__links-btn"
+                target="_blank"
+                >Frontend Repo</a
+              >
+            </div>
+          </div>
+
+          <div class="project-details__gallery">
+            <h3 class="project-details__gallery-title">Project Screenshots</h3>
+            <div class="project-details__gallery-grid">
+              <div class="project-details__gallery-item">
+                <img src="./assets/png/slack/auth.png" alt="Google Authentication & Register" />
+              </div>
+              <div class="project-details__gallery-item">
+                <img src="./assets/png/slack/channel_chat.png" alt="Real-time Channel Chat" />
+              </div>
+              <div class="project-details__gallery-item">
+                <img src="./assets/png/slack/channel_and_profile.png" alt="Channel and Profile Settings" />
+              </div>
+              <div class="project-details__gallery-item">
+                <img src="./assets/png/slack/self_dm.png" alt="Self Direct Message Feature" />
+              </div>
+              <div class="project-details__gallery-item">
+                <img src="./assets/png/slack/invite.png" alt="Workspace Member Invitation" />
+              </div>
+              <div class="project-details__gallery-item">
+                <img src="./assets/png/slack/darkmode.png" alt="Sleek Dark Mode Interface" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="main-footer">
+      <div class="main-container">
+        <div class="main-footer__upper">
+          <div class="main-footer__row main-footer__row-1">
+            <h2 class="heading heading-sm main-footer__heading-sm">
+              <span>Social</span>
+            </h2>
+            <div class="main-footer__social-cont">
+              <a target="_blank" rel="noreferrer" href="https://linkedin.com/in/nducviinformation/">
+                <img
+                  class="main-footer__icon"
+                  src="./assets/png/linkedin-ico.png"
+                  alt="icon"
+                />
+              </a>
+              <a target="_blank" rel="noreferrer" href="https://github.com/DuvNguyen">
+                <img
+                  class="main-footer__icon"
+                  src="./assets/png/github-ico.png"
+                  alt="icon"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="main-footer__row main-footer__row-2">
+            <h4 class="heading heading-sm text-lt">Vi Nguyen</h4>
+            <p class="main-footer__short-desc">
+              A Backend Developer building production-grade web systems and high-performance APIs.
+            </p>
+          </div>
+        </div>
+
+        <div class="main-footer__lower">
+          &copy; Copyright 2026. Made by
+          <a rel="noreferrer" target="_blank" href="https://github.com/DuvNguyen"
+            >Vi Nguyen</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="./index.js"></script>
+  </body>
+</html>

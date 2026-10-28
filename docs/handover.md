@@ -22,12 +22,19 @@
 * **Thời hạn hiệu lực:** **28/10/2026 → 28/10/2028** (Miễn phí 100% trong 2 năm, chi phí 0 VNĐ).
 * **Gia hạn tự động:** `Đang tắt` *(Không có rủi ro tự trừ phí).*
 
-### CMS & Quản lý nội dung (Sanity.io)
+### CMS & Quản trị Nội dung Toàn diện (Sanity.io Cloud CMS)
 * **Tài khoản cá nhân chính thức:** Đã kết nối với dự án Sanity cá nhân:
   * **Project ID:** `in94orx5`
   * **Dataset:** `production`
-  * **Studio URL:** `/studio` (nhúng trực tiếp bên trong ứng dụng Next.js)
-  * **Chế độ dữ liệu:** Tự động kết nối dữ liệu đám mây khi có bản ghi trong Sanity Studio, kèm cơ chế Fallback an toàn vào [`lib/defaultData.ts`](file:///home/levi/Desktop/Projects/Dopefolio/lib/defaultData.ts) khi chưa có bản ghi hoặc ngoại tuyến.
+  * **Studio URL:** `/studio` (nhúng trực tiếp bên trong ứng dụng Next.js tại `http://localhost:3000/studio`)
+  * **Gói dịch vụ & Chi phí:** Sanity tự động tặng 30 ngày dùng thử Growth (Trial) không yêu cầu thẻ tín dụng; sau 30 ngày tự động chuyển về **Gói Free vĩnh viễn (0 VNĐ)** với hạn mức 100,000 API requests/tháng, 10 GB CDN bandwidth, 20 users — hoàn toàn đủ cho website portfolio cá nhân.
+  * **Đồng bộ dữ liệu tự động (Automated Seeding):**
+    * Đã thực thi script [`scripts/seed-sanity.mjs`](file:///home/levi/Desktop/Projects/Dopefolio/scripts/seed-sanity.mjs) đưa toàn bộ 4 dự án (`Slack Chat Platform`, `Metro HCMC`, `VietSneaker`, `StudyMate`) và hồ sơ cá nhân `profile-main` lên Sanity Cloud.
+    * Tải trực tiếp 22 ảnh chụp màn hình dự án và avatar lên Sanity Asset CDN (`cdn.sanity.io`).
+  * **Toàn quyền biên tập 100% nội dung:**
+    * Mọi nội dung trên website (Slogan Hero, Bio giới thiệu, 4 trụ cột Capabilities, Dải chạy công nghệ Marquee, Bộ kỹ năng Skills, Thông tin & Link liên hệ Contact, Thư viện ảnh Screenshot Gallery) đều được quản lý động qua Sanity Studio.
+    * Cơ chế Fallback an toàn vào [`lib/defaultData.ts`](file:///home/levi/Desktop/Projects/Dopefolio/lib/defaultData.ts) đảm bảo website luôn hiển thị đẹp mắt kể cả khi ngoại tuyến hoặc chưa publish dữ liệu mới.
+  * **Tối ưu giao diện Studio:** Tích hợp tỉ lệ hiển thị mặc định `zoom: 1.35` tại [`app/studio/[[...tool]]/page.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/app/studio/[[...tool]]/page.tsx) giúp chữ và form nhập liệu to rõ, dễ thao tác trên màn hình lớn/độ phân giải cao mà không cần ấn `Ctrl + +`.
 * **Email Pro v4:** Gói `EmailProv4-HKD` miễn phí 2 năm theo tên miền (đang trỏ tại `s129d209.emailserver.vn`).
 * **Web thông báo:** Miễn phí 0 VNĐ.
 
@@ -49,8 +56,10 @@
   * Đã triển khai xong **Bước 1**: Component [`components/HeroBentoSection.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/HeroBentoSection.tsx) căn chỉnh lại tỉ lệ hài hòa (golden ratio: heading gọn gàng 3 dòng, avatar 96px, top nav cân xứng), tuân thủ nguyên tắc không spam emoji/icon.
   * Đã triển khai xong **Bước 2**: Component [`components/TechMarquee.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/TechMarquee.tsx) dải công nghệ chạy vô tận monochrome tối giản.
   * Đã triển khai xong **Bước 3**: Component [`components/CapabilitiesSection.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/CapabilitiesSection.tsx) lưới 4 trụ cột năng lực (Backend Architecture, Database & Caching, Full-Stack Engineering, Security & Integrations) với micro-interactions hover nhấc nhẹ.
-  * Đã tích hợp thư viện **`lenis` (Lenis Smooth Scroll)** theo chuẩn kiến trúc từ `benjaminsharvell` qua [`components/SmoothScrollProvider.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/SmoothScrollProvider.tsx) với thông số vật lý đầm chắc (`lerp: 0.08`, `duration: 1.4`, `wheelMultiplier: 0.85`), mang lại cảm giác cuộn có sức nặng, quán tính và độ đầm tay cao cấp trên toàn bộ trang.
+  * Đã tích hợp thư viện **`lenis` (Lenis Smooth Scroll)** theo chuẩn kiến trúc từ `benjaminsharvell` qua [`components/SmoothScrollProvider.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/SmoothScrollProvider.tsx) với thông số vật lý đầm chắc (`lerp: 0.08`, `duration: 1.4`, `wheelMultiplier: 0.85`), mang lại cảm giác cuộn có sức nặng, quán tính và độ đầm tay cao cấp trên toàn bộ trang. Đã cô lập route `/studio` để không gây xung đột cuộn trong trang quản trị Sanity.
+  * Đã khắc phục triệt để cảnh báo deprecation của Dart Sass trong terminal thông qua cấu hình `silenceDeprecations: ['legacy-js-api', 'import']` tại [`next.config.mjs`](file:///home/levi/Desktop/Projects/Dopefolio/next.config.mjs).
   * Đã triển khai xong **Bước 4**: Component [`components/StackingProjectsSection.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/StackingProjectsSection.tsx):
+    * **Hiệu ứng xòe thẻ chéo sang phải (Diagonal Stepped Deck Fan)**: Kết hợp `xOffset = index * 14px` và độ xoay nhẹ `rotateDeg = index * 0.6deg` với tâm xoay `origin-top-left`, giúp các thẻ phía sau (`03`, `02`, `01`) nhô chéo sang phía trên-phải tự nhiên như một bộ bài thực tế mà không bị che khuất hay đơn điệu.
     * Đặt bước nhảy cố định `topOffset = 48px + index * 32px` với `zIndex` tăng dần, cố định 100% bề ngang thẻ để toàn bộ 4 vòm cong bậc thang phía sau luôn lộ diện sắc nét.
     * Xóa bỏ khoảng trống giả lập khổng lồ (`pb-[80vh]`), đưa nhịp nối giữa Featured Work và Background & Mindset về tự nhiên, liền mạch, không còn khoảng xám trống trải.
     * Sửa nút **Code** và **Live Demo** có padding rộng rãi (`px-5 py-3 text-sm sm:text-base`) cân xứng với nút **Case Study**, không còn bị hẹp hay chật chội.
@@ -60,7 +69,9 @@
     * **Hero Bento Card dự án**: Tiêu đề lớn, tóm tắt kiến trúc, cụm nút Live Demo / Backend Repo / Frontend Repo đồng bộ chuẩn Soft Bento.
     * **Khung Mockup Preview tương tác**: Kích thước lớn, bo cong viền mềm mại, hỗ trợ click xem toàn màn hình qua Lightbox cao cấp.
     * **Cấu trúc Bento 2 cột (Architecture Narrative & Specifications)**: Cột trái trình bày chi tiết kiến trúc và giải pháp kỹ thuật; Cột phải hiển thị danh mục công nghệ (`Tools & Technologies`) và liên kết truy cập nhanh.
-    * **Bento Thư viện ảnh chụp thực tế (Screenshot Gallery)**: Lưới ảnh sắc nét kèm Lightbox Modal có hiệu ứng làm mờ nền và hỗ trợ phím ESC.
+    * **Bento Thư viện ảnh chụp thực tế (Screenshot Gallery)**:
+      * Lưới ảnh sắc nét trên Desktop và **iOS-style Touch/Drag Swipeable Carousel** trên điện thoại di động (vuốt trượt ảnh mượt mà kèm thanh pagination dots).
+      * Lightbox Modal toàn màn hình có hiệu ứng làm mờ nền sâu (`backdrop-blur-xl`), nút đóng tinh tế và hỗ trợ phím `ESC`.
     * **Thẻ chuyển tiếp dự án kế tiếp (Next Project Bento Card)**: Cho phép chuyển trang mượt mà liên tục.
     * Tích hợp [`components/MinimalFooter.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/MinimalFooter.tsx) đồng bộ toàn trang.
   * Đã điều chỉnh **Hệ thống tỉ lệ Typography & Kích thước phân cấp (Visual Hierarchy)** trên toàn bộ website:

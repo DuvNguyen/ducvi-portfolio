@@ -9,8 +9,8 @@ import { ArrowLeft } from 'lucide-react'
 export function Header() {
   const pathname = usePathname()
 
-  // On the homepage, the Bento Hero card includes its own integrated navigation bar
-  if (pathname === '/') {
+  // On the homepage and inside Sanity Studio, hide the floating header
+  if (pathname === '/' || pathname.startsWith('/studio')) {
     return null
   }
 

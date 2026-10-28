@@ -71,7 +71,7 @@ function StackingCard({ project, index, total }: SingleCardProps) {
               </h3>
 
               {/* Description */}
-              <p className="text-base sm:text-lg text-zinc-600 leading-relaxed font-normal mb-6">
+              <p className="text-base sm:text-lg lg:text-xl text-zinc-600 leading-relaxed font-normal mb-6">
                 {project.subtitle}
               </p>
 

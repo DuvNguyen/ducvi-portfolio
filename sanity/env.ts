@@ -7,7 +7,7 @@ export const dataset = assertValue(
 )
 
 export const projectId =
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'dummy_project_id'
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'in94orx5'
 
 function assertValue<T>(v: T | undefined, errorMessage: string): T {
   if (v === undefined) {

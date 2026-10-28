@@ -11,6 +11,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  sassOptions: {
+    silenceDeprecations: ['legacy-js-api', 'import'],
+  },
 };
 
 export default nextConfig;

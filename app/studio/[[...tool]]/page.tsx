@@ -5,7 +5,7 @@ import config from '@/sanity.config'
 
 export default function StudioPage() {
   return (
-    <div className="fixed inset-0 z-50 w-screen h-screen overflow-hidden">
+    <div className="fixed inset-0 z-50 w-full h-full min-h-screen overflow-hidden bg-[#101112]">
       <NextStudio config={config} />
     </div>
   )

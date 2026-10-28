@@ -5,7 +5,7 @@
       rgba($themeClrPrimary, 0.9),
       rgba($themeClrSecondary, 0.9)
     ),
-    url(../../assets/svg/common-bg.svg);
+    url(/assets/svg/common-bg.svg);
   background-position: center;
 
   height: 100vh;
@@ -86,7 +86,20 @@
   }
   &__cta {
     margin-top: 5rem;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    .btn {
+      margin: 0;
+    }
+
+    @include respond(phone) {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
   }
 }
 
@@ -201,7 +214,7 @@
       rgba($themeClrPrimary, 0.8),
       rgba($themeClrPrimary, 0.8)
     ),
-    url(../../assets/svg/common-bg.svg);
+    url(/assets/svg/common-bg.svg);
   background-size: cover;
   background-position: center;
 

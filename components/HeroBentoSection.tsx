@@ -1,0 +1,184 @@
+'use client'
+
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import type { ProfileData } from '@/lib/defaultData'
+import {
+  containerVariants,
+  itemVariants,
+  pillButtonVariants,
+  floatingBadgeAnimation,
+} from '@/lib/motion'
+
+interface HeroBentoSectionProps {
+  profile: ProfileData
+}
+
+export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
+  const [copied, setCopied] = useState(false)
+  const displayEmail = profile.email || 'contact@vinguyen.id.vn'
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(displayEmail)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <section className="w-full pt-6 md:pt-10 pb-6 px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
+      {/* Main Soft Bento Card */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative bg-white rounded-[32px] md:rounded-[44px] border border-black/[0.06] shadow-sm p-6 sm:p-10 md:p-14 overflow-hidden"
+      >
+        {/* Top Navigation Row */}
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-8 sm:pb-12 text-sm"
+        >
+          {/* Left: Email, Copy, and CV Action Buttons (Identical text-sm size for visual harmony) */}
+          <div className="flex items-center flex-wrap gap-2.5 justify-center sm:justify-start">
+            <span className="text-zinc-600 font-medium text-sm select-all">
+              {displayEmail}
+            </span>
+
+            {/* Copy Button */}
+            <motion.button
+              variants={pillButtonVariants}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
+              onClick={handleCopyEmail}
+              className="inline-flex items-center px-3.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-sm font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
+              aria-label="Copy email address"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {copied ? (
+                  <motion.span
+                    key="copied"
+                    initial={{ opacity: 0, y: -2 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 2 }}
+                    className="text-emerald-700 font-medium"
+                  >
+                    Copied
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="copy"
+                    initial={{ opacity: 0, y: -2 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 2 }}
+                  >
+                    Copy
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+
+            {/* CV Download / View Button */}
+            <motion.a
+              variants={pillButtonVariants}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
+              href={profile.cvUrl || '/assets/cv.pdf'}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center px-3.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+            >
+              CV
+            </motion.a>
+          </div>
+
+          {/* Right: Clean Social Navigation (Identical text-sm size) */}
+          <div className="flex items-center gap-4 sm:gap-5 text-zinc-500 font-medium text-sm">
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-zinc-950 transition-colors"
+            >
+              LinkedIn
+            </a>
+            <span className="text-zinc-300 font-light">/</span>
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-zinc-950 transition-colors"
+            >
+              GitHub
+            </a>
+            <span className="text-zinc-300 font-light">/</span>
+            <a
+              href={`mailto:${displayEmail}`}
+              className="hover:text-zinc-950 transition-colors"
+            >
+              Email
+            </a>
+          </div>
+        </motion.div>
+
+        {/* Center Hero Content */}
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto py-2 sm:py-4">
+          {/* Avatar with Subtle Floating Name Badge */}
+          <motion.div variants={itemVariants} className="relative mb-6 sm:mb-7">
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-zinc-100 shadow-sm bg-zinc-100">
+              <Image
+                src="/assets/png/avatar.png"
+                alt={profile.name || 'Vi Nguyen'}
+                fill
+                sizes="(max-width: 768px) 96px, 112px"
+                className="object-cover"
+                priority
+              />
+            </div>
+
+            {/* Pill Name Tag (No emojis / icon spam as instructed) */}
+            <motion.div
+              animate={floatingBadgeAnimation.animate}
+              transition={floatingBadgeAnimation.transition}
+              className="absolute -right-3 top-0 bg-white border border-zinc-200/90 rounded-full px-3 py-0.5 text-xs font-semibold text-zinc-800 shadow-xs select-none"
+            >
+              {profile.name || 'Vi Nguyen'}
+            </motion.div>
+          </motion.div>
+
+          {/* Clean, Bold Hero Heading - Harmonious 3-line proportion */}
+          <motion.h1
+            variants={itemVariants}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold tracking-tight text-zinc-950 leading-[1.18] sm:leading-[1.16] max-w-2xl sm:max-w-3xl"
+          >
+            {profile.heroHeadline || 'Building digital products, robust backends, and scalable systems.'}
+          </motion.h1>
+
+          {/* Subtitle / Bio */}
+          <motion.p
+            variants={itemVariants}
+            className="mt-5 text-base sm:text-lg text-zinc-600 max-w-2xl leading-relaxed font-normal"
+          >
+            {profile.heroBio}
+          </motion.p>
+
+          {/* Primary CTA Button (Scaled ~1.5x) */}
+          <motion.div variants={itemVariants} className="mt-8 sm:mt-10">
+            <motion.a
+              variants={pillButtonVariants}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
+              href="#projects"
+              className="inline-flex items-center gap-2.5 rounded-full bg-zinc-950 px-9 py-4 sm:px-10 sm:py-4.5 text-base sm:text-lg font-semibold text-white hover:bg-zinc-800 transition-all shadow-md hover:shadow-lg cursor-pointer"
+            >
+              Explore Projects <span className="text-zinc-400 font-normal text-base sm:text-lg">↗</span>
+            </motion.a>
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+  )
+}

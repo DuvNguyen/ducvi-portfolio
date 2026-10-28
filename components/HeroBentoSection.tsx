@@ -37,11 +37,11 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
         {/* Top Navigation Row */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-8 sm:pb-12 text-base"
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-8 sm:pb-12 text-sm"
         >
-          {/* Left: Email, Copy, and CV Action Buttons */}
-          <div className="flex items-center flex-wrap gap-3 justify-center sm:justify-start">
-            <span className="text-zinc-700 font-medium text-base sm:text-[17px] select-all tracking-tight">
+          {/* Left: Email, Copy, and CV Action Buttons (Identical text-sm size for visual harmony) */}
+          <div className="flex items-center flex-wrap gap-2.5 justify-center sm:justify-start">
+            <span className="text-zinc-600 font-medium text-sm select-all">
               {displayEmail}
             </span>
 
@@ -52,26 +52,26 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               whileHover="hover"
               whileTap="tap"
               onClick={handleCopyEmail}
-              className="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-200 bg-white text-zinc-800 text-sm font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
+              className="inline-flex items-center px-3.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-sm font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
               aria-label="Copy email address"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {copied ? (
                   <motion.span
                     key="copied"
-                    initial={{ opacity: 0, y: -3 }}
+                    initial={{ opacity: 0, y: -2 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 3 }}
-                    className="text-emerald-700 font-semibold"
+                    exit={{ opacity: 0, y: 2 }}
+                    className="text-emerald-700 font-medium"
                   >
                     Copied
                   </motion.span>
                 ) : (
                   <motion.span
                     key="copy"
-                    initial={{ opacity: 0, y: -3 }}
+                    initial={{ opacity: 0, y: -2 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 3 }}
+                    exit={{ opacity: 0, y: 2 }}
                   >
                     Copy
                   </motion.span>
@@ -88,14 +88,14 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               href={profile.cvUrl || '/assets/cv.pdf'}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-200 bg-white text-zinc-800 text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+              className="inline-flex items-center px-3.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
             >
               CV
             </motion.a>
           </div>
 
-          {/* Right: Clean Social Navigation */}
-          <div className="flex items-center gap-5 sm:gap-6 text-zinc-600 font-medium text-sm sm:text-base">
+          {/* Right: Clean Social Navigation (Identical text-sm size) */}
+          <div className="flex items-center gap-4 sm:gap-5 text-zinc-500 font-medium text-sm">
             <a
               href={profile.linkedin}
               target="_blank"
@@ -104,7 +104,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
             >
               LinkedIn
             </a>
-            <span className="text-zinc-300">/</span>
+            <span className="text-zinc-300 font-light">/</span>
             <a
               href={profile.github}
               target="_blank"
@@ -113,7 +113,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
             >
               GitHub
             </a>
-            <span className="text-zinc-300">/</span>
+            <span className="text-zinc-300 font-light">/</span>
             <a
               href={`mailto:${displayEmail}`}
               className="hover:text-zinc-950 transition-colors"

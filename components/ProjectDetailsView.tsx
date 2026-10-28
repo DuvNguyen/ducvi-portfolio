@@ -4,7 +4,16 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowUpRight, Code2, ExternalLink, X, Eye } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Code2,
+  ExternalLink,
+  X,
+  Eye,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react'
 import type { ProjectItem } from '@/lib/defaultData'
 import { pillButtonVariants } from '@/lib/motion'
 
@@ -29,16 +38,37 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
     src: string
     alt: string
   } | null>(null)
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right')
+
+  const galleryItems = project.gallery && project.gallery.length > 0 ? project.gallery : []
+  const currentSlide = galleryItems[currentSlideIndex]
+
+  const handlePrevSlide = () => {
+    if (galleryItems.length === 0) return
+    setSlideDirection('left')
+    setCurrentSlideIndex((prev) => (prev === 0 ? galleryItems.length - 1 : prev - 1))
+  }
+
+  const handleNextSlide = () => {
+    if (galleryItems.length === 0) return
+    setSlideDirection('right')
+    setCurrentSlideIndex((prev) => (prev === galleryItems.length - 1 ? 0 : prev + 1))
+  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || e.key === 'Esc') {
         setActiveLightboxImage(null)
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevSlide()
+      } else if (e.key === 'ArrowRight') {
+        handleNextSlide()
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [galleryItems.length])
 
   const showcaseImage = project.imageUrl || '/assets/png/studymate/homepage.png'
   const displayBadge = cleanText(project.statusBadge) || project.toolsUsed[0]
@@ -236,10 +266,11 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
         </div>
       </div>
 
-      {/* Screenshot Gallery Bento Grid */}
-      {project.gallery && project.gallery.length > 0 && (
-        <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] p-8 sm:p-12 shadow-2xs mb-10 sm:mb-14">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+      {/* Screenshot Gallery Interactive Slider Bento Card */}
+      {galleryItems.length > 0 && currentSlide && (
+        <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] p-6 sm:p-10 md:p-12 shadow-2xs mb-10 sm:mb-14">
+          {/* Header Row with Navigation Controls */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
             <div>
               <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-200/80 bg-zinc-50 text-zinc-700 text-xs sm:text-sm font-medium mb-3">
                 Interface Previews
@@ -248,38 +279,102 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
                 Application Screenshots
               </h3>
             </div>
-            <span className="text-xs sm:text-sm text-zinc-400 font-normal">
-              Click any image to inspect full view
-            </span>
+
+            {/* Slider Action Buttons & Counter */}
+            <div className="flex items-center gap-3">
+              <span className="text-xs sm:text-sm font-mono font-medium text-zinc-500 px-3.5 py-1.5 rounded-full bg-zinc-100">
+                {String(currentSlideIndex + 1).padStart(2, '0')} / {String(galleryItems.length).padStart(2, '0')}
+              </span>
+
+              <button
+                onClick={handlePrevSlide}
+                className="w-10 h-10 rounded-full border border-zinc-200 bg-white hover:bg-zinc-50 flex items-center justify-center text-zinc-700 hover:text-zinc-950 transition-colors shadow-2xs cursor-pointer"
+                aria-label="Previous screenshot"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              <button
+                onClick={handleNextSlide}
+                className="w-10 h-10 rounded-full border border-zinc-200 bg-white hover:bg-zinc-50 flex items-center justify-center text-zinc-700 hover:text-zinc-950 transition-colors shadow-2xs cursor-pointer"
+                aria-label="Next screenshot"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {project.gallery.map((item, idx) => (
-              <div
+          {/* Main Slide Viewport */}
+          <div
+            onClick={() =>
+              setActiveLightboxImage({
+                src: currentSlide.imageUrl,
+                alt: currentSlide.caption || `${project.title} Screenshot ${currentSlideIndex + 1}`,
+              })
+            }
+            className="relative w-full aspect-[16/10] sm:aspect-[16/9] md:h-[480px] lg:h-[520px] rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-100 border border-black/[0.06] shadow-inner cursor-pointer group"
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlideIndex}
+                initial={{ opacity: 0, x: slideDirection === 'right' ? 25 : -25 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: slideDirection === 'right' ? -25 : 25 }}
+                transition={{ duration: 0.28, ease: 'easeOut' }}
+                className="relative w-full h-full"
+              >
+                <Image
+                  src={currentSlide.imageUrl}
+                  alt={currentSlide.caption || `${project.title} Screenshot`}
+                  fill
+                  sizes="(max-width: 1200px) 100vw, 1200px"
+                  className="object-contain object-center transition-transform duration-500 group-hover:scale-[1.01]"
+                  priority
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Hint & Caption Overlay */}
+            <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pointer-events-none">
+              {currentSlide.caption ? (
+                <span className="text-xs sm:text-sm font-medium text-white/95 backdrop-blur-md bg-black/40 px-3.5 py-1.5 rounded-full">
+                  {currentSlide.caption}
+                </span>
+              ) : (
+                <div />
+              )}
+
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold text-zinc-900 shadow-md flex items-center gap-1.5">
+                <Eye className="w-3.5 h-3.5 text-zinc-600" />
+                Inspect Full View
+              </div>
+            </div>
+          </div>
+
+          {/* Mini Thumbnail Navigation Strip */}
+          <div className="flex items-center gap-3 overflow-x-auto pt-5 pb-1">
+            {galleryItems.map((item, idx) => (
+              <button
                 key={idx}
-                onClick={() =>
-                  setActiveLightboxImage({
-                    src: item.imageUrl,
-                    alt: item.caption || `${project.title} Screenshot ${idx + 1}`,
-                  })
-                }
-                className="group relative aspect-video rounded-2xl overflow-hidden bg-zinc-100 border border-black/[0.06] cursor-pointer shadow-2xs hover:shadow-md transition-shadow"
+                onClick={() => {
+                  setSlideDirection(idx > currentSlideIndex ? 'right' : 'left')
+                  setCurrentSlideIndex(idx)
+                }}
+                className={`relative shrink-0 w-20 h-14 sm:w-28 sm:h-18 rounded-xl overflow-hidden border transition-all cursor-pointer ${
+                  idx === currentSlideIndex
+                    ? 'border-2 border-zinc-950 scale-105 shadow-sm opacity-100 ring-2 ring-zinc-950/10'
+                    : 'border-zinc-200/80 opacity-50 hover:opacity-90'
+                }`}
+                aria-label={`Go to screenshot ${idx + 1}`}
               >
                 <Image
                   src={item.imageUrl}
-                  alt={item.caption || `${project.title} Screenshot ${idx + 1}`}
+                  alt={item.caption || `Thumbnail ${idx + 1}`}
                   fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                  sizes="120px"
+                  className="object-cover"
                 />
-                {item.caption && (
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3 pt-6">
-                    <span className="text-xs font-medium text-white truncate block">
-                      {item.caption}
-                    </span>
-                  </div>
-                )}
-              </div>
+              </button>
             ))}
           </div>
         </div>

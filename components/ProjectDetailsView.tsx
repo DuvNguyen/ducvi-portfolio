@@ -73,17 +73,17 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
     }
   }
 
-  const handlePrevSlide = () => {
+  const handlePrevSlide = React.useCallback(() => {
     if (galleryItems.length === 0) return
     const prev = currentSlideIndex === 0 ? galleryItems.length - 1 : currentSlideIndex - 1
     scrollToSlide(prev)
-  }
+  }, [galleryItems.length, currentSlideIndex])
 
-  const handleNextSlide = () => {
+  const handleNextSlide = React.useCallback(() => {
     if (galleryItems.length === 0) return
     const next = currentSlideIndex === galleryItems.length - 1 ? 0 : currentSlideIndex + 1
     scrollToSlide(next)
-  }
+  }, [galleryItems.length, currentSlideIndex])
 
   // Mouse drag handlers to emulate phone swipe on desktop
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -128,7 +128,7 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [galleryItems.length, currentSlideIndex])
+  }, [handlePrevSlide, handleNextSlide])
 
   const showcaseImage =
     project.imageUrl && project.imageUrl.trim() !== ''

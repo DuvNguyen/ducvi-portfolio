@@ -91,12 +91,13 @@
 
 ## 3. Các bước tiếp theo (Next Steps / To-do)
 
-- [ ] **Theo dõi duyệt hồ sơ tên miền:** Kiểm tra trạng thái `Bản Khai` trên [id.matbao.net](https://id.matbao.net) chuyển từ `Chờ duyệt` sang `Đã duyệt`.
-- [ ] **Cấu hình DNS Tên miền:**
-  * Truy cập `Quản lý tên miền` > `Chi tiết dịch vụ` > `Quản lý DNS` trên Mắt Bão.
-  * Thêm bản ghi `A` và `CNAME` để trỏ `vinguyen.id.vn` về dịch vụ hosting (Vercel / GitHub Pages / Cloudflare).
-- [ ] **Triển khai Portfolio:**
-  * Hoàn thiện migration trên branch `next-sanity-migration`.
-  * Deploy dự án lên Vercel và gán custom domain `vinguyen.id.vn`.
-- [ ] **Cấu hình Email tên miền:**
-  * Tạo các hòm thư chính như `contact@vinguyen.id.vn` hoặc `me@vinguyen.id.vn` trên cổng Email Pro v4 của Mắt Bão.
+- [x] **Theo dõi duyệt hồ sơ tên miền:** Hồ sơ `Bản Khai` trên [id.matbao.net](https://id.matbao.net) đã được phê duyệt chính thức (`Đã duyệt`).
+- [x] **Cấu hình DNS Tên miền:**
+  * Đã tạo bản ghi `A` (`@` ➔ `76.76.21.21`) và `CNAME` (`www` ➔ `cname.vercel-dns.com`) trên Mắt Bão.
+  * Tên miền đã phân giải DNS thành công qua Anycast toàn cầu.
+- [x] **Triển khai Portfolio lên Vercel:**
+  * Dự án đã được deploy chính thức tại **`https://vinguyen.id.vn`** (và `https://www.vinguyen.id.vn`).
+  * Chứng chỉ bảo mật SSL/HTTPS tự động kích hoạt bởi Vercel (`HTTP/2 200 OK`).
+  * Tích hợp CI/CD tự động: mỗi khi push code lên GitHub, Vercel tự động build và deploy bản mới nhất.
+- [ ] **Cấu hình Email tên miền (Tùy chọn):**
+  * Tạo các hòm thư chính như `contact@vinguyen.id.vn` hoặc `me@vinguyen.id.vn` trên cổng Email Pro v4 của Mắt Bão nếu cần.

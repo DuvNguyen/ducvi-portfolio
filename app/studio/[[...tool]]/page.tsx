@@ -8,7 +8,7 @@ export default function StudioPage() {
     <div
       className="fixed inset-0 z-50 w-full h-full min-h-screen overflow-hidden bg-[#101112]"
       style={{
-        zoom: '1.2',
+        zoom: '1.35',
       }}
     >
       <NextStudio config={config} />

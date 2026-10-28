@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Mail, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import type { ProfileData } from '@/lib/defaultData'
 import { pillButtonVariants } from '@/lib/motion'
 
@@ -17,18 +17,16 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
     <section className="w-full py-12 sm:py-16 px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
       {/* Contact Bento Card */}
       <div className="relative bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] shadow-sm p-8 sm:p-14 md:p-20 text-center overflow-hidden">
-        {/* Subtle Icon Badge (Clean & functional, no emojis) */}
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-zinc-100 text-zinc-800 mb-6 mx-auto">
-          <Mail className="w-5 h-5 stroke-[1.75]" />
-        </div>
-
         {/* Section Heading (Clean, bold typography) */}
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-950 leading-tight max-w-2xl mx-auto">
           Tell me about your next project or role
         </h2>
 
+        {/* Divider */}
+        <div className="w-24 sm:w-32 h-px bg-zinc-200 mx-auto my-6 sm:my-8" />
+
         {/* Subtitle / Note */}
-        <p className="mt-4 sm:mt-5 text-base sm:text-lg text-zinc-600 max-w-xl mx-auto leading-relaxed font-normal">
+        <p className="text-base sm:text-lg text-zinc-600 max-w-xl mx-auto leading-relaxed font-normal">
           Currently open to Backend and Full-Stack Developer opportunities. Feel free to reach out directly to discuss how I can contribute.
         </p>
 

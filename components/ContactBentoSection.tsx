@@ -28,7 +28,7 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
         </h2>
 
         {/* Subtitle / Note */}
-        <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-zinc-500 max-w-xl mx-auto leading-relaxed font-normal">
+        <p className="mt-4 sm:mt-5 text-base sm:text-lg text-zinc-600 max-w-xl mx-auto leading-relaxed font-normal">
           Currently open to Backend and Full-Stack Developer opportunities. Feel free to reach out directly to discuss how I can contribute.
         </p>
 
@@ -41,7 +41,7 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
             whileHover="hover"
             whileTap="tap"
             href={`mailto:${displayEmail}`}
-            className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-7 py-3 text-sm font-medium text-white hover:bg-zinc-800 transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-7 py-3.5 text-sm sm:text-base font-medium text-white hover:bg-zinc-800 transition-colors shadow-sm"
           >
             Email Me
             <ArrowUpRight className="w-4 h-4 text-zinc-400" />
@@ -56,10 +56,10 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
             href={profile.linkedin}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-6 py-3 text-sm font-medium text-zinc-800 hover:bg-zinc-50 transition-colors shadow-2xs"
+            className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-6 py-3.5 text-sm sm:text-base font-medium text-zinc-800 hover:bg-zinc-50 transition-colors shadow-2xs"
           >
             LinkedIn
-            <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
+            <ArrowUpRight className="w-4 h-4 text-zinc-400" />
           </motion.a>
 
           {/* Tertiary Action Button (GitHub) */}
@@ -71,7 +71,7 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
             href={profile.github}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-6 py-3 text-sm font-medium text-zinc-800 hover:bg-zinc-50 transition-colors shadow-2xs"
+            className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-6 py-3.5 text-sm sm:text-base font-medium text-zinc-800 hover:bg-zinc-50 transition-colors shadow-2xs"
           >
             GitHub
             <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Header } from '@/components/Header'
+import { SmoothScrollProvider } from '@/components/SmoothScrollProvider'
 import './globals.css'
 import '@/sass/main.scss'
 
@@ -27,8 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <Header />
-        <main>{children}</main>
+        <SmoothScrollProvider>
+          <Header />
+          <main>{children}</main>
+        </SmoothScrollProvider>
       </body>
     </html>
   )

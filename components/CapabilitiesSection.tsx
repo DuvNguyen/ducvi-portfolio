@@ -72,12 +72,12 @@ export function CapabilitiesSection() {
               </div>
 
               {/* Title */}
-              <h3 className="font-semibold text-base sm:text-lg text-zinc-900 tracking-tight mb-2.5">
+              <h3 className="font-semibold text-lg text-zinc-900 tracking-tight mb-2.5">
                 {item.title}
               </h3>
 
               {/* Description */}
-              <p className="text-sm text-zinc-500 leading-relaxed font-normal">
+              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-normal">
                 {item.description}
               </p>
             </motion.div>

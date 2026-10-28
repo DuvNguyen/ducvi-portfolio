@@ -2,7 +2,7 @@ import { getProfile, getProjects } from '@/lib/data'
 import { HeroBentoSection } from '@/components/HeroBentoSection'
 import { TechMarquee } from '@/components/TechMarquee'
 import { CapabilitiesSection } from '@/components/CapabilitiesSection'
-import { ProjectsBentoSection } from '@/components/ProjectsBentoSection'
+import { StackingProjectsSection } from '@/components/StackingProjectsSection'
 import { AboutBentoSection } from '@/components/AboutBentoSection'
 import { ContactBentoSection } from '@/components/ContactBentoSection'
 import { MinimalFooter } from '@/components/MinimalFooter'
@@ -17,7 +17,7 @@ export default async function HomePage() {
       <HeroBentoSection profile={profile} />
       <TechMarquee />
       <CapabilitiesSection />
-      <ProjectsBentoSection projects={projects} />
+      <StackingProjectsSection projects={projects} />
       <AboutBentoSection profile={profile} />
       <ContactBentoSection profile={profile} />
       <MinimalFooter profile={profile} />

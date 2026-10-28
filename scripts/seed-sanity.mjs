@@ -230,10 +230,9 @@ async function seed() {
       githubFrontend: 'https://github.com/DuvNguyen/VietSneaker_frontend',
       gallery: [
         { path: 'assets/png/vietsneaker/productDetail.png', caption: 'Product Details' },
-        { path: 'assets/png/vietsneaker/adminOrder.png', caption: 'Admin Orders' },
-        { path: 'assets/png/vietsneaker/adminProduct.png', caption: 'Admin Products' },
+        { path: 'assets/png/vietsneaker/allProducts.png', caption: 'All Products Catalog' },
         { path: 'assets/png/vietsneaker/cart.png', caption: 'Shopping Cart' },
-        { path: 'assets/png/vietsneaker/adminDashboard.png', caption: 'Admin Analytics' },
+        { path: 'assets/png/vietsneaker/login.png', caption: 'Login & Authentication' },
       ],
     },
     {
@@ -244,7 +243,7 @@ async function seed() {
       subtitle:
         'An online ticketing system for the HCMC metro network, designed with a focus on ticket booking, schedule lookups, and clear route navigation.',
       statusBadge: 'Spring Boot + React',
-      mainImagePath: 'assets/png/metro/homepage.png',
+      mainImagePath: 'assets/png/metrohcmc/homepage.png',
       overview: [
         'Metro HCMC is an e-ticketing and transit information system for urban commuters in Ho Chi Minh City. The application provides an end-to-end booking flow, live schedule lookups, and interactive route planning for the city railway network.',
         'The backend is built on Spring Boot with PostgreSQL and Spring Data JPA, providing transactional integrity for seat reservations, ticket generation, and schedule calculations. JWT-based authentication ensures secure access across passenger and admin portals.',
@@ -266,10 +265,9 @@ async function seed() {
       githubBackend: 'https://github.com/DuvNguyen/Metro_Ticket_Booking_Full_Flow',
       githubFrontend: 'https://github.com/DuvNguyen/fe-metro-ticket',
       gallery: [
-        { path: 'assets/png/metro/booking.png', caption: 'Booking Flow' },
-        { path: 'assets/png/metro/schedule.png', caption: 'Transit Schedule' },
-        { path: 'assets/png/metro/profile.png', caption: 'User Profile & Tickets' },
-        { path: 'assets/png/metro/homepage.png', caption: 'Metro Portal' },
+        { path: 'assets/png/metrohcmc/couponManagement.png', caption: 'Coupon Management' },
+        { path: 'assets/png/metrohcmc/lineManagement.png', caption: 'Metro Line Management' },
+        { path: 'assets/png/metrohcmc/stationManagement.png', caption: 'Station Management' },
       ],
     },
     {
@@ -280,7 +278,7 @@ async function seed() {
       subtitle:
         'A personal project built as a real-time chat application designed with a microservice architecture using NestJS, Next.js, and Apache Kafka.',
       statusBadge: 'Microservices & Kafka',
-      mainImagePath: 'assets/png/slack/login.png',
+      mainImagePath: 'assets/png/slack/homepage.png',
       overview: [
         'Slack Chat Platform is a distributed real-time messaging system engineered to explore scalable microservices and event-driven architectures. The platform replicates core workspace collaboration features including direct messaging, multi-user channels, and live presence.',
         'The architecture is decomposed into decoupled microservices powered by NestJS and Node.js, communicating asynchronously through Apache Kafka event streams for high-throughput message publishing and consumption. Socket.io WebSockets manage sub-millisecond client broadcasts.',
@@ -300,12 +298,12 @@ async function seed() {
       ],
       githubBackend: 'https://github.com/DuvNguyen/slack-clone-microservices',
       gallery: [
-        { path: 'assets/png/slack/login.png', caption: 'Google Authentication & Register' },
-        { path: 'assets/png/slack/chat.png', caption: 'Real-time Channel Chat' },
-        { path: 'assets/png/slack/profile.png', caption: 'Channel and Profile Settings' },
-        { path: 'assets/png/slack/directMessage.png', caption: 'Self Direct Message Feature' },
-        { path: 'assets/png/slack/member.png', caption: 'Workspace Member Invitation' },
-        { path: 'assets/png/slack/darkMode.png', caption: 'Sleek Dark Mode Interface' },
+        { path: 'assets/png/slack/auth.png', caption: 'Google Authentication & Register' },
+        { path: 'assets/png/slack/channel_chat.png', caption: 'Real-time Channel Chat' },
+        { path: 'assets/png/slack/channel_and_profile.png', caption: 'Channel and Profile Settings' },
+        { path: 'assets/png/slack/self_dm.png', caption: 'Self Direct Message Feature' },
+        { path: 'assets/png/slack/invite.png', caption: 'Workspace Member Invitation' },
+        { path: 'assets/png/slack/darkmode.png', caption: 'Sleek Dark Mode Interface' },
       ],
     },
   ]

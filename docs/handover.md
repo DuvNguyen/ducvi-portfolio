@@ -22,7 +22,12 @@
 * **Thời hạn hiệu lực:** **28/10/2026 → 28/10/2028** (Miễn phí 100% trong 2 năm, chi phí 0 VNĐ).
 * **Gia hạn tự động:** `Đang tắt` *(Không có rủi ro tự trừ phí).*
 
-### Dịch vụ đi kèm
+### CMS & Quản lý nội dung (Sanity.io)
+* **Tài khoản cá nhân chính thức:** Đã kết nối với dự án Sanity cá nhân:
+  * **Project ID:** `in94orx5`
+  * **Dataset:** `production`
+  * **Studio URL:** `/studio` (nhúng trực tiếp bên trong ứng dụng Next.js)
+  * **Chế độ dữ liệu:** Tự động kết nối dữ liệu đám mây khi có bản ghi trong Sanity Studio, kèm cơ chế Fallback an toàn vào [`lib/defaultData.ts`](file:///home/levi/Desktop/Projects/Dopefolio/lib/defaultData.ts) khi chưa có bản ghi hoặc ngoại tuyến.
 * **Email Pro v4:** Gói `EmailProv4-HKD` miễn phí 2 năm theo tên miền (đang trỏ tại `s129d209.emailserver.vn`).
 * **Web thông báo:** Miễn phí 0 VNĐ.
 

@@ -39,21 +39,80 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
     alt: string
   } | null>(null)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right')
+
+  const sliderRef = React.useRef<HTMLDivElement>(null)
+  const isDraggingRef = React.useRef(false)
+  const startXRef = React.useRef(0)
+  const scrollLeftRef = React.useRef(0)
+  const hasMovedRef = React.useRef(false)
 
   const galleryItems = project.gallery && project.gallery.length > 0 ? project.gallery : []
-  const currentSlide = galleryItems[currentSlideIndex]
+
+  // Smoothly scroll to a specific slide index
+  const scrollToSlide = (index: number) => {
+    if (!sliderRef.current) return
+    const container = sliderRef.current
+    const slideWidth = container.clientWidth
+    container.scrollTo({
+      left: index * slideWidth,
+      behavior: 'smooth',
+    })
+    setCurrentSlideIndex(index)
+  }
+
+  // Update current slide index as user swipes / scrolls
+  const handleSliderScroll = () => {
+    if (!sliderRef.current) return
+    const container = sliderRef.current
+    const slideWidth = container.clientWidth
+    if (slideWidth === 0) return
+    const newIndex = Math.round(container.scrollLeft / slideWidth)
+    if (newIndex >= 0 && newIndex < galleryItems.length && newIndex !== currentSlideIndex) {
+      setCurrentSlideIndex(newIndex)
+    }
+  }
 
   const handlePrevSlide = () => {
     if (galleryItems.length === 0) return
-    setSlideDirection('left')
-    setCurrentSlideIndex((prev) => (prev === 0 ? galleryItems.length - 1 : prev - 1))
+    const prev = currentSlideIndex === 0 ? galleryItems.length - 1 : currentSlideIndex - 1
+    scrollToSlide(prev)
   }
 
   const handleNextSlide = () => {
     if (galleryItems.length === 0) return
-    setSlideDirection('right')
-    setCurrentSlideIndex((prev) => (prev === galleryItems.length - 1 ? 0 : prev + 1))
+    const next = currentSlideIndex === galleryItems.length - 1 ? 0 : currentSlideIndex + 1
+    scrollToSlide(next)
+  }
+
+  // Mouse drag handlers to emulate phone swipe on desktop
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!sliderRef.current) return
+    isDraggingRef.current = true
+    hasMovedRef.current = false
+    startXRef.current = e.pageX - sliderRef.current.offsetLeft
+    scrollLeftRef.current = sliderRef.current.scrollLeft
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !sliderRef.current) return
+    e.preventDefault()
+    const x = e.pageX - sliderRef.current.offsetLeft
+    const walk = (x - startXRef.current) * 1.5
+    if (Math.abs(walk) > 6) {
+      hasMovedRef.current = true
+    }
+    sliderRef.current.scrollLeft = scrollLeftRef.current - walk
+  }
+
+  const handleMouseUpOrLeave = () => {
+    if (!isDraggingRef.current || !sliderRef.current) return
+    isDraggingRef.current = false
+    const container = sliderRef.current
+    const slideWidth = container.clientWidth
+    if (slideWidth > 0) {
+      const nearestIndex = Math.round(container.scrollLeft / slideWidth)
+      scrollToSlide(nearestIndex)
+    }
   }
 
   useEffect(() => {
@@ -68,7 +127,7 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [galleryItems.length])
+  }, [galleryItems.length, currentSlideIndex])
 
   const showcaseImage = project.imageUrl || '/assets/png/studymate/homepage.png'
   const displayBadge = cleanText(project.statusBadge) || project.toolsUsed[0]
@@ -266,8 +325,8 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
         </div>
       </div>
 
-      {/* Screenshot Gallery Interactive Slider Bento Card */}
-      {galleryItems.length > 0 && currentSlide && (
+      {/* Screenshot Gallery Mobile-Style Swipeable Slider Bento Card */}
+      {galleryItems.length > 0 && (
         <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] p-6 sm:p-10 md:p-12 shadow-2xs mb-10 sm:mb-14">
           {/* Header Row with Navigation Controls */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
@@ -304,51 +363,61 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
             </div>
           </div>
 
-          {/* Main Slide Viewport */}
+          {/* Swipeable Photo Track (Glides with inertia / swipe gesture like a phone) */}
           <div
-            onClick={() =>
-              setActiveLightboxImage({
-                src: currentSlide.imageUrl,
-                alt: currentSlide.caption || `${project.title} Screenshot ${currentSlideIndex + 1}`,
-              })
-            }
-            className="relative w-full aspect-[16/10] sm:aspect-[16/9] md:h-[480px] lg:h-[520px] rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-100 border border-black/[0.06] shadow-inner cursor-pointer group"
+            ref={sliderRef}
+            onScroll={handleSliderScroll}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUpOrLeave}
+            onMouseLeave={handleMouseUpOrLeave}
+            className="flex w-full overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-2xl sm:rounded-3xl border border-black/[0.06] shadow-inner select-none cursor-grab active:cursor-grabbing bg-zinc-100"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlideIndex}
-                initial={{ opacity: 0, x: slideDirection === 'right' ? 25 : -25 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: slideDirection === 'right' ? -25 : 25 }}
-                transition={{ duration: 0.28, ease: 'easeOut' }}
-                className="relative w-full h-full"
+            {galleryItems.map((item, idx) => (
+              <div
+                key={idx}
+                className="relative w-full shrink-0 snap-center aspect-[16/10] sm:aspect-[16/9] md:h-[480px] lg:h-[540px] flex items-center justify-center bg-zinc-100 overflow-hidden group"
+                onClick={() => {
+                  if (!hasMovedRef.current) {
+                    setActiveLightboxImage({
+                      src: item.imageUrl,
+                      alt: item.caption || `${project.title} Screenshot ${idx + 1}`,
+                    })
+                  }
+                }}
               >
-                <Image
-                  src={currentSlide.imageUrl}
-                  alt={currentSlide.caption || `${project.title} Screenshot`}
-                  fill
-                  sizes="(max-width: 1200px) 100vw, 1200px"
-                  className="object-contain object-center transition-transform duration-500 group-hover:scale-[1.01]"
-                  priority
-                />
-              </motion.div>
-            </AnimatePresence>
+                <div className="relative w-full h-full p-2 sm:p-4">
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.caption || `${project.title} Screenshot ${idx + 1}`}
+                    fill
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                    className="object-contain object-center pointer-events-none transition-transform duration-500 group-hover:scale-[1.01]"
+                    priority={idx === 0}
+                  />
+                </div>
 
-            {/* Hint & Caption Overlay */}
-            <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pointer-events-none">
-              {currentSlide.caption ? (
-                <span className="text-xs sm:text-sm font-medium text-white/95 backdrop-blur-md bg-black/40 px-3.5 py-1.5 rounded-full">
-                  {currentSlide.caption}
-                </span>
-              ) : (
-                <div />
-              )}
+                {/* Hint & Caption Overlay */}
+                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pointer-events-none">
+                  {item.caption ? (
+                    <span className="text-xs sm:text-sm font-medium text-white/95 backdrop-blur-md bg-black/40 px-3.5 py-1.5 rounded-full">
+                      {item.caption}
+                    </span>
+                  ) : (
+                    <div />
+                  )}
 
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold text-zinc-900 shadow-md flex items-center gap-1.5">
-                <Eye className="w-3.5 h-3.5 text-zinc-600" />
-                Inspect Full View
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold text-zinc-900 shadow-md flex items-center gap-1.5">
+                    <Eye className="w-3.5 h-3.5 text-zinc-600" />
+                    Inspect Full View
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
           {/* Mini Thumbnail Navigation Strip */}
@@ -356,10 +425,7 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
             {galleryItems.map((item, idx) => (
               <button
                 key={idx}
-                onClick={() => {
-                  setSlideDirection(idx > currentSlideIndex ? 'right' : 'left')
-                  setCurrentSlideIndex(idx)
-                }}
+                onClick={() => scrollToSlide(idx)}
                 className={`relative shrink-0 w-20 h-14 sm:w-28 sm:h-18 rounded-xl overflow-hidden border transition-all cursor-pointer ${
                   idx === currentSlideIndex
                     ? 'border-2 border-zinc-950 scale-105 shadow-sm opacity-100 ring-2 ring-zinc-950/10'

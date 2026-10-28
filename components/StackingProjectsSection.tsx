@@ -35,9 +35,11 @@ function StackingCard({ project, index, total }: SingleCardProps) {
   const projectNumber = String(index + 1).padStart(2, '0')
   const totalCount = String(total).padStart(2, '0')
 
-  // Top offset: 32px step creates the exact stepped layered deck seen in the reference
-  // Card 0: 48px, Card 1: 80px, Card 2: 112px, Card 3: 144px
+  // Top offset: 32px step creates the vertical layered depth
   const topOffset = 48 + index * 32
+  // Diagonal offset: shift slightly rightwards and gentle rotation to fan out diagonally
+  const xOffset = index * 14
+  const rotateDeg = index * 0.6
   const isLast = index === total - 1
 
   return (
@@ -47,10 +49,15 @@ function StackingCard({ project, index, total }: SingleCardProps) {
       }`}
       style={{
         top: `${topOffset}px`,
-        zIndex: index + 1, // Higher index sits on top, with its top shifted down to reveal cards behind
+        zIndex: index + 1, // Higher index sits on top
       }}
     >
-      <div className="w-full bg-white rounded-[32px] sm:rounded-[40px] border border-zinc-200/90 shadow-[0_-4px_16px_rgba(0,0,0,0.03),0_20px_45px_-10px_rgba(0,0,0,0.12)] p-6 sm:p-10 md:p-12 overflow-hidden transition-all">
+      <div
+        className="w-full bg-white rounded-[32px] sm:rounded-[40px] border border-zinc-200/90 shadow-[0_-4px_16px_rgba(0,0,0,0.03),0_20px_45px_-10px_rgba(0,0,0,0.12)] p-6 sm:p-10 md:p-12 overflow-hidden transition-transform duration-500 ease-out origin-top-left"
+        style={{
+          transform: `translateX(${xOffset}px) rotate(${rotateDeg}deg)`,
+        }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left Column: Project Details */}
           <div className="lg:col-span-5 flex flex-col justify-between h-full">

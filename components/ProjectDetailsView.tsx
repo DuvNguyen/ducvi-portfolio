@@ -46,7 +46,8 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
   const scrollLeftRef = React.useRef(0)
   const hasMovedRef = React.useRef(false)
 
-  const galleryItems = project.gallery && project.gallery.length > 0 ? project.gallery : []
+  const galleryItems = (project.gallery && project.gallery.length > 0 ? project.gallery : [])
+    .filter((item) => Boolean(item && item.imageUrl && item.imageUrl.trim() !== ''))
 
   // Smoothly scroll to a specific slide index
   const scrollToSlide = (index: number) => {
@@ -129,7 +130,10 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [galleryItems.length, currentSlideIndex])
 
-  const showcaseImage = project.imageUrl || '/assets/png/studymate/homepage.png'
+  const showcaseImage =
+    project.imageUrl && project.imageUrl.trim() !== ''
+      ? project.imageUrl
+      : '/assets/png/studymate/homepage.png'
   const displayBadge = cleanText(project.statusBadge) || project.toolsUsed[0]
 
   return (
@@ -391,14 +395,16 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
                 }}
               >
                 <div className="relative w-full h-full p-2 sm:p-4">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.caption || `${project.title} Screenshot ${idx + 1}`}
-                    fill
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                    className="object-contain object-center pointer-events-none transition-transform duration-500 group-hover:scale-[1.01]"
-                    priority={idx === 0}
-                  />
+                  {item.imageUrl && item.imageUrl.trim() !== '' && (
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.caption || `${project.title} Screenshot ${idx + 1}`}
+                      fill
+                      sizes="(max-width: 1200px) 100vw, 1200px"
+                      className="object-contain object-center pointer-events-none transition-transform duration-500 group-hover:scale-[1.01]"
+                      priority={idx === 0}
+                    />
+                  )}
                 </div>
 
                 {/* Hint & Caption Overlay */}
@@ -433,13 +439,15 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
                 }`}
                 aria-label={`Go to screenshot ${idx + 1}`}
               >
-                <Image
-                  src={item.imageUrl}
-                  alt={item.caption || `Thumbnail ${idx + 1}`}
-                  fill
-                  sizes="120px"
-                  className="object-cover"
-                />
+                {item.imageUrl && item.imageUrl.trim() !== '' && (
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.caption || `Thumbnail ${idx + 1}`}
+                    fill
+                    sizes="120px"
+                    className="object-cover"
+                  />
+                )}
               </button>
             ))}
           </div>
@@ -501,13 +509,15 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
               className="relative max-w-5xl max-h-[85vh] w-full h-full flex flex-col items-center justify-center cursor-default"
             >
               <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src={activeLightboxImage.src}
-                  alt={activeLightboxImage.alt}
-                  fill
-                  className="object-contain"
-                  sizes="100vw"
-                />
+                {activeLightboxImage.src && activeLightboxImage.src.trim() !== '' && (
+                  <Image
+                    src={activeLightboxImage.src}
+                    alt={activeLightboxImage.alt}
+                    fill
+                    className="object-contain"
+                    sizes="100vw"
+                  />
+                )}
               </div>
               {activeLightboxImage.alt && (
                 <div className="mt-4 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-sm text-xs sm:text-sm text-white/90 font-medium">

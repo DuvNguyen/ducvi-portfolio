@@ -30,7 +30,10 @@ interface SingleCardProps {
 }
 
 function StackingCard({ project, index, total }: SingleCardProps) {
-  const imageSrc = project.imageUrl || '/assets/png/studymate/homepage.png'
+  const imageSrc =
+    project.imageUrl && project.imageUrl.trim() !== ''
+      ? project.imageUrl
+      : '/assets/png/studymate/homepage.png'
   const displayBadge = cleanText(project.statusBadge) || project.toolsUsed[0]
   const projectNumber = String(index + 1).padStart(2, '0')
   const totalCount = String(total).padStart(2, '0')

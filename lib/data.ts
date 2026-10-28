@@ -18,19 +18,31 @@ export async function getProjects(): Promise<ProjectItem[]> {
       return defaultProjects
     }
 
-    return data.map((item) => ({
-      _id: item._id,
-      title: item.title,
-      slug: item.slug || item._id,
-      order: item.order || 99,
-      subtitle: item.subtitle || '',
-      statusBadge: item.statusBadge,
-      imageUrl: item.mainImage ? urlForImage(item.mainImage) : undefined,
-      toolsUsed: item.toolsUsed || [],
-      liveDemo: item.liveDemo,
-      githubFrontend: item.githubFrontend,
-      githubBackend: item.githubBackend,
-    }))
+    return data.map((item) => {
+      let resolvedImg: string | undefined = undefined
+      if (item.mainImage) {
+        if (typeof item.mainImage === 'string' && item.mainImage.trim() !== '') {
+          resolvedImg = item.mainImage.trim()
+        } else if (item.mainImage.asset) {
+          const url = urlForImage(item.mainImage)
+          if (url && url.trim() !== '') resolvedImg = url.trim()
+        }
+      }
+
+      return {
+        _id: item._id,
+        title: item.title,
+        slug: item.slug || item._id,
+        order: item.order || 99,
+        subtitle: item.subtitle || '',
+        statusBadge: item.statusBadge,
+        imageUrl: resolvedImg,
+        toolsUsed: item.toolsUsed || [],
+        liveDemo: item.liveDemo,
+        githubFrontend: item.githubFrontend,
+        githubBackend: item.githubBackend,
+      }
+    })
   } catch (error) {
     console.warn('Error fetching projects from Sanity, falling back to default data:', error)
     return defaultProjects
@@ -38,8 +50,10 @@ export async function getProjects(): Promise<ProjectItem[]> {
 }
 
 export async function getProjectBySlug(slug: string): Promise<ProjectItem | null> {
+  const defaultProj = defaultProjects.find((p) => p.slug === slug) || null
+
   if (!isSanityConfigured) {
-    return defaultProjects.find((p) => p.slug === slug) || null
+    return defaultProj
   }
 
   try {
@@ -50,7 +64,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
     })
 
     if (!item) {
-      return defaultProjects.find((p) => p.slug === slug) || null
+      return defaultProj
     }
 
     // Convert portable text blocks to string array if present
@@ -63,12 +77,35 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
         .filter(Boolean)
     }
 
+    // Safely extract gallery images with valid non-empty URLs
     const gallery = Array.isArray(item.gallery)
-      ? item.gallery.map((g: any) => ({
-          imageUrl: urlForImage(g),
-          caption: g.caption || '',
-        }))
+      ? item.gallery
+          .map((g: any) => {
+            let url = ''
+            if (typeof g === 'string') {
+              url = g.trim()
+            } else if (g?.imageUrl && typeof g.imageUrl === 'string') {
+              url = g.imageUrl.trim()
+            } else if (g?.asset) {
+              url = urlForImage(g)?.trim() || ''
+            }
+            return {
+              imageUrl: url,
+              caption: g?.caption || '',
+            }
+          })
+          .filter((g: any) => Boolean(g.imageUrl && g.imageUrl !== ''))
       : []
+
+    let mainImgUrl: string | undefined = undefined
+    if (item.mainImage) {
+      if (typeof item.mainImage === 'string' && item.mainImage.trim() !== '') {
+        mainImgUrl = item.mainImage.trim()
+      } else if (item.mainImage.asset) {
+        const url = urlForImage(item.mainImage)
+        if (url && url.trim() !== '') mainImgUrl = url.trim()
+      }
+    }
 
     return {
       _id: item._id,
@@ -77,17 +114,17 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
       order: item.order || 1,
       subtitle: item.subtitle || '',
       statusBadge: item.statusBadge,
-      imageUrl: item.mainImage ? urlForImage(item.mainImage) : undefined,
-      overview: overview.length > 0 ? overview : undefined,
-      toolsUsed: item.toolsUsed || [],
-      liveDemo: item.liveDemo,
-      githubFrontend: item.githubFrontend,
-      githubBackend: item.githubBackend,
-      gallery,
+      imageUrl: mainImgUrl || defaultProj?.imageUrl,
+      overview: overview.length > 0 ? overview : defaultProj?.overview,
+      toolsUsed: item.toolsUsed || defaultProj?.toolsUsed || [],
+      liveDemo: item.liveDemo || defaultProj?.liveDemo,
+      githubFrontend: item.githubFrontend || defaultProj?.githubFrontend,
+      githubBackend: item.githubBackend || defaultProj?.githubBackend,
+      gallery: gallery.length > 0 ? gallery : (defaultProj?.gallery || []),
     }
   } catch (error) {
     console.warn('Error fetching project by slug from Sanity, falling back:', error)
-    return defaultProjects.find((p) => p.slug === slug) || null
+    return defaultProj
   }
 }
 

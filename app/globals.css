@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: #efefed;
+  --surface: #ffffff;
+}
+
+body {
+  background-color: var(--canvas);
+  color: #121214;
+  min-height: 100vh;
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+}

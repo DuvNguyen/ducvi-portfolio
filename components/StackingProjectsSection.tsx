@@ -107,10 +107,10 @@ function StackingCard({ project, index, total }: SingleCardProps) {
                   href={project.liveDemo}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4.5 py-2.5 rounded-full border border-zinc-200 bg-white text-zinc-700 text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-zinc-200 bg-white text-zinc-800 text-sm sm:text-base font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
                 >
                   Live Demo
-                  <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
+                  <ExternalLink className="w-4 h-4 text-zinc-400" />
                 </motion.a>
               )}
 
@@ -123,7 +123,7 @@ function StackingCard({ project, index, total }: SingleCardProps) {
                   href={project.githubBackend}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4.5 py-2.5 rounded-full border border-zinc-200 bg-white text-zinc-700 text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-zinc-200 bg-white text-zinc-800 text-sm sm:text-base font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
                 >
                   <Code2 className="w-4 h-4 text-zinc-600" />
                   Code

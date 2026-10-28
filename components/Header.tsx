@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { ArrowLeft } from 'lucide-react'
 
 export function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
 
   // On the homepage, the Bento Hero card includes its own integrated navigation bar
@@ -14,77 +15,43 @@ export function Header() {
   }
 
   return (
-    <header className="header">
-      <div className="header__content">
-        <Link href="/" className="header__logo-container">
-          <div className="header__logo-img-cont">
-            <img
+    <header className="sticky top-4 z-50 w-full px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto pointer-events-none mb-4 sm:mb-6">
+      <div className="flex items-center justify-between bg-white/90 backdrop-blur-md border border-zinc-200/90 rounded-full px-4 py-2 sm:px-6 sm:py-2.5 shadow-sm pointer-events-auto transition-all">
+        {/* Left: Avatar + Brand & Home Link */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-zinc-200 bg-zinc-100 shadow-2xs">
+            <Image
               src="/assets/png/avatar.png"
-              alt="Vi Nguyen Logo Image"
-              className="header__logo-img"
+              alt="Vi Nguyen"
+              fill
+              sizes="32px"
+              className="object-cover"
             />
           </div>
-          <span className="header__logo-sub">Vi Nguyen</span>
+          <span className="text-sm font-semibold text-zinc-900 group-hover:text-zinc-600 transition-colors">
+            Vi Nguyen
+          </span>
         </Link>
-        <div className="header__main">
-          <ul className="header__links">
-            <li className="header__link-wrapper">
-              <Link href="/" className="header__link">
-                {' '}
-                Home{' '}
-              </Link>
-            </li>
-            <li className="header__link-wrapper">
-              <Link href="/#about" className="header__link">
-                About{' '}
-              </Link>
-            </li>
-            <li className="header__link-wrapper">
-              <Link href="/#projects" className="header__link">
-                Projects
-              </Link>
-            </li>
-          </ul>
-          <div
-            className="header__main-ham-menu-cont"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+
+        {/* Center / Right: Clean Navigation */}
+        <nav className="flex items-center gap-3 sm:gap-5 text-xs sm:text-sm font-medium text-zinc-600">
+          <Link
+            href="/#projects"
+            className="inline-flex items-center gap-1.5 hover:text-zinc-950 transition-colors"
           >
-            <img
-              src="/assets/svg/ham-menu.svg"
-              alt="hamburger menu"
-              className={`header__main-ham-menu ${mobileMenuOpen ? 'd-none' : ''}`}
-            />
-            <img
-              src="/assets/svg/ham-menu-close.svg"
-              alt="hamburger menu close"
-              className={`header__main-ham-menu-close ${mobileMenuOpen ? '' : 'd-none'}`}
-            />
-          </div>
-        </div>
-      </div>
-      <div className={`header__sm-menu ${mobileMenuOpen ? 'header__sm-menu--active' : ''}`}>
-        <div className="header__sm-menu-content">
-          <ul className="header__sm-menu-links">
-            <li className="header__sm-menu-link">
-              <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-                {' '}
-                Home{' '}
-              </Link>
-            </li>
-            <li className="header__sm-menu-link">
-              <Link href="/#about" onClick={() => setMobileMenuOpen(false)}>
-                {' '}
-                About{' '}
-              </Link>
-            </li>
-            <li className="header__sm-menu-link">
-              <Link href="/#projects" onClick={() => setMobileMenuOpen(false)}>
-                {' '}
-                Projects{' '}
-              </Link>
-            </li>
-          </ul>
-        </div>
+            <ArrowLeft className="w-3.5 h-3.5 text-zinc-400" />
+            Projects
+          </Link>
+          <Link href="/#about" className="hover:text-zinc-950 transition-colors">
+            About
+          </Link>
+          <a
+            href="mailto:nducvi.information@gmail.com"
+            className="rounded-full bg-zinc-950 px-4 py-1.5 text-xs sm:text-sm font-medium text-white hover:bg-zinc-800 transition-colors shadow-2xs"
+          >
+            Contact
+          </a>
+        </nav>
       </div>
     </header>
   )

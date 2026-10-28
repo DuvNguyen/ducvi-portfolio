@@ -48,6 +48,16 @@
   * Đã triển khai xong **Bước 4**: Component [`components/StackingProjectsSection.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/StackingProjectsSection.tsx):
     * Đặt bước nhảy cố định `topOffset = 48px + index * 32px` với `zIndex` tăng dần, cố định 100% bề ngang thẻ để toàn bộ 4 vòm cong bậc thang phía sau luôn lộ diện sắc nét.
     * Xóa bỏ khoảng trống giả lập khổng lồ (`pb-[80vh]`), đưa nhịp nối giữa Featured Work và Background & Mindset về tự nhiên, liền mạch, không còn khoảng xám trống trải.
+    * Sửa nút **Code** và **Live Demo** có padding rộng rãi (`px-5 py-3 text-sm sm:text-base`) cân xứng với nút **Case Study**, không còn bị hẹp hay chật chội.
+  * Đã bổ sung tài liệu kỹ thuật **Cuộn Quán Tính & Thẻ Xếp Lớp (Heavy Inertia Scroll & Sticky Deck - Cảm hứng từ Benjamin Sharvell)** vào tài liệu hệ thống tại [`docs/design-system/animation.md`](file:///home/levi/Desktop/Projects/Dopefolio/docs/design-system/animation.md).
+  * Đã hoàn tất nâng cấp **Trang Chi Tiết Dự Án ([`/projects/[slug]`](file:///home/levi/Desktop/Projects/Dopefolio/app/projects/[slug]/page.tsx))** sang toàn bộ ngôn ngữ **Soft Bento**:
+    * **Thanh Header kính mờ (Glassmorphic Floating Nav)**: Tinh tế, bo tròn viên thuốc (`rounded-full bg-white/90 backdrop-blur-md`), tích hợp nút lùi về danh sách dự án.
+    * **Hero Bento Card dự án**: Tiêu đề lớn, tóm tắt kiến trúc, cụm nút Live Demo / Backend Repo / Frontend Repo đồng bộ chuẩn Soft Bento.
+    * **Khung Mockup Preview tương tác**: Kích thước lớn, bo cong viền mềm mại, hỗ trợ click xem toàn màn hình qua Lightbox cao cấp.
+    * **Cấu trúc Bento 2 cột (Architecture Narrative & Specifications)**: Cột trái trình bày chi tiết kiến trúc và giải pháp kỹ thuật; Cột phải hiển thị danh mục công nghệ (`Tools & Technologies`) và liên kết truy cập nhanh.
+    * **Bento Thư viện ảnh chụp thực tế (Screenshot Gallery)**: Lưới ảnh sắc nét kèm Lightbox Modal có hiệu ứng làm mờ nền và hỗ trợ phím ESC.
+    * **Thẻ chuyển tiếp dự án kế tiếp (Next Project Bento Card)**: Cho phép chuyển trang mượt mà liên tục.
+    * Tích hợp [`components/MinimalFooter.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/MinimalFooter.tsx) đồng bộ toàn trang.
   * Đã điều chỉnh **Hệ thống tỉ lệ Typography & Kích thước phân cấp (Visual Hierarchy)** trên toàn bộ website:
     * **Avatar cá nhân**: Tăng từ 96px lên `w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36` (112px–144px) kèm badge tên sắc nét, tạo điểm nhấn cân xứng với tiêu đề chính.
     * **Thanh Header / Top Bar**: Tăng cỡ chữ email lên `text-base`, các nút hành động (Copy, CV) lên `px-4 py-1.5 text-xs sm:text-sm`, và cụm link mạng xã hội lên `text-base` rõ ràng, thanh thoát.

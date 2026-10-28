@@ -189,6 +189,35 @@ Khi rê chuột vào case study dự án:
 
 ---
 
+### G. Cuộn Quán Tính & Xếp Lớp Thẻ Dự Án (Heavy Inertia Scroll & Sticky Deck - Cảm hứng từ Benjamin Sharvell)
+
+Lấy cảm hứng từ kiến trúc trải nghiệm cuộn đầm chắc, sang trọng tại `benjaminsharvell`:
+
+#### 1. Triết lý Cuộn (Inertia & Weight)
+* Tránh hiệu ứng spring bồng bềnh hay trôi nổi nhẹ tênh.
+* Sử dụng bộ máy **Lenis Smooth Scroll** với thông số hãm quán tính chậm rãi, tạo cảm giác chuyển động đầm tay, chắc chắn như cuộn trên một bề mặt vật lý có độ ma sát cao cấp.
+
+#### 2. Cấu hình Chuẩn (Lenis Configuration)
+```tsx
+import Lenis from 'lenis'
+
+const lenis = new Lenis({
+  duration: 1.4,         // Thời gian trôi quán tính 1.4s
+  lerp: 0.08,            // Hệ số nội suy 0.08 tạo độ trễ đầm chắc
+  wheelMultiplier: 0.85, // Giảm nhẹ độ nhạy lăn chuột để người dùng cảm nhận rõ trọng lượng
+  smoothWheel: true,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Deceleration curve
+})
+```
+
+#### 3. Kỹ thuật Thẻ Xếp Lớp Bậc Thang (Stepped Sticky Deck)
+* Thay vì để thẻ sau che khuất hoàn toàn thẻ trước, mỗi thẻ được gán `position: sticky` với bước nhảy vị trí `top` tăng dần theo cấp số cộng:
+  $$\text{topOffset} = 48\text{px} + (\text{index} \times 32\text{px})$$
+* Giữ nguyên 100% chiều rộng thẻ (không co nhỏ scale) để toàn bộ các viền bo cong tròn mềm mại (`rounded-[32px] sm:rounded-[40px]`) xếp lớp lộ diện tự nhiên phía sau như một tập hồ sơ vật lý.
+* Thẻ cuối cùng kết thúc với `pb-0`, không dùng khoảng trống nhân tạo, cho phép bộ thẻ cuộn tự nhiên sang phần tiếp theo mà không tạo ra khoảng xám thừa thãi.
+
+---
+
 ## 3. Checklist Cài Đặt Cho Dự Án Next.js
 
 1. Cài đặt thư viện:

@@ -1,13 +1,30 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowLeft, ArrowUpRight, Code2, ExternalLink, X, Eye } from 'lucide-react'
 import type { ProjectItem } from '@/lib/defaultData'
+import { pillButtonVariants } from '@/lib/motion'
 
 interface ProjectDetailsViewProps {
   project: ProjectItem
+  nextProject?: ProjectItem
 }
 
-export function ProjectDetailsView({ project }: ProjectDetailsViewProps) {
+// Clean text helper to strictly eliminate any emoji
+function cleanText(text?: string) {
+  if (!text) return ''
+  return text
+    .replace(
+      /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+      ''
+    )
+    .trim()
+}
+
+export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewProps) {
   const [activeLightboxImage, setActiveLightboxImage] = useState<{
     src: string
     alt: string
@@ -24,185 +41,322 @@ export function ProjectDetailsView({ project }: ProjectDetailsViewProps) {
   }, [])
 
   const showcaseImage = project.imageUrl || '/assets/png/studymate/homepage.png'
+  const displayBadge = cleanText(project.statusBadge) || project.toolsUsed[0]
 
   return (
-    <>
-      <section className="project-cs-hero">
-        <div className="project-cs-hero__content">
-          <h1 className="heading-primary">{project.title}</h1>
-          <div className="project-cs-hero__info">
-            <p className="text-primary">{project.subtitle}</p>
-          </div>
-          <div className="project-cs-hero__cta">
+    <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 md:px-8 pb-16 sm:pb-24">
+      {/* Top Breadcrumb & Navigation Bar */}
+      <div className="flex items-center justify-between gap-4 mb-6 pt-2 sm:pt-4">
+        <Link
+          href="/#projects"
+          className="inline-flex items-center gap-2 rounded-full border border-zinc-200/90 bg-white px-4 py-2 text-xs sm:text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors shadow-2xs"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 text-zinc-400" />
+          Back to Projects
+        </Link>
+
+        <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-white border border-zinc-200/80 text-xs sm:text-sm font-semibold text-zinc-800 shadow-2xs">
+          {displayBadge}
+        </div>
+      </div>
+
+      {/* Main Hero Bento Card */}
+      <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] shadow-sm p-8 sm:p-12 md:p-14 mb-8 sm:mb-10">
+        <div className="max-w-3xl">
+          {/* Project Title */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-950 mb-4 leading-tight">
+            {cleanText(project.title)}
+          </h1>
+
+          {/* Subtitle / Architectural Summary */}
+          <p className="text-base sm:text-lg text-zinc-600 leading-relaxed font-normal mb-8">
+            {project.subtitle}
+          </p>
+
+          {/* Action Buttons Row */}
+          <div className="flex flex-wrap items-center gap-3 pt-2">
             {project.liveDemo && (
-              <a
+              <motion.a
+                variants={pillButtonVariants}
+                initial="rest"
+                whileHover="hover"
+                whileTap="tap"
                 href={project.liveDemo}
-                className="btn btn--bg"
                 target="_blank"
                 rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-6 py-3 text-sm sm:text-base font-medium text-white hover:bg-zinc-800 transition-colors shadow-sm"
               >
                 Live Demo
-              </a>
+                <ExternalLink className="w-4 h-4 text-zinc-400" />
+              </motion.a>
             )}
+
             {project.githubBackend && (
-              <a
+              <motion.a
+                variants={pillButtonVariants}
+                initial="rest"
+                whileHover="hover"
+                whileTap="tap"
                 href={project.githubBackend}
-                className={`btn btn--bg ${project.liveDemo ? 'btn--hero-inv' : ''}`}
                 target="_blank"
                 rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm sm:text-base font-medium text-zinc-800 hover:bg-zinc-50 transition-colors shadow-2xs"
               >
-                {project.githubFrontend ? 'Backend Repo' : 'GitHub Repo'}
-              </a>
+                <Code2 className="w-4 h-4 text-zinc-600" />
+                {project.githubFrontend ? 'Backend Repo' : 'Source Code'}
+              </motion.a>
             )}
+
             {project.githubFrontend && (
-              <a
+              <motion.a
+                variants={pillButtonVariants}
+                initial="rest"
+                whileHover="hover"
+                whileTap="tap"
                 href={project.githubFrontend}
-                className="btn btn--bg btn--hero-inv"
                 target="_blank"
                 rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm sm:text-base font-medium text-zinc-800 hover:bg-zinc-50 transition-colors shadow-2xs"
               >
+                <Code2 className="w-4 h-4 text-zinc-600" />
                 Frontend Repo
-              </a>
+              </motion.a>
             )}
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="project-details">
-        <div className="main-container">
-          <div className="project-details__content">
-            <div className="project-details__showcase-img-cont">
-              <img
-                src={showcaseImage}
-                alt={`${project.title} Homepage`}
-                className="project-details__showcase-img"
+      {/* Showcase Image Bento Card (Click to open full lightbox) */}
+      <div
+        onClick={() =>
+          setActiveLightboxImage({
+            src: showcaseImage,
+            alt: `${project.title} Preview`,
+          })
+        }
+        className="relative w-full h-[320px] sm:h-[460px] md:h-[580px] rounded-[32px] sm:rounded-[44px] overflow-hidden bg-zinc-100 border border-black/[0.06] shadow-sm mb-10 sm:mb-14 cursor-pointer group"
+      >
+        <Image
+          src={showcaseImage}
+          alt={project.title}
+          fill
+          sizes="(max-width: 1200px) 100vw, 1200px"
+          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-zinc-900 shadow-md flex items-center gap-2">
+            <Eye className="w-4 h-4 text-zinc-600" />
+            Click to view full image
+          </div>
+        </div>
+      </div>
+
+      {/* 2-Column Content Layout (Architecture & Narrative + Specifications) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 mb-10 sm:mb-14 items-start">
+        {/* Left Column (8 cols): Project Overview & Architecture Narrative */}
+        <div className="lg:col-span-8 bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] p-8 sm:p-12 shadow-2xs">
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-200/80 bg-zinc-50 text-zinc-700 text-xs sm:text-sm font-medium mb-5">
+            Architecture & Engineering
+          </div>
+
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 mb-6">
+            Project Overview & System Highlights
+          </h2>
+
+          <div className="space-y-5 text-base sm:text-lg text-zinc-600 leading-relaxed font-normal">
+            {project.overview && project.overview.length > 0 ? (
+              project.overview.map((paragraph, idx) => <p key={idx}>{paragraph}</p>)
+            ) : (
+              <p>{project.subtitle}</p>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column (4 cols): Tools & Quick Access */}
+        <div className="lg:col-span-4 space-y-6">
+          {/* Card 1: Tools & Technologies */}
+          <div className="bg-white rounded-[32px] sm:rounded-[40px] border border-black/[0.06] p-6 sm:p-8 shadow-2xs">
+            <h3 className="text-xs uppercase tracking-wider font-semibold text-zinc-400 mb-4">
+              Tools & Technologies
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {project.toolsUsed.map((tool) => (
+                <span
+                  key={tool}
+                  className="text-xs sm:text-sm font-medium px-3.5 py-1.5 rounded-full bg-zinc-50 border border-zinc-200/80 text-zinc-700"
+                >
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Card 2: Quick Links */}
+          <div className="bg-white rounded-[32px] sm:rounded-[40px] border border-black/[0.06] p-6 sm:p-8 shadow-2xs">
+            <h3 className="text-xs uppercase tracking-wider font-semibold text-zinc-400 mb-4">
+              Repository & Links
+            </h3>
+            <div className="space-y-3">
+              {project.liveDemo && (
+                <a
+                  href={project.liveDemo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-zinc-50 hover:bg-zinc-100 transition-colors text-xs sm:text-sm font-semibold text-zinc-900"
+                >
+                  <span>Live Application</span>
+                  <ExternalLink className="w-4 h-4 text-zinc-500" />
+                </a>
+              )}
+              {project.githubBackend && (
+                <a
+                  href={project.githubBackend}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-zinc-50 hover:bg-zinc-100 transition-colors text-xs sm:text-sm font-semibold text-zinc-900"
+                >
+                  <span>Backend Repository</span>
+                  <ArrowUpRight className="w-4 h-4 text-zinc-500" />
+                </a>
+              )}
+              {project.githubFrontend && (
+                <a
+                  href={project.githubFrontend}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-zinc-50 hover:bg-zinc-100 transition-colors text-xs sm:text-sm font-semibold text-zinc-900"
+                >
+                  <span>Frontend Repository</span>
+                  <ArrowUpRight className="w-4 h-4 text-zinc-500" />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Screenshot Gallery Bento Grid */}
+      {project.gallery && project.gallery.length > 0 && (
+        <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] p-8 sm:p-12 shadow-2xs mb-10 sm:mb-14">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+            <div>
+              <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-200/80 bg-zinc-50 text-zinc-700 text-xs sm:text-sm font-medium mb-3">
+                Interface Previews
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950">
+                Application Screenshots
+              </h3>
+            </div>
+            <span className="text-xs sm:text-sm text-zinc-400 font-normal">
+              Click any image to inspect full view
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {project.gallery.map((item, idx) => (
+              <div
+                key={idx}
                 onClick={() =>
                   setActiveLightboxImage({
-                    src: showcaseImage,
-                    alt: `${project.title} Homepage`,
+                    src: item.imageUrl,
+                    alt: item.caption || `${project.title} Screenshot ${idx + 1}`,
                   })
                 }
-                style={{ cursor: 'pointer' }}
-              />
-            </div>
-
-            <div className="project-details__content-main">
-              {project.overview && project.overview.length > 0 && (
-                <div className="project-details__desc">
-                  <h3 className="project-details__content-title">Project Overview</h3>
-                  {project.overview.map((para, idx) => (
-                    <p key={idx} className="project-details__desc-para">
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              )}
-
-              {project.toolsUsed && project.toolsUsed.length > 0 && (
-                <div className="project-details__tools-used">
-                  <h3 className="project-details__content-title">Tools Used</h3>
-                  <div className="skills">
-                    {project.toolsUsed.map((tool, idx) => (
-                      <div key={idx} className="skills__skill">
-                        {tool}
-                      </div>
-                    ))}
+                className="group relative aspect-video rounded-2xl overflow-hidden bg-zinc-100 border border-black/[0.06] cursor-pointer shadow-2xs hover:shadow-md transition-shadow"
+              >
+                <Image
+                  src={item.imageUrl}
+                  alt={item.caption || `${project.title} Screenshot ${idx + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                {item.caption && (
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3 pt-6">
+                    <span className="text-xs font-medium text-white truncate block">
+                      {item.caption}
+                    </span>
                   </div>
-                </div>
-              )}
-
-              <div className="project-details__links">
-                <h3 className="project-details__content-title">
-                  {project.githubFrontend || project.githubBackend ? 'See Code' : 'Project Links'}
-                </h3>
-                <div className="project-details__links-btn-cont">
-                  {project.githubBackend && (
-                    <a
-                      href={project.githubBackend}
-                      className="btn btn--med btn--theme project-details__links-btn"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {project.githubFrontend ? 'Backend Repo' : 'Code Repo'}
-                    </a>
-                  )}
-                  {project.githubFrontend && (
-                    <a
-                      href={project.githubFrontend}
-                      className="btn btn--med btn--theme-inv project-details__links-btn"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Frontend Repo
-                    </a>
-                  )}
-                  {project.liveDemo && (
-                    <a
-                      href={project.liveDemo}
-                      className="btn btn--med btn--theme dynamicBgClr project-details__links-btn"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Live Demo
-                    </a>
-                  )}
-                </div>
+                )}
               </div>
-            </div>
-
-            {project.gallery && project.gallery.length > 0 && (
-              <div className="project-details__gallery">
-                <h3 className="project-details__gallery-title">Project Screenshots</h3>
-                <div className="project-details__gallery-grid">
-                  {project.gallery.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="project-details__gallery-item"
-                      onClick={() =>
-                        setActiveLightboxImage({
-                          src: item.imageUrl,
-                          alt: item.caption || `Screenshot ${idx + 1}`,
-                        })
-                      }
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <img src={item.imageUrl} alt={item.caption || `Screenshot ${idx + 1}`} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            ))}
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Original Dopefolio Lightbox Viewer */}
-      <div
-        id="lightbox"
-        className={`lightbox ${activeLightboxImage ? 'lightbox--active' : ''}`}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            setActiveLightboxImage(null)
-          }
-        }}
-      >
-        <span
-          className="lightbox__close"
-          onClick={() => setActiveLightboxImage(null)}
+      {/* Next Project Teaser Bento Card */}
+      {nextProject && (
+        <Link
+          href={`/projects/${nextProject.slug}`}
+          className="group block bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] p-8 sm:p-12 shadow-2xs hover:border-zinc-300 transition-colors"
         >
-          &times;
-        </span>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <span className="text-xs uppercase tracking-wider font-semibold text-zinc-400 block mb-2">
+                Up Next
+              </span>
+              <h4 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 group-hover:text-zinc-700 transition-colors">
+                {cleanText(nextProject.title)}
+              </h4>
+              <p className="mt-2 text-sm sm:text-base text-zinc-500 line-clamp-1">
+                {nextProject.subtitle}
+              </p>
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-6 py-3 text-sm font-medium text-white group-hover:bg-zinc-800 transition-colors shadow-2xs shrink-0">
+              View Project
+              <ArrowUpRight className="w-4 h-4 text-zinc-400" />
+            </div>
+          </div>
+        </Link>
+      )}
+
+      {/* Clean Modern Lightbox Modal */}
+      <AnimatePresence>
         {activeLightboxImage && (
-          <>
-            <img
-              className="lightbox__content"
-              src={activeLightboxImage.src}
-              alt={activeLightboxImage.alt || 'Project Screenshot Large'}
-            />
-            <div className="lightbox__caption">{activeLightboxImage.alt || ''}</div>
-          </>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveLightboxImage(null)}
+            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setActiveLightboxImage(null)}
+              className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+              aria-label="Close image viewer"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Modal Image */}
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-5xl max-h-[85vh] w-full h-full flex flex-col items-center justify-center cursor-default"
+            >
+              <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src={activeLightboxImage.src}
+                  alt={activeLightboxImage.alt}
+                  fill
+                  className="object-contain"
+                  sizes="100vw"
+                />
+              </div>
+              {activeLightboxImage.alt && (
+                <div className="mt-4 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-sm text-xs sm:text-sm text-white/90 font-medium">
+                  {activeLightboxImage.alt}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
         )}
-      </div>
-    </>
+      </AnimatePresence>
+    </div>
   )
 }

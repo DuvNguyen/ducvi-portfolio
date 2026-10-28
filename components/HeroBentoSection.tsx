@@ -37,11 +37,11 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
         {/* Top Navigation Row */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-8 sm:pb-12 text-sm"
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-8 sm:pb-12 text-base"
         >
           {/* Left: Email, Copy, and CV Action Buttons */}
-          <div className="flex items-center flex-wrap gap-2.5 justify-center sm:justify-start">
-            <span className="text-zinc-600 font-medium text-sm sm:text-base select-all tracking-tight">
+          <div className="flex items-center flex-wrap gap-3 justify-center sm:justify-start">
+            <span className="text-zinc-700 font-medium text-base sm:text-[17px] select-all tracking-tight">
               {displayEmail}
             </span>
 
@@ -52,7 +52,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               whileHover="hover"
               whileTap="tap"
               onClick={handleCopyEmail}
-              className="inline-flex items-center px-3.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-800 text-xs font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
+              className="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-200 bg-white text-zinc-800 text-sm font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
               aria-label="Copy email address"
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -88,14 +88,14 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               href={profile.cvUrl || '/assets/cv.pdf'}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center px-3.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-800 text-xs font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+              className="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-200 bg-white text-zinc-800 text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
             >
               CV
             </motion.a>
           </div>
 
           {/* Right: Clean Social Navigation */}
-          <div className="flex items-center gap-4 sm:gap-5 text-zinc-500 font-medium text-xs sm:text-sm">
+          <div className="flex items-center gap-5 sm:gap-6 text-zinc-600 font-medium text-sm sm:text-base">
             <a
               href={profile.linkedin}
               target="_blank"
@@ -164,17 +164,17 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
             {profile.heroBio}
           </motion.p>
 
-          {/* Primary CTA Button */}
-          <motion.div variants={itemVariants} className="mt-8 sm:mt-9">
+          {/* Primary CTA Button (Scaled ~1.5x) */}
+          <motion.div variants={itemVariants} className="mt-8 sm:mt-10">
             <motion.a
               variants={pillButtonVariants}
               initial="rest"
               whileHover="hover"
               whileTap="tap"
               href="#projects"
-              className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-6 py-3 text-sm font-medium text-white hover:bg-zinc-800 transition-colors shadow-sm"
+              className="inline-flex items-center gap-2.5 rounded-full bg-zinc-950 px-9 py-4 sm:px-10 sm:py-4.5 text-base sm:text-lg font-semibold text-white hover:bg-zinc-800 transition-all shadow-md hover:shadow-lg cursor-pointer"
             >
-              Explore Projects <span className="text-zinc-400 font-light">↗</span>
+              Explore Projects <span className="text-zinc-400 font-normal text-base sm:text-lg">↗</span>
             </motion.a>
           </motion.div>
         </div>

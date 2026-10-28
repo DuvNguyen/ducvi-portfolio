@@ -38,7 +38,26 @@ const capabilities: CapabilityItem[] = [
   },
 ]
 
-export function CapabilitiesSection() {
+interface CapabilitiesSectionProps {
+  profile?: {
+    capabilitiesHeading?: string
+    capabilities?: { title: string; description: string }[]
+  }
+}
+
+export function CapabilitiesSection({ profile }: CapabilitiesSectionProps = {}) {
+  const heading =
+    profile?.capabilitiesHeading ||
+    'Collaborate with engineering teams to build impactful systems.'
+  const items =
+    profile?.capabilities && profile.capabilities.length > 0
+      ? profile.capabilities.map((c, i) => ({
+          icon: capabilities[i % capabilities.length].icon,
+          title: c.title,
+          description: c.description,
+        }))
+      : capabilities
+
   return (
     <section className="w-full py-16 sm:py-24 px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
       {/* Centered Section Header */}
@@ -50,13 +69,13 @@ export function CapabilitiesSection() {
 
         {/* Section Heading */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-zinc-950 leading-tight">
-          Collaborate with engineering teams to build impactful systems.
+          {heading}
         </h2>
       </div>
 
       {/* 4-Column Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-        {capabilities.map((item, index) => {
+        {items.map((item, index) => {
           const Icon = item.icon
           return (
             <motion.div

@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'profile',
-  title: 'Profile & Settings',
+  title: 'Profile & Site Content',
   type: 'document',
   fields: [
     defineField({
@@ -13,16 +13,17 @@ export default defineType({
     }),
     defineField({
       name: 'statusText',
-      title: 'Current Status',
+      title: 'Status Tag',
       type: 'string',
-      description: 'e.g. "Open to Internship Opportunities 🟢"',
-      initialValue: 'Open to Internship Opportunities 🟢',
+      description: 'e.g. "Open to Internship Opportunities"',
+      initialValue: 'Open to Internship Opportunities',
     }),
     defineField({
-      name: 'headline',
+      name: 'heroHeadline',
       title: 'Hero Headline',
       type: 'string',
-      initialValue: 'Hey, My name is Vi Nguyen',
+      description: 'Main heading on the homepage banner',
+      initialValue: 'Building digital products, robust backends, and scalable systems.',
     }),
     defineField({
       name: 'heroBio',
@@ -31,6 +32,26 @@ export default defineType({
       rows: 3,
       initialValue:
         'Final-year Information Technology student skilled in fullstack web development. I enjoy building clean, functional applications using modern frameworks and always eager to learn and improve with every project.',
+    }),
+    defineField({
+      name: 'capabilitiesHeading',
+      title: 'Capabilities Section Heading',
+      type: 'string',
+      initialValue: 'Collaborate with engineering teams to build impactful systems.',
+    }),
+    defineField({
+      name: 'capabilities',
+      title: 'Core Capabilities (4 Pillars)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Title', type: 'string' },
+            { name: 'description', title: 'Description', type: 'text', rows: 2 },
+          ],
+        },
+      ],
     }),
     defineField({
       name: 'aboutSubtitle',
@@ -47,12 +68,35 @@ export default defineType({
     }),
     defineField({
       name: 'skills',
-      title: 'Skills List',
+      title: 'Core Technical Competencies (Skills List)',
       type: 'array',
       of: [{ type: 'string' }],
       options: {
         layout: 'tags',
       },
+    }),
+    defineField({
+      name: 'marqueeSkills',
+      title: 'Marquee Running Skills',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        layout: 'tags',
+      },
+    }),
+    defineField({
+      name: 'contactHeading',
+      title: 'Contact Section Heading',
+      type: 'string',
+      initialValue: 'Tell me about your next project or role',
+    }),
+    defineField({
+      name: 'contactSubtitle',
+      title: 'Contact Section Subtitle / Note',
+      type: 'text',
+      rows: 2,
+      initialValue:
+        'Currently open to Backend and Full-Stack Developer opportunities. Feel free to reach out directly to discuss how I can contribute.',
     }),
     defineField({
       name: 'email',

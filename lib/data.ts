@@ -110,12 +110,18 @@ export async function getProfile(): Promise<ProfileData> {
       name: data.name || defaultProfile.name,
       headline: data.headline || defaultProfile.headline,
       statusText: data.statusText || defaultProfile.statusText,
+      heroHeadline: data.heroHeadline || defaultProfile.heroHeadline,
       heroBio: data.heroBio || defaultProfile.heroBio,
+      capabilitiesHeading: data.capabilitiesHeading || defaultProfile.capabilitiesHeading,
+      capabilities: data.capabilities?.length ? data.capabilities : defaultProfile.capabilities,
       aboutSubtitle: data.aboutSubtitle || defaultProfile.aboutSubtitle,
       aboutParagraphs: data.aboutParagraphs?.length
         ? data.aboutParagraphs
         : defaultProfile.aboutParagraphs,
       skills: data.skills?.length ? data.skills : defaultProfile.skills,
+      marqueeSkills: data.marqueeSkills?.length ? data.marqueeSkills : defaultProfile.marqueeSkills,
+      contactHeading: data.contactHeading || defaultProfile.contactHeading,
+      contactSubtitle: data.contactSubtitle || defaultProfile.contactSubtitle,
       email: data.email || defaultProfile.email,
       linkedin: data.linkedin || defaultProfile.linkedin,
       github: data.github || defaultProfile.github,

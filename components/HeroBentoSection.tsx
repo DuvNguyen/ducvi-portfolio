@@ -153,7 +153,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
             variants={itemVariants}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold tracking-tight text-zinc-950 leading-[1.18] sm:leading-[1.16] max-w-2xl sm:max-w-3xl"
           >
-            Building digital products, robust backends, and scalable systems.
+            {profile.heroHeadline || 'Building digital products, robust backends, and scalable systems.'}
           </motion.h1>
 
           {/* Subtitle / Bio */}

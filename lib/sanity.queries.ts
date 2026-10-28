@@ -25,7 +25,10 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
   githubFrontend,
   githubBackend,
   architectureImage,
-  gallery
+  gallery[] {
+    "imageUrl": asset->url,
+    caption
+  }
 }`
 
 export const profileQuery = `*[_type == "profile"][0] {
@@ -33,10 +36,19 @@ export const profileQuery = `*[_type == "profile"][0] {
   name,
   statusText,
   headline,
+  heroHeadline,
   heroBio,
+  capabilitiesHeading,
+  capabilities[] {
+    title,
+    description
+  },
   aboutSubtitle,
   aboutParagraphs,
   skills,
+  marqueeSkills,
+  contactHeading,
+  contactSubtitle,
   email,
   linkedin,
   github,

@@ -19,7 +19,7 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
       <div className="relative bg-white rounded-[32px] sm:rounded-[44px] border border-black/[0.06] shadow-sm p-8 sm:p-14 md:p-20 text-center overflow-hidden">
         {/* Section Heading (Clean, bold typography) */}
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-950 leading-tight max-w-2xl mx-auto">
-          Tell me about your next project or role
+          {profile.contactHeading || 'Tell me about your next project or role'}
         </h2>
 
         {/* Divider */}
@@ -27,7 +27,8 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
 
         {/* Subtitle / Note */}
         <p className="text-base sm:text-lg text-zinc-600 max-w-xl mx-auto leading-relaxed font-normal">
-          Currently open to Backend and Full-Stack Developer opportunities. Feel free to reach out directly to discuss how I can contribute.
+          {profile.contactSubtitle ||
+            'Currently open to Backend and Full-Stack Developer opportunities. Feel free to reach out directly to discuss how I can contribute.'}
         </p>
 
         {/* Action Buttons Row */}

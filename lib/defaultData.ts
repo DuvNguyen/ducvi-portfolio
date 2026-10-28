@@ -15,10 +15,16 @@ export interface ProjectItem {
   gallery?: { imageUrl: string; caption?: string }[]
 }
 
+export interface CapabilityItem {
+  title: string
+  description: string
+}
+
 export interface ProfileData {
   name: string
   headline: string
   statusText: string
+  heroHeadline?: string
   heroBio: string
   aboutSubtitle: string
   aboutParagraphs: string[]
@@ -27,12 +33,18 @@ export interface ProfileData {
   linkedin: string
   github: string
   cvUrl: string
+  capabilitiesHeading?: string
+  capabilities?: CapabilityItem[]
+  contactHeading?: string
+  contactSubtitle?: string
+  marqueeSkills?: string[]
 }
 
 export const defaultProfile: ProfileData = {
   name: 'Vi Nguyen',
   headline: 'Hey, My name is Vi Nguyen',
-  statusText: 'Open to Internship Opportunities 🟢',
+  statusText: 'Open to Internship Opportunities',
+  heroHeadline: 'Building digital products, robust backends, and scalable systems.',
   heroBio:
     'Final-year Information Technology student skilled in fullstack web development. I enjoy building clean, functional applications using modern frameworks and always eager to learn and improve with every project.',
   aboutSubtitle:
@@ -55,6 +67,46 @@ export const defaultProfile: ProfileData = {
     'RESTful API',
     'GIT',
     'Swagger',
+  ],
+  capabilitiesHeading: 'Collaborate with engineering teams to build impactful systems.',
+  capabilities: [
+    {
+      title: 'Backend Architecture',
+      description:
+        'Designing modular RESTful APIs, layered services, and maintainable backends with NestJS and Spring Boot.',
+    },
+    {
+      title: 'Database & Caching',
+      description:
+        'Relational schema modeling, query optimization with PostgreSQL, and sub-millisecond Redis caching.',
+    },
+    {
+      title: 'Full-Stack Engineering',
+      description:
+        'Modern, performant web applications engineered with Next.js 15 App Router, React 19, and TypeScript.',
+    },
+    {
+      title: 'Security & Integrations',
+      description:
+        'Granular RBAC access controls, webhook verification, payment gateways, and third-party API pipelines.',
+    },
+  ],
+  contactHeading: 'Tell me about your next project or role',
+  contactSubtitle:
+    'Currently open to Backend and Full-Stack Developer opportunities. Feel free to reach out directly to discuss how I can contribute.',
+  marqueeSkills: [
+    'NestJS',
+    'Spring Boot',
+    'Next.js 15',
+    'React 19',
+    'TypeScript',
+    'PostgreSQL',
+    'Redis',
+    'Docker',
+    'Apache Kafka',
+    'REST APIs',
+    'Microservices',
+    'Tailwind CSS',
   ],
   email: 'nducvi.information@gmail.com',
   linkedin: 'https://linkedin.com/in/nducviinformation/',

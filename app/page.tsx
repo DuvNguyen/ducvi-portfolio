@@ -16,7 +16,7 @@ export default async function HomePage() {
     <div className="flex flex-col min-h-screen bg-canvas">
       <HeroBentoSection profile={profile} />
       <TechMarquee />
-      <CapabilitiesSection />
+      <CapabilitiesSection profile={profile} />
       <StackingProjectsSection projects={projects} />
       <AboutBentoSection profile={profile} />
       <ContactBentoSection profile={profile} />

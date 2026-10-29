@@ -3,12 +3,12 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowUpRight } from 'lucide-react'
 import type { ProfileData } from '@/lib/defaultData'
 import {
   containerVariants,
   itemVariants,
   pillButtonVariants,
-  floatingBadgeAnimation,
 } from '@/lib/motion'
 
 interface HeroBentoSectionProps {
@@ -32,7 +32,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative bg-white rounded-[28px] sm:rounded-[36px] md:rounded-[44px] border border-black/[0.06] shadow-sm p-5 sm:p-10 md:p-14 overflow-hidden"
+        className="relative bg-white rounded-[28px] sm:rounded-[36px] md:rounded-[44px] border border-black/[0.06] shadow-sm p-6 sm:p-10 md:p-14 overflow-hidden"
       >
         {/* Top Navigation Row */}
         <motion.div
@@ -52,7 +52,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               whileHover="hover"
               whileTap="tap"
               onClick={handleCopyEmail}
-              className="inline-flex items-center justify-center min-h-[36px] sm:min-h-[32px] px-3.5 py-1.5 sm:py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
+              className="inline-flex items-center justify-center min-h-[32px] px-3.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
               aria-label="Copy email address"
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -88,7 +88,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               href={profile.cvUrl || '/assets/cv.pdf'}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center min-h-[36px] sm:min-h-[32px] px-3.5 py-1.5 sm:py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+              className="inline-flex items-center justify-center min-h-[32px] px-3.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
             >
               CV
             </motion.a>
@@ -100,7 +100,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               href={profile.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="hover:text-zinc-950 transition-colors"
+              className="hover:text-zinc-950 transition-colors py-1"
             >
               LinkedIn
             </a>
@@ -109,14 +109,14 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               href={profile.github}
               target="_blank"
               rel="noreferrer"
-              className="hover:text-zinc-950 transition-colors"
+              className="hover:text-zinc-950 transition-colors py-1"
             >
               GitHub
             </a>
             <span className="text-zinc-300 font-light">/</span>
             <a
               href={`mailto:${displayEmail}`}
-              className="hover:text-zinc-950 transition-colors"
+              className="hover:text-zinc-950 transition-colors py-1"
             >
               Email
             </a>
@@ -124,57 +124,49 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
         </motion.div>
 
         {/* Center Hero Content */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto py-1 sm:py-4">
-          {/* Avatar with Subtle Floating Name Badge */}
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto py-2 sm:py-4">
+          {/* Avatar: Clean, unobstructed headshot (no floating text covering the face) */}
           <motion.div variants={itemVariants} className="relative mb-5 sm:mb-7">
-            <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-zinc-100 shadow-sm bg-zinc-100">
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-zinc-200/90 shadow-md bg-zinc-100 ring-4 ring-black/[0.02]">
               <Image
                 src="/assets/png/avatar.png"
                 alt={profile.name || 'Vi Nguyen'}
                 fill
-                sizes="(max-width: 768px) 80px, 112px"
+                sizes="(max-width: 768px) 96px, 112px"
                 className="object-cover"
                 priority
               />
             </div>
-
-            {/* Pill Name Tag (No emojis / icon spam as instructed) */}
-            <motion.div
-              animate={floatingBadgeAnimation.animate}
-              transition={floatingBadgeAnimation.transition}
-              className="absolute -right-2 top-0 bg-white border border-zinc-200/90 rounded-full px-2.5 py-0.5 text-[11px] sm:text-xs font-semibold text-zinc-800 shadow-xs select-none"
-            >
-              {profile.name || 'Vi Nguyen'}
-            </motion.div>
           </motion.div>
 
-          {/* Clean, Bold Hero Heading - Harmonious 3-line proportion */}
+          {/* Clean, Bold Hero Heading - Harmonious proportion */}
           <motion.h1
             variants={itemVariants}
-            className="text-[26px] sm:text-4xl md:text-5xl lg:text-[52px] font-bold tracking-tight text-zinc-950 leading-[1.2] sm:leading-[1.16] max-w-2xl sm:max-w-3xl"
+            className="text-[28px] sm:text-4xl md:text-5xl lg:text-[52px] font-bold tracking-tight text-zinc-950 leading-[1.2] sm:leading-[1.16] max-w-2xl sm:max-w-3xl"
           >
             {profile.heroHeadline || 'Building digital products, robust backends, and scalable systems.'}
           </motion.h1>
 
-          {/* Subtitle / Bio */}
+          {/* Subtitle / Bio - Comfortable reading size on mobile */}
           <motion.p
             variants={itemVariants}
-            className="mt-3.5 sm:mt-5 text-sm sm:text-base md:text-lg text-zinc-600 max-w-2xl leading-relaxed font-normal"
+            className="mt-4 sm:mt-5 text-base sm:text-lg text-zinc-600 max-w-2xl leading-relaxed font-normal"
           >
             {profile.heroBio}
           </motion.p>
 
-          {/* Primary CTA Button */}
-          <motion.div variants={itemVariants} className="mt-6 sm:mt-10">
+          {/* Primary CTA Button with Clean Lucide SVG Vector Arrow (Strictly no Unicode emoji) */}
+          <motion.div variants={itemVariants} className="mt-7 sm:mt-10">
             <motion.a
               variants={pillButtonVariants}
               initial="rest"
               whileHover="hover"
               whileTap="tap"
               href="#projects"
-              className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-7 py-3.5 sm:px-10 sm:py-4.5 text-sm sm:text-base md:text-lg font-semibold text-white hover:bg-zinc-800 transition-all shadow-md hover:shadow-lg cursor-pointer"
+              className="inline-flex items-center gap-2.5 rounded-full bg-zinc-950 px-8 py-3.5 sm:px-10 sm:py-4.5 text-base sm:text-lg font-semibold text-white hover:bg-zinc-800 transition-all shadow-md hover:shadow-lg cursor-pointer group"
             >
-              Explore Projects <span className="text-zinc-400 font-normal text-sm sm:text-base">↗</span>
+              Explore Projects
+              <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-hover:text-white transition-colors" />
             </motion.a>
           </motion.div>
         </div>

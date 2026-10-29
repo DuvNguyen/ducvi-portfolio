@@ -68,7 +68,7 @@ export function CapabilitiesSection({ profile }: CapabilitiesSectionProps = {}) 
         </div>
 
         {/* Section Heading */}
-        <h2 className="text-xl sm:text-3xl md:text-4xl font-bold tracking-tight text-zinc-950 leading-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-zinc-950 leading-tight">
           {heading}
         </h2>
       </div>
@@ -96,7 +96,7 @@ export function CapabilitiesSection({ profile }: CapabilitiesSectionProps = {}) 
               </h3>
 
               {/* Description */}
-              <p className="text-xs sm:text-sm md:text-base text-zinc-600 leading-relaxed font-normal">
+              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-normal">
                 {item.description}
               </p>
             </motion.div>

@@ -244,7 +244,7 @@ function MobileCoverflowCarousel({ projects }: MobileCoverflowProps) {
                 if (isPeekLeft) handlePrev()
                 if (isPeekRight) handleNext()
               }}
-              className={`absolute w-[calc(100%-32px)] max-w-sm cursor-pointer select-none ${
+              className={`absolute w-[calc(100%-24px)] max-w-[360px] cursor-pointer select-none ${
                 isCurrent ? 'cursor-grab active:cursor-grabbing' : ''
               }`}
             >
@@ -254,18 +254,18 @@ function MobileCoverflowCarousel({ projects }: MobileCoverflowProps) {
                   <span className="text-xs font-mono font-semibold text-zinc-500 tracking-wider">
                     {projectNumber} / {totalCount}
                   </span>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-zinc-100 text-zinc-800 text-[11px] font-semibold tracking-wide">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-zinc-100 text-zinc-800 text-xs font-semibold tracking-wide">
                     {displayBadge}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold tracking-tight text-zinc-950 mb-1 leading-snug line-clamp-1">
+                <h3 className="text-xl font-bold tracking-tight text-zinc-950 mb-1.5 leading-snug line-clamp-1">
                   {cleanText(project.title)}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs text-zinc-600 leading-relaxed font-normal line-clamp-2 mb-3">
+                <p className="text-sm text-zinc-600 leading-relaxed font-normal line-clamp-2 mb-3.5">
                   {project.subtitle}
                 </p>
 
@@ -274,7 +274,7 @@ function MobileCoverflowCarousel({ projects }: MobileCoverflowProps) {
                   {project.toolsUsed.slice(0, 4).map((tool) => (
                     <span
                       key={tool}
-                      className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-zinc-50 border border-zinc-200/80 text-zinc-700"
+                      className="text-xs font-medium px-2.5 py-1 rounded-full bg-zinc-50 border border-zinc-200/80 text-zinc-700"
                     >
                       {tool}
                     </span>
@@ -282,10 +282,10 @@ function MobileCoverflowCarousel({ projects }: MobileCoverflowProps) {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-2 pt-2.5 border-t border-zinc-100 mb-3.5">
+                <div className="flex items-center gap-2 pt-3 border-t border-zinc-100 mb-3.5">
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="inline-flex items-center justify-center h-9 gap-1.5 rounded-full bg-zinc-950 px-4 text-xs font-medium text-white hover:bg-zinc-800 transition-colors shadow-2xs"
+                    className="inline-flex items-center justify-center h-10 gap-1.5 rounded-full bg-zinc-950 px-4 text-xs sm:text-sm font-medium text-white hover:bg-zinc-800 transition-colors shadow-2xs"
                   >
                     Case Study
                     <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
@@ -296,10 +296,10 @@ function MobileCoverflowCarousel({ projects }: MobileCoverflowProps) {
                       href={project.liveDemo}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center justify-center h-9 gap-1.5 px-3.5 rounded-full border border-zinc-200 bg-white text-zinc-800 text-xs font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+                      className="inline-flex items-center justify-center h-10 gap-1.5 px-3.5 rounded-full border border-zinc-200 bg-white text-zinc-800 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
                     >
                       Live Demo
-                      <ExternalLink className="w-3 h-3 text-zinc-400" />
+                      <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
                     </a>
                   )}
 
@@ -308,9 +308,9 @@ function MobileCoverflowCarousel({ projects }: MobileCoverflowProps) {
                       href={project.githubBackend}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center justify-center h-9 gap-1.5 px-3.5 rounded-full border border-zinc-200 bg-white text-zinc-800 text-xs font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+                      className="inline-flex items-center justify-center h-10 gap-1.5 px-3.5 rounded-full border border-zinc-200 bg-white text-zinc-800 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
                     >
-                      <Code2 className="w-3 h-3 text-zinc-600" />
+                      <Code2 className="w-3.5 h-3.5 text-zinc-600" />
                       Code
                     </a>
                   )}

@@ -7,7 +7,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Project Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
@@ -30,22 +30,39 @@ export default defineType({
     }),
     defineField({
       name: 'role',
-      title: 'Role / Ownership (Vai trò)',
+      title: 'Role & Ownership',
       type: 'string',
-      description: 'e.g. "Một mình làm toàn bộ (Solo Fullstack Developer)"',
+      description: 'e.g. "Lead Full-Stack Developer (Solo Project)", "Backend Engineer"',
     }),
     defineField({
       name: 'subtitle',
-      title: 'Subtitle / Summary',
+      title: 'Subtitle & Executive Summary',
       type: 'text',
       rows: 3,
-      description: 'Short summary shown on the project card',
+      description: 'Summary shown on the homepage card and case study header',
     }),
     defineField({
       name: 'statusBadge',
       title: 'Status Badge',
       type: 'string',
-      description: 'e.g., "Personal Project ☕", "Live Demo 🟢", "Fullstack LMS 📚"',
+      description: 'e.g. "Fullstack LMS", "Distributed Chat Platform", "Production Transit System"',
+    }),
+    defineField({
+      name: 'stats',
+      title: 'Key Impact Numbers / Metrics (SDv26 Bar)',
+      type: 'array',
+      description: '3 key impact numbers shown in the top metrics bar (e.g. 500+, <150ms, 90%)',
+      of: [
+        {
+          type: 'object',
+          title: 'Impact Metric',
+          fields: [
+            defineField({ name: 'value', title: 'Value / Metric (e.g. 400+, 90%, <150ms)', type: 'string' }),
+            defineField({ name: 'label', title: 'Metric Label', type: 'string' }),
+            defineField({ name: 'description', title: 'Description / Context', type: 'text', rows: 2 }),
+          ],
+        },
+      ],
     }),
     defineField({
       name: 'mainImage',
@@ -54,15 +71,17 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      description: 'Main showcase hero screenshot displayed at the top of the case study',
     }),
     defineField({
       name: 'toolsUsed',
-      title: 'Tools / Tech Stack Used',
+      title: 'Tools & Tech Stack Used',
       type: 'array',
       of: [{ type: 'string' }],
       options: {
         layout: 'tags',
       },
+      description: 'Technologies used in the project (e.g. Next.js 15, PostgreSQL, Redis, Docker)',
     }),
     defineField({
       name: 'liveDemo',
@@ -79,80 +98,83 @@ export default defineType({
       title: 'Backend / Main GitHub URL',
       type: 'url',
     }),
-    // 1. Problem Statement (Vấn đề)
+
+    // Chapter 01: Problem Statement
     defineField({
       name: 'problemStatement',
-      title: 'Vấn đề (Problem Statement)',
+      title: 'Chapter 01 — The Challenge & Problem Space',
       type: 'text',
       rows: 4,
-      description: 'Mô tả vấn đề gặp phải, lý do dự án ra đời (tự học lan man, nguồn thiếu kiểm chứng...)',
+      description: 'The real-world problem, context, and motivation behind building this project',
     }),
-    // 2. Engineering Process (Quá trình)
+
+    // Chapter 02: Engineering Process & Architecture
     defineField({
       name: 'process',
-      title: 'Quá trình thực hiện (Engineering Process)',
+      title: 'Chapter 02 — The Approach & System Design',
       type: 'object',
       fields: [
         defineField({
           name: 'tabRationale',
-          title: 'Vì sao chia 4 tab (Tab Rationale & Criteria)',
+          title: 'Architectural Rationale & Core Subsystems',
           type: 'text',
           rows: 3,
-          description: 'Lý do chia 4 tab (DSA, OOP, System Design, Spring Boot) và tiêu chí phân loại',
+          description: 'Rationale behind modular subsystems, pillars, or system partitioning',
         }),
         defineField({
           name: 'contentCuration',
-          title: 'Cách chọn và kiểm chứng nội dung (Content Selection & Verification)',
+          title: 'Data Curation & Engineering Decisions',
           type: 'text',
           rows: 3,
-          description: 'Cách chọn và kiểm chứng nguồn tin cậy (NeetCode 150, roadmap.sh, Effective Java...)',
+          description: 'How content/data was validated, structured, or audited against real-world criteria',
         }),
         defineField({
           name: 'architectureData',
-          title: 'Cấu trúc dữ liệu & Code (Data Architecture & Rendering)',
+          title: 'Data Architecture & System Flow',
           type: 'text',
           rows: 3,
-          description: 'Lưu nội dung ở đâu, cấu trúc file/DB ra sao, render thế nào (Markdown, SSG, SSR...)',
+          description: 'Database schema, caching tiers, state management, and rendering pipelines',
         }),
       ],
     }),
-    // 3. Technical Challenges (Khó khăn kỹ thuật: Gặp gì -> Thử gì -> Chọn gì -> Vì sao)
+
+    // Chapter 03: Technical Challenges Framework
     defineField({
       name: 'challenges',
-      title: 'Khó khăn & Giải pháp kỹ thuật (Technical Challenges)',
+      title: 'Chapter 03 — Technical Challenges & Decisions',
       type: 'array',
-      description: 'Các vấn đề kỹ thuật có thật được giải quyết (Gặp gì → Thử gì → Chọn gì → Vì sao)',
+      description: 'Engineering challenges solved: Challenge → Explored → Decision → Rationale',
       of: [
         {
           type: 'object',
-          title: 'Thách thức kỹ thuật',
+          title: 'Engineering Challenge',
           fields: [
             defineField({
               name: 'title',
-              title: 'Tên vấn đề / Thách thức',
+              title: 'Challenge Title',
               type: 'string',
             }),
             defineField({
               name: 'issue',
-              title: 'Gặp gì (The Challenge / Context)',
+              title: '1. Root Problem / Engineering Challenge',
               type: 'text',
               rows: 2,
             }),
             defineField({
               name: 'attempted',
-              title: 'Thử gì (Explored Alternatives)',
+              title: '2. Explored Alternatives & Trade-offs',
               type: 'text',
               rows: 2,
             }),
             defineField({
               name: 'solution',
-              title: 'Chọn gì (Chosen Decision)',
+              title: '3. Chosen Architecture / Solution',
               type: 'text',
               rows: 2,
             }),
             defineField({
               name: 'reason',
-              title: 'Vì sao (Rationale & Trade-offs)',
+              title: '4. Decision Rationale & Engineering Impact',
               type: 'text',
               rows: 2,
             }),
@@ -160,58 +182,61 @@ export default defineType({
         },
       ],
     }),
-    // 4. Results & Metrics (Kết quả)
+
+    // Chapter 04: Results & Metrics
     defineField({
       name: 'results',
-      title: 'Kết quả & Thước đo (Results & Metrics)',
+      title: 'Chapter 04 — Outcomes & Tangible Impact',
       type: 'object',
       fields: [
         defineField({
           name: 'summary',
-          title: 'Tóm tắt kết quả',
+          title: 'Executive Outcome Summary',
           type: 'text',
           rows: 2,
         }),
         defineField({
           name: 'modulesCount',
-          title: 'Số module và số bài học đã có',
+          title: 'Delivered Scope & Key Deliverables',
           type: 'string',
-          description: 'e.g. "4 Trụ Cột, 24+ Chuyên đề, 150+ Bài tập & Ghi chú"',
+          description: 'e.g. "4 Core Pillars, 24+ Modules, 150+ Benchmarks"',
         }),
         defineField({
           name: 'practicalImpact',
-          title: 'Thực tế dùng để học được bao nhiêu',
+          title: 'Practical Impact & Engineering Application',
           type: 'text',
           rows: 2,
         }),
       ],
     }),
-    // 5. Lessons & Next Steps (Bài học & Bước tiếp theo)
+
+    // Retrospective & Next Steps
     defineField({
       name: 'lessons',
-      title: 'Bài học & Hướng phát triển (Lessons & Next Steps)',
+      title: 'Retrospective — Key Takeaways & Roadmap',
       type: 'object',
       fields: [
         defineField({
           name: 'whatToDoDifferently',
-          title: 'Làm khác đi điều gì (What would you do differently)',
+          title: 'What to Do Differently (Architectural Retrospective)',
           type: 'text',
           rows: 2,
         }),
         defineField({
           name: 'nextSteps',
-          title: 'Bước tiếp theo là gì (Future Iterations & Roadmap)',
+          title: 'Next Steps & Future Milestones',
           type: 'text',
           rows: 2,
         }),
       ],
     }),
-    // 6. Screenshots & GIF Gallery (Full CRUD in Studio: Add, Edit, Replace, Reorder, Delete)
+
+    // Screenshots & GIF Gallery (Full CRUD in Studio)
     defineField({
       name: 'gallery',
-      title: 'Project Screenshots & GIF Gallery (CRUD)',
+      title: 'Visual Showcase & Interface Gallery (CRUD)',
       type: 'array',
-      description: 'Hỗ trợ thêm, sửa, thay thế, đổi thứ tự và xóa ảnh chụp màn hình / GIF',
+      description: 'Add, edit, replace, reorder, and remove UI screenshots or GIFs',
       of: [
         {
           type: 'image',
@@ -220,17 +245,18 @@ export default defineType({
             {
               name: 'caption',
               type: 'string',
-              title: 'Caption / Tiêu đề ảnh hoặc GIF',
+              title: 'Caption / Feature Name',
             },
             {
               name: 'alt',
               type: 'string',
-              title: 'Alt text',
+              title: 'Alt Text',
             },
           ],
         },
       ],
     }),
+
     // Fallback block overview for backward compatibility
     defineField({
       name: 'overview',

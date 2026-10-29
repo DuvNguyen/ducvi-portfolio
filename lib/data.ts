@@ -116,6 +116,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
       role: item.role || defaultProj?.role,
       subtitle: item.subtitle || defaultProj?.subtitle || '',
       statusBadge: item.statusBadge || defaultProj?.statusBadge,
+      stats: item.stats || defaultProj?.stats,
       imageUrl: mainImgUrl || defaultProj?.imageUrl,
       problemStatement: item.problemStatement || defaultProj?.problemStatement,
       process: item.process || defaultProj?.process,

@@ -6,6 +6,11 @@ export const projectsQuery = `*[_type == "project"] | order(order asc) {
   role,
   subtitle,
   statusBadge,
+  stats[] {
+    value,
+    label,
+    description
+  },
   mainImage,
   toolsUsed,
   liveDemo,
@@ -21,6 +26,11 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
   role,
   subtitle,
   statusBadge,
+  stats[] {
+    value,
+    label,
+    description
+  },
   mainImage,
   overview,
   problemStatement,

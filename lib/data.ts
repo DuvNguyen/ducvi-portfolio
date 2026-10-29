@@ -18,7 +18,7 @@ export async function getProjects(): Promise<ProjectItem[]> {
       return defaultProjects
     }
 
-    const mappedProjects = data.map((item) => {
+    return data.map((item) => {
       let resolvedImg: string | undefined = undefined
       if (item.mainImage) {
         if (typeof item.mainImage === 'string' && item.mainImage.trim() !== '') {
@@ -34,7 +34,6 @@ export async function getProjects(): Promise<ProjectItem[]> {
         title: item.title,
         slug: item.slug || item._id,
         order: item.order || 99,
-        role: item.role,
         subtitle: item.subtitle || '',
         statusBadge: item.statusBadge,
         imageUrl: resolvedImg,
@@ -44,14 +43,6 @@ export async function getProjects(): Promise<ProjectItem[]> {
         githubBackend: item.githubBackend,
       }
     })
-
-    // Merge any default projects not yet created in Sanity Cloud
-    const sanitySlugs = new Set(mappedProjects.map((p) => p.slug))
-    const missingDefaults = defaultProjects.filter((dp) => !sanitySlugs.has(dp.slug))
-
-    return [...mappedProjects, ...missingDefaults].sort(
-      (a, b) => (a.order || 99) - (b.order || 99)
-    )
   } catch (error) {
     console.warn('Error fetching projects from Sanity, falling back to default data:', error)
     return defaultProjects

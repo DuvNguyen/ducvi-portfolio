@@ -147,89 +147,10 @@ export const defaultProfile: ProfileData = {
 
 export const defaultProjects: ProjectItem[] = [
   {
-    _id: 'java-hub',
-    title: 'Java Learning Hub — Platform Tự Học Java',
-    slug: 'java-learning-hub',
-    order: 1,
-    role: 'Một mình làm toàn bộ (Solo Fullstack Developer)',
-    subtitle:
-      'Web tự build để học Java có lộ trình bài bản gồm 4 tab (DSA, OOP, System Design, Spring Boot), tích hợp nguồn kiểm chứng uy tín và theo dõi tiến độ.',
-    statusBadge: 'Personal Project ☕',
-    imageUrl: '/assets/png/javahub/homepage.png',
-    toolsUsed: [
-      'Java',
-      'Spring Boot',
-      'Next.js 15',
-      'React 19',
-      'TypeScript',
-      'Tailwind CSS',
-      'PostgreSQL',
-      'Markdown / MDX',
-    ],
-    liveDemo: 'https://vinguyen.id.vn',
-    githubBackend: 'https://github.com/DuvNguyen/java-learning-hub',
-    problemStatement:
-      'Tự học Java dễ lan man, nội dung rải rác trên nhiều diễn đàn/blog khác nhau, khó biết nguồn nào đáng tin. Bạn cần một nơi gom nội dung có lộ trình và có nguồn kiểm chứng minh bạch (NeetCode 150, roadmap.sh...).',
-    process: {
-      tabRationale:
-        'Hệ thống chia làm 4 tab trụ cột theo tiêu chí phễu năng lực kỹ sư: (1) DSA rèn luyện thuật toán & tư duy tối ưu; (2) OOP củng cố thiết kế hướng đối tượng & Design Patterns kinh điển; (3) System Design mở rộng góc nhìn kiến trúc phân tán & chịu tải; (4) Spring Boot vận dụng toàn bộ nền tảng vào xây dựng REST API & Microservices thực tế.',
-      contentCuration:
-        'Chắt lọc và đối chiếu từ các nguồn chuẩn mực uy tín quốc tế: Danh mục thuật toán bám sát NeetCode 150 & LeetCode patterns; Lộ trình backend tham chiếu roadmap.sh; Kiến trúc OOP tham chiếu sách Effective Java; Best practices Spring Boot đúc kết từ VMware docs & Baeldung.',
-      architectureData:
-        'Nội dung được tổ chức dưới dạng cấu trúc Markdown / JSON phân cấp (Module → Category → Topic → Practice). Phía frontend sử dụng Next.js kết hợp cơ chế Static Site Generation (SSG) và Server-Side Rendering (SSR) để render bài học tức thì với cú pháp code highlight chuẩn mực, tối ưu hóa SEO và thời gian tải trang < 0.5s.',
-    },
-    challenges: [
-      {
-        title: 'Tổ chức dữ liệu bài học dễ mở rộng khi số lượng bài tăng cao',
-        issue: 'Khi số lượng bài học và ghi chú tăng lên hàng chục module, việc lưu cứng dữ liệu khiến việc thêm mới, lọc bài và quản lý phiên bản trở nên rối rắm.',
-        attempted: 'Thử lưu toàn bộ vào một file JSON khổng lồ duy nhất; nhưng file nhanh chóng bị phình to, khó quản lý xung đột git và khó tái sử dụng.',
-        solution: 'Chuyển sang mô hình Content Schema phân cấp theo Module/Topic kết hợp Headless CMS (hoặc dynamic MDX parser có frontmatter metadata).',
-        reason: 'Tách biệt hoàn toàn giữa tầng dữ liệu và tầng hiển thị (decoupling), dễ dàng CRUD bài học mới mà không cần rebuild lại toàn bộ code logic, hỗ trợ tìm kiếm nhanh theo tag.',
-      },
-      {
-        title: 'Theo dõi tiến độ học thực tế (Progress Tracking) không phụ thuộc đăng nhập',
-        issue: 'Cần một cơ chế ghi nhận người học đã hoàn thành bài nào, đang làm dở bài nào mà không bắt buộc phải tạo tài khoản rườm rà ngay từ đầu.',
-        attempted: 'Thử bắt buộc đăng nhập tài khoản ngay khi vào web, nhưng nhận thấy tỉ lệ rời bỏ trang cao và tạo cảm giác nặng nề cho người vào học nhanh.',
-        solution: 'Tích hợp Hybrid Storage: mặc định lưu tiến độ vào LocalStorage / IndexedDB trên trình duyệt client, hỗ trợ xuất/đồng bộ lên Cloud khi người dùng muốn lưu lâu dài.',
-        reason: 'Đem lại trải nghiệm mượt mà tức thì (zero-friction), người học vào là đánh dấu tick hoàn thành ngay, không lo mất dữ liệu bài học khi đóng tab.',
-      },
-      {
-        title: 'Quản lý trạng thái và chuyển đổi mượt mà giữa 4 tab lớn',
-        issue: 'Khi chuyển đổi qua lại giữa 4 tab (DSA, OOP, System Design, Spring Boot), trang bị giật hoặc mất vị trí cuộn đang đọc dở.',
-        attempted: 'Thử tải lại route mỗi lần bấm chuyển tab; khiến tốc độ phản hồi chậm và mất trạng thái bộ lọc.',
-        solution: 'Sử dụng Next.js URL query state (?tab=dsa) đồng bộ với React State và cache client-side.',
-        reason: 'Cho phép người dùng bookmark hoặc chia sẻ link trực tiếp đến đúng tab/bài học, chuyển tab ngay lập tức trong 0ms mà không reload trang.',
-      },
-    ],
-    results: {
-      summary:
-        'Xây dựng thành công nền tảng học tập trực quan, cá nhân hóa cao và vận hành ổn định trên môi trường thực tế.',
-      modulesCount: '4 Trụ cột chính, 24+ Chuyên đề, 150+ Bài tập & Ghi chú kiến trúc',
-      practicalImpact:
-        'Trở thành single source of truth trong quá trình tự học Java; giúp tiết kiệm 40% thời gian tìm kiếm tài liệu rải rác và hoàn thành 100% mục tiêu kiến thức nền tảng trước các đợt phỏng vấn.',
-    },
-    lessons: {
-      whatToDoDifferently:
-        'Nếu làm lại từ đầu, sẽ thiết kế hệ thống tag liên kết chéo (cross-linking tags) ngay từ ngày đầu — ví dụ một bài tập DSA trong tab DSA có thể gắn link trực tiếp đến Design Pattern tương ứng ở tab OOP và ứng dụng trong Spring Boot.',
-      nextSteps:
-        'Tích hợp tính năng Interactive Code Playground để chạy thử các snippet Java cơ bản trực tiếp trên trình duyệt, và bổ sung biểu đồ Radar Chart hiển thị độ bao phủ kiến thức cá nhân theo thời gian thực.',
-    },
-    gallery: [
-      { imageUrl: '/assets/png/javahub/homepage.png', caption: 'Tổng quan nền tảng & 4 Tab chuyên đề' },
-      { imageUrl: '/assets/png/javahub/dsa-tab.png', caption: 'Tab DSA — Lộ trình thuật toán NeetCode 150' },
-      { imageUrl: '/assets/png/javahub/oop-tab.png', caption: 'Tab OOP & System Design — Kiến trúc & Patterns' },
-      { imageUrl: '/assets/png/javahub/spring-boot-tab.png', caption: 'Tab Spring Boot — Thực hành dự án thực tế' },
-    ],
-    overview: [
-      'Java Learning Hub là nền tảng web tự build để chuẩn hóa toàn bộ quá trình tự học Java, giải quyết triệt để vấn đề kiến thức lan man, phân tán bằng cách gom về 4 tab chuyên sâu: DSA, OOP, System Design, và Spring Boot.',
-      'Dự án được xây dựng toàn bộ bởi một người (Solo Fullstack), từ khâu thiết kế giao diện, kiến trúc dữ liệu, kiểm chứng nguồn tin từ NeetCode 150 & roadmap.sh, đến việc tối ưu hóa hiệu năng render bài học.',
-    ],
-  },
-  {
     _id: '1',
     title: 'StudyMate — LMS',
     slug: 'studymate',
-    order: 2,
+    order: 1,
     subtitle:
       'A Learning Management System built as a personal project, featuring role-based access, course management, and video content delivery.',
     statusBadge: 'Fullstack LMS 📚',
@@ -268,7 +189,7 @@ export const defaultProjects: ProjectItem[] = [
     _id: '2',
     title: 'VietSneaker — Marketplace',
     slug: 'vietsneaker',
-    order: 3,
+    order: 2,
     subtitle:
       'A second-hand sneaker marketplace built as a team project, with product listings, a basic recommendation system, and an admin panel.',
     statusBadge: 'Spring Boot + AI 👟',
@@ -304,7 +225,7 @@ export const defaultProjects: ProjectItem[] = [
     _id: '3',
     title: 'HCMC Metro System',
     slug: 'metrohcmc',
-    order: 4,
+    order: 3,
     subtitle:
       'A team university project simulating a metro management system with route tracking, ticketing, and basic monitoring features.',
     statusBadge: 'Biometric AI & Transit 🚇',
@@ -338,7 +259,7 @@ export const defaultProjects: ProjectItem[] = [
     _id: '4',
     title: 'Slack — Chat Platform',
     slug: 'slack',
-    order: 5,
+    order: 4,
     subtitle:
       'A personal project built as a real-time chat application designed with a microservice architecture using NestJS, Next.js, and Apache Kafka.',
     statusBadge: 'Microservices & Kafka 💬',

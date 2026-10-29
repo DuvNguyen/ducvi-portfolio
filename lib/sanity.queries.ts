@@ -3,6 +3,7 @@ export const projectsQuery = `*[_type == "project"] | order(order asc) {
   title,
   "slug": slug.current,
   order,
+  role,
   subtitle,
   statusBadge,
   mainImage,
@@ -16,10 +17,34 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
   _id,
   title,
   "slug": slug.current,
+  order,
+  role,
   subtitle,
   statusBadge,
   mainImage,
   overview,
+  problemStatement,
+  process {
+    tabRationale,
+    contentCuration,
+    architectureData
+  },
+  challenges[] {
+    title,
+    issue,
+    attempted,
+    solution,
+    reason
+  },
+  results {
+    summary,
+    modulesCount,
+    practicalImpact
+  },
+  lessons {
+    whatToDoDifferently,
+    nextSteps
+  },
   toolsUsed,
   liveDemo,
   githubFrontend,
@@ -27,7 +52,8 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
   architectureImage,
   gallery[] {
     "imageUrl": asset->url,
-    caption
+    caption,
+    alt
   }
 }`
 

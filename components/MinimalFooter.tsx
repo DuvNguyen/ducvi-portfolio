@@ -11,15 +11,15 @@ export function MinimalFooter({ profile }: MinimalFooterProps) {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-10">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-zinc-500 font-medium border-t border-black/[0.05] pt-8">
+    <footer className="w-full max-w-[1200px] mx-auto px-3.5 sm:px-6 md:px-8 py-6 sm:py-10">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-zinc-500 font-medium border-t border-black/[0.05] pt-6 sm:pt-8 text-center sm:text-left">
         {/* Left: Clean Copyright */}
         <p className="tracking-tight text-zinc-500">
           &copy; {currentYear} {profile.name || 'Vi Nguyen'}. All rights reserved.
         </p>
 
         {/* Right: Minimal Social Navigation */}
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <a
             href={profile.linkedin}
             target="_blank"

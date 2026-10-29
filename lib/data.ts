@@ -18,7 +18,7 @@ export async function getProjects(): Promise<ProjectItem[]> {
       return defaultProjects
     }
 
-    return data.map((item) => {
+    const mappedProjects = data.map((item) => {
       let resolvedImg: string | undefined = undefined
       if (item.mainImage) {
         if (typeof item.mainImage === 'string' && item.mainImage.trim() !== '') {
@@ -34,6 +34,7 @@ export async function getProjects(): Promise<ProjectItem[]> {
         title: item.title,
         slug: item.slug || item._id,
         order: item.order || 99,
+        role: item.role,
         subtitle: item.subtitle || '',
         statusBadge: item.statusBadge,
         imageUrl: resolvedImg,
@@ -43,6 +44,14 @@ export async function getProjects(): Promise<ProjectItem[]> {
         githubBackend: item.githubBackend,
       }
     })
+
+    // Merge any default projects not yet created in Sanity Cloud
+    const sanitySlugs = new Set(mappedProjects.map((p) => p.slug))
+    const missingDefaults = defaultProjects.filter((dp) => !sanitySlugs.has(dp.slug))
+
+    return [...mappedProjects, ...missingDefaults].sort(
+      (a, b) => (a.order || 99) - (b.order || 99)
+    )
   } catch (error) {
     console.warn('Error fetching projects from Sanity, falling back to default data:', error)
     return defaultProjects
@@ -92,6 +101,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
             return {
               imageUrl: url,
               caption: g?.caption || '',
+              alt: g?.alt || '',
             }
           })
           .filter((g: any) => Boolean(g.imageUrl && g.imageUrl !== ''))
@@ -112,9 +122,15 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
       title: item.title,
       slug: item.slug || slug,
       order: item.order || 1,
-      subtitle: item.subtitle || '',
-      statusBadge: item.statusBadge,
+      role: item.role || defaultProj?.role,
+      subtitle: item.subtitle || defaultProj?.subtitle || '',
+      statusBadge: item.statusBadge || defaultProj?.statusBadge,
       imageUrl: mainImgUrl || defaultProj?.imageUrl,
+      problemStatement: item.problemStatement || defaultProj?.problemStatement,
+      process: item.process || defaultProj?.process,
+      challenges: item.challenges || defaultProj?.challenges,
+      results: item.results || defaultProj?.results,
+      lessons: item.lessons || defaultProj?.lessons,
       overview: overview.length > 0 ? overview : defaultProj?.overview,
       toolsUsed: item.toolsUsed || defaultProj?.toolsUsed || [],
       liveDemo: item.liveDemo || defaultProj?.liveDemo,

@@ -84,6 +84,25 @@
     * Component [`components/ContactBentoSection.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/ContactBentoSection.tsx) thẻ bắt tay liên hệ với tiêu đề lớn *"Tell me about your next project or role"* kèm các nút hành động viên thuốc `Email Me`, `LinkedIn`, `GitHub`.
     * Component [`components/MinimalFooter.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/MinimalFooter.tsx) dải chân trang 1 hàng tối giản.
   * Đã đồng bộ hoàn chỉnh toàn bộ trang chủ [`app/page.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/app/page.tsx) theo ngôn ngữ thiết kế Soft Bento Minimalism và vượt qua kiểm thử build Next.js 100%.
+  * Đã triển khai xong **Bước 6**: **Tối ưu hóa Responsive toàn diện cho thiết bị di động (Mobile Optimization)**:
+    * Khắc phục triệt để hiện tượng tràn ngang màn hình trên điện thoại tại [`components/StackingProjectsSection.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/StackingProjectsSection.tsx): Cô lập hiệu ứng xòe thẻ chéo (`translateX` và `rotate`) chỉ kích hoạt từ breakpoint desktop (`md:`), trên mobile thẻ hiển thị thẳng thớm 100% lọt lòng viewport.
+    * Tinh chỉnh bước nhảy cuộn `topOffset` nhỏ gọn trên mobile (`16px + index * 14px`) và điều chỉnh padding (`p-5 sm:p-8 md:p-12`), chiều cao mockup preview (`h-48 sm:h-64 md:h-[360px]`).
+    * Tinh chỉnh typography trên Hero Section và Contact Section không còn bị ngắt dòng từ đơn lẻ (word orphan) trên các màn hình hẹp (360px - 390px).
+    * Bổ sung `overflow-x: hidden` trên `html, body` tại [`app/globals.css`](file:///home/levi/Desktop/Projects/Dopefolio/app/globals.css) loại bỏ hoàn toàn rung lắc ngang khi cuộn.
+  * Đã triển khai xong **Bước 7**: **Chuẩn hóa Cấu trúc Case Study 6 phần & CRUD Ảnh/GIF qua Sanity Studio**:
+    * Mở rộng Schema Sanity [`sanity/schemas/project.ts`](file:///home/levi/Desktop/Projects/Dopefolio/sanity/schemas/project.ts) với đầy đủ các trường cấu trúc chuyên sâu:
+      1. **Vai trò (Role / Ownership):** Ghi rõ vai trò (ví dụ: *"Một mình làm toàn bộ (Solo Fullstack Developer)"*).
+      2. **Vấn đề (Problem Statement):** Phân tích nỗi đau tự học lan man, thiếu nguồn kiểm chứng.
+      3. **Quá trình (Engineering Process):**
+         - Vì sao chia 4 tab (DSA, OOP, System Design, Spring Boot)
+         - Cách chọn và kiểm chứng nội dung (NeetCode 150, roadmap.sh...)
+         - Cấu trúc dữ liệu & code (Markdown/JSON phân cấp, SSG/SSR rendering)
+      4. **Khó khăn kỹ thuật (Challenges):** Các vấn đề kỹ thuật có thật giải quyết theo quy trình 4 bước: **Gặp gì → Thử gì → Chọn gì → Vì sao**.
+      5. **Kết quả & Thước đo (Results & Metrics):** Số module, số bài học đã có và thực tế áp dụng để tự học được bao nhiêu.
+      6. **Bài học & Hướng phát triển (Lessons & Next Steps):** Làm khác đi điều gì và bước tiếp theo là gì.
+      7. **Thư viện ảnh chụp & GIF (Gallery CRUD):** Toàn quyền thêm, sửa, thay thế ảnh/GIF, kéo thả đổi thứ tự, sửa caption trực tiếp trong Sanity Studio tại `/studio`.
+    * Đã thiết kế giao diện chi tiết Bento cao cấp tại [`components/ProjectDetailsView.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/ProjectDetailsView.tsx).
+    * Đã thêm và seed sẵn dữ liệu mẫu dự án **Java Learning Hub (`java-learning-hub`)** tại [`lib/defaultData.ts`](file:///home/levi/Desktop/Projects/Dopefolio/lib/defaultData.ts) và [`scripts/seed-sanity.mjs`](file:///home/levi/Desktop/Projects/Dopefolio/scripts/seed-sanity.mjs), hỗ trợ người dùng vào chỉnh sửa sau.
   * Đã tổ chức hệ thống tài liệu thiết kế & chuyển động chuyên biệt tại thư mục [`docs/design-system/`](file:///home/levi/Desktop/Projects/Dopefolio/docs/design-system/README.md).
   * Các file case study dự án trong `docs/`: `Studymate.md`, `metro.md`, `slack.md`, `Vietsneaker.md`, `info.md` và [`docs/system-design/`](file:///home/levi/Desktop/Projects/Dopefolio/docs/system-design/README.md).
 

@@ -38,59 +38,69 @@ function StackingCard({ project, index, total }: SingleCardProps) {
   const projectNumber = String(index + 1).padStart(2, '0')
   const totalCount = String(total).padStart(2, '0')
 
-  // Top offset: 32px step creates the vertical layered depth
-  const topOffset = 48 + index * 32
-  // Diagonal offset: shift slightly rightwards and gentle rotation to fan out diagonally
+  // Top offset: compact on mobile, stepped depth on desktop
+  const topDesktop = 48 + index * 32
+  const topMobile = 16 + index * 14
+  // Stepped deck fan parameters (applied only on md+ screens to preserve mobile layout)
   const xOffset = index * 14
   const rotateDeg = index * 0.6
   const isLast = index === total - 1
 
   return (
     <div
-      className={`sticky w-full flex items-start justify-center ${
-        isLast ? 'pb-0' : 'pb-14 sm:pb-20'
+      className={`sticky w-full flex items-start justify-center top-[var(--top-mobile)] md:top-[var(--top-desktop)] ${
+        isLast ? 'pb-0' : 'pb-8 sm:pb-14 md:pb-20'
       }`}
       style={{
-        top: `${topOffset}px`,
-        zIndex: index + 1, // Higher index sits on top
+        zIndex: index + 1,
+        ['--top-desktop' as any]: `${topDesktop}px`,
+        ['--top-mobile' as any]: `${topMobile}px`,
       }}
     >
       <div
-        className="w-full bg-white rounded-[32px] sm:rounded-[40px] border border-zinc-200/90 shadow-[0_-4px_16px_rgba(0,0,0,0.03),0_20px_45px_-10px_rgba(0,0,0,0.12)] p-6 sm:p-10 md:p-12 overflow-hidden transition-transform duration-500 ease-out origin-top-left"
+        className="w-full bg-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] border border-zinc-200/90 shadow-[0_-4px_16px_rgba(0,0,0,0.03),0_20px_45px_-10px_rgba(0,0,0,0.12)] p-5 sm:p-8 md:p-12 overflow-hidden transition-transform duration-500 ease-out origin-top-left md:[transform:translateX(var(--deck-x))_rotate(var(--deck-rot))]"
         style={{
-          transform: `translateX(${xOffset}px) rotate(${rotateDeg}deg)`,
+          ['--deck-x' as any]: `${xOffset}px`,
+          ['--deck-rot' as any]: `${rotateDeg}deg`,
         }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center">
           {/* Left Column: Project Details */}
           <div className="lg:col-span-5 flex flex-col justify-between h-full">
             <div>
               {/* Header Info Row */}
-              <div className="flex items-center justify-between gap-3 mb-4 sm:mb-5">
-                <span className="text-sm font-mono font-semibold text-zinc-500 tracking-wider">
+              <div className="flex flex-wrap items-center justify-between gap-2.5 mb-3 sm:mb-5">
+                <span className="text-xs sm:text-sm font-mono font-semibold text-zinc-500 tracking-wider">
                   {projectNumber} / {totalCount}
                 </span>
-                <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-zinc-100 text-zinc-800 text-xs sm:text-sm font-semibold tracking-wide">
-                  {displayBadge}
-                </span>
+                <div className="flex items-center gap-2">
+                  {project.role && (
+                    <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-zinc-50 border border-zinc-200/80 text-zinc-600 text-[11px] font-medium">
+                      {project.role}
+                    </span>
+                  )}
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-zinc-100 text-zinc-800 text-xs sm:text-sm font-semibold tracking-wide">
+                    {displayBadge}
+                  </span>
+                </div>
               </div>
 
               {/* Title */}
-              <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-bold tracking-tight text-zinc-950 mb-3.5 leading-snug">
+              <h3 className="text-xl sm:text-2xl lg:text-[30px] font-bold tracking-tight text-zinc-950 mb-2.5 sm:mb-3.5 leading-snug">
                 {cleanText(project.title)}
               </h3>
 
               {/* Description */}
-              <p className="text-base sm:text-lg lg:text-xl text-zinc-600 leading-relaxed font-normal mb-6">
+              <p className="text-sm sm:text-base lg:text-lg text-zinc-600 leading-relaxed font-normal mb-4 sm:mb-6">
                 {project.subtitle}
               </p>
 
               {/* Tech Stack Pills */}
-              <div className="flex flex-wrap gap-2 mb-8">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-6 sm:mb-8">
                 {project.toolsUsed.slice(0, 5).map((tool) => (
                   <span
                     key={tool}
-                    className="text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full bg-zinc-50 border border-zinc-200/80 text-zinc-700"
+                    className="text-[11px] sm:text-xs md:text-sm font-medium px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-zinc-50 border border-zinc-200/80 text-zinc-700"
                   >
                     {tool}
                   </span>
@@ -99,13 +109,13 @@ function StackingCard({ project, index, total }: SingleCardProps) {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-5 border-t border-zinc-100">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-4 sm:pt-5 border-t border-zinc-100">
               <Link
                 href={`/projects/${project.slug}`}
-                className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-6 py-3 text-sm sm:text-base font-medium text-white hover:bg-zinc-800 transition-colors shadow-2xs"
+                className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-4.5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm md:text-base font-medium text-white hover:bg-zinc-800 transition-colors shadow-2xs"
               >
                 Case Study
-                <ArrowUpRight className="w-4 h-4 text-zinc-400" />
+                <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400" />
               </Link>
 
               {project.liveDemo && (
@@ -117,10 +127,10 @@ function StackingCard({ project, index, total }: SingleCardProps) {
                   href={project.liveDemo}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-zinc-200 bg-white text-zinc-800 text-sm sm:text-base font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full border border-zinc-200 bg-white text-zinc-800 text-xs sm:text-sm md:text-base font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
                 >
                   Live Demo
-                  <ExternalLink className="w-4 h-4 text-zinc-400" />
+                  <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400" />
                 </motion.a>
               )}
 
@@ -133,9 +143,9 @@ function StackingCard({ project, index, total }: SingleCardProps) {
                   href={project.githubBackend}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-zinc-200 bg-white text-zinc-800 text-sm sm:text-base font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full border border-zinc-200 bg-white text-zinc-800 text-xs sm:text-sm md:text-base font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
                 >
-                  <Code2 className="w-4 h-4 text-zinc-600" />
+                  <Code2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-600" />
                   Code
                 </motion.a>
               )}
@@ -144,7 +154,7 @@ function StackingCard({ project, index, total }: SingleCardProps) {
 
           {/* Right Column: High-Res Project Preview Mockup */}
           <div className="lg:col-span-7">
-            <div className="relative w-full h-64 sm:h-80 md:h-[400px] lg:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-100 border border-black/[0.05] shadow-inner group">
+            <div className="relative w-full h-48 sm:h-64 md:h-[360px] lg:h-[420px] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden bg-zinc-100 border border-black/[0.05] shadow-inner group">
               <Image
                 src={imageSrc}
                 alt={project.title}

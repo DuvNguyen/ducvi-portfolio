@@ -18,7 +18,7 @@ export default async function HomePage() {
       <TechMarquee />
       <CapabilitiesSection profile={profile} />
       <StackingProjectsSection projects={projects} />
-      <div className="relative z-30 bg-canvas">
+      <div className="relative bg-canvas">
         <AboutBentoSection profile={profile} />
         <ContactBentoSection profile={profile} />
         <MinimalFooter profile={profile} />

@@ -52,7 +52,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               whileHover="hover"
               whileTap="tap"
               onClick={handleCopyEmail}
-              className="inline-flex items-center px-3 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
+              className="inline-flex items-center justify-center min-h-[36px] sm:min-h-[32px] px-3.5 py-1.5 sm:py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors cursor-pointer shadow-2xs"
               aria-label="Copy email address"
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -88,7 +88,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
               href={profile.cvUrl || '/assets/cv.pdf'}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center px-3 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+              className="inline-flex items-center justify-center min-h-[36px] sm:min-h-[32px] px-3.5 py-1.5 sm:py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 text-xs sm:text-sm font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
             >
               CV
             </motion.a>

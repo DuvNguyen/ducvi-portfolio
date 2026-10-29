@@ -24,6 +24,11 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   return (
     <ReactLenis
       root
+      ref={(instance) => {
+        if (typeof window !== 'undefined') {
+          ;(window as any).lenis = instance?.lenis
+        }
+      }}
       options={{
         lerp: 0.08,
         duration: 1.4,

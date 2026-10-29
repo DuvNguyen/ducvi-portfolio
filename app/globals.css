@@ -36,3 +36,20 @@ html.lenis body {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+
+/* Stacking Project Cards: Responsive Sticky & Fan Physics */
+.stacking-card-item {
+  top: var(--top-mobile);
+}
+.stacking-card-content {
+  transform: translateX(var(--x-mobile)) rotate(var(--rot-mobile));
+}
+
+@media (min-width: 768px) {
+  .stacking-card-item {
+    top: var(--top-desktop);
+  }
+  .stacking-card-content {
+    transform: translateX(var(--x-desktop)) rotate(var(--rot-desktop));
+  }
+}

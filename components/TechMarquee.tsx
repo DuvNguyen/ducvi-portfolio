@@ -22,7 +22,7 @@ const technologies: TechItem[] = [
 
 export function TechMarquee() {
   return (
-    <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 py-6 sm:py-8">
+    <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 py-6 sm:py-8 overflow-hidden">
       {/* Subtle Container with soft fade edges */}
       <div className="relative overflow-hidden py-4 border-y border-black/[0.05]">
         {/* Left & Right gradient fade masks for clean edge transitions */}

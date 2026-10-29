@@ -33,7 +33,8 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
         lerp: 0.08,
         duration: 1.4,
         wheelMultiplier: 0.85,
-        touchMultiplier: 1.5,
+        touchMultiplier: 0,
+        syncTouch: false,
         smoothWheel: true,
       }}
     >

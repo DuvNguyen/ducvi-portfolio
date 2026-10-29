@@ -40,9 +40,15 @@ html.lenis body {
 /* Stacking Project Cards: Responsive Sticky & Fan Physics */
 .stacking-card-item {
   top: var(--top-mobile);
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .stacking-card-content {
-  transform: translateX(var(--x-mobile)) rotate(var(--rot-mobile));
+  transform: none;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 @media (min-width: 768px) {

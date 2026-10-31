@@ -1,6 +1,6 @@
 # Bàn Giao & Tiến Độ Dự Án (Project Handover)
 
-> **Cập nhật ngày:** 28/10/2026  
+> **Cập nhật ngày:** 31/10/2026  
 > **Chủ sở hữu:** Nguyễn Đức Vĩ  
 > **Dự án:** Dopefolio Portfolio & Domain Setup  
 
@@ -49,7 +49,7 @@
 ## 2. Trạng thái Mã nguồn Dự án (Codebase Status)
 
 * **Repository:** `Dopefolio`
-* **Git Branch hiện tại:** `next-sanity-migration`
+* **Git Branch hiện tại:** `main`
 * **Tiến trình kỹ thuật:**
   * Đã cài đặt `tailwindcss`, `postcss`, `autoprefixer`, `framer-motion` và cấu hình tại [`tailwind.config.js`](file:///home/levi/Desktop/Projects/Dopefolio/tailwind.config.js) cùng [`app/globals.css`](file:///home/levi/Desktop/Projects/Dopefolio/app/globals.css).
   * Đã tạo preset chuyển động lò xo tại [`lib/motion.ts`](file:///home/levi/Desktop/Projects/Dopefolio/lib/motion.ts).
@@ -103,6 +103,14 @@
       7. **Thư viện ảnh chụp & GIF (Gallery CRUD):** Toàn quyền thêm, sửa, thay thế ảnh/GIF, kéo thả đổi thứ tự, sửa caption trực tiếp trong Sanity Studio tại `/studio`.
     * Đã thiết kế giao diện chi tiết Bento cao cấp tại [`components/ProjectDetailsView.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/ProjectDetailsView.tsx).
     * Đã thêm và seed sẵn dữ liệu mẫu dự án **Java Learning Hub (`java-learning-hub`)** tại [`lib/defaultData.ts`](file:///home/levi/Desktop/Projects/Dopefolio/lib/defaultData.ts) và [`scripts/seed-sanity.mjs`](file:///home/levi/Desktop/Projects/Dopefolio/scripts/seed-sanity.mjs), hỗ trợ người dùng vào chỉnh sửa sau.
+  * Đã triển khai xong **Bước 8**: **Chuẩn hóa Tiêu đề Tab & Nhận diện Thương hiệu Cá nhân (Global Title Standardization)**:
+    * Đồng bộ toàn diện tiêu đề tab trình duyệt về format tối giản chuẩn mực `Vi Nguyen` tại [`app/layout.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/app/layout.tsx), [`sanity.config.ts`](file:///home/levi/Desktop/Projects/Dopefolio/sanity.config.ts) và [`index.html`](file:///home/levi/Desktop/Projects/Dopefolio/index.html).
+    * Thiết lập bộ theo dõi `MutationObserver` tại [`app/studio/[[...tool]]/page.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/app/studio/[[...tool]]/page.tsx) đảm bảo tiêu đề tab trang quản trị Sanity Studio luôn khóa cố định ở `Vi Nguyen`, ngăn CMS tự ý ghi đè tên workspace.
+  * Đã triển khai xong **Bước 9**: **Tối ưu Mobile Coverflow Carousel & Hoàn thiện Trình bày Case Study**:
+    * Chuẩn hóa typography kích thước rem cơ sở 16px trên mobile, hiển thị avatar cá nhân thoáng đãng không bị che khuất và nút mũi tên CTA SVG sắc nét.
+    * Thêm Coverflow Swipe Carousel hỗ trợ cử chỉ vuốt chạm native mượt mà trên mobile cho danh sách dự án.
+    * Tinh chỉnh độ dính cuộn thẻ (sticky scroll clearance) liền mạch, mượt mà giữa các section.
+    * Chuẩn hóa nội dung case study SDv26 bằng tiếng Anh, loại bỏ letterboxing và đồng bộ Sanity schemas.
   * Đã tổ chức hệ thống tài liệu thiết kế & chuyển động chuyên biệt tại thư mục [`docs/design-system/`](file:///home/levi/Desktop/Projects/Dopefolio/docs/design-system/README.md).
   * Các file case study dự án trong `docs/`: `Studymate.md`, `metro.md`, `slack.md`, `Vietsneaker.md`, `info.md` và [`docs/system-design/`](file:///home/levi/Desktop/Projects/Dopefolio/docs/system-design/README.md).
 

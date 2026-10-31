@@ -12,7 +12,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Vi Nguyen | IT Student Portfolio',
+  title: 'Vi Nguyen',
   description:
     'Vi Nguyen is a final-year Information Technology student who enjoys building full-stack web applications through personal and academic projects.',
   icons: {

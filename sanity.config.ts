@@ -7,7 +7,7 @@ export default defineConfig({
   basePath: '/studio',
   projectId,
   dataset,
-  title: 'Vi Nguyen Portfolio Studio',
+  title: 'Vi Nguyen',
   schema: {
     types: schemaTypes,
   },

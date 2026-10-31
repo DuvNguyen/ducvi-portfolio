@@ -114,7 +114,7 @@
   * Đã triển khai xong **Bước 10**: **Quản trị Mạng Xã hội Động (Social Links Collection) & Header Cuộn Ẩn/Hiện Tự Động**:
     * Nâng cấp schema Sanity [`sanity/schemas/profile.ts`](file:///home/levi/Desktop/Projects/Dopefolio/sanity/schemas/profile.ts) từ 2 trường cố định thành collection `socialLinks` (mảng đối tượng gồm tên nền tảng `name` + đường dẫn `url`), cho phép thêm không giới hạn các tài khoản (LinkedIn, GitHub, X, LeetCode, Facebook, Telegram...).
     * Tích hợp render động trên toàn bộ hệ thống giao diện: Hero Top Navigation, Contact Action Buttons, và Minimal Footer kèm cơ chế fallback dữ liệu cũ an toàn.
-    * Nâng cấp component [`components/Header.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/Header.tsx) với animation mượt mà từ `framer-motion`: trượt lên và ẩn đi khi người dùng cuộn chuột xuống, tự động trượt xuống hiển thị lại khi cuộn về đầu trang (`scrollY <= 50`).
+    * Nâng cấp component [`components/Header.tsx`](file:///home/levi/Desktop/Projects/Dopefolio/components/Header.tsx) theo chuẩn **Smart Sticky Reveal on Scroll Up**: Luôn hiển thị tại đầu trang (`scrollY <= 50`), trượt lên ẩn đi (`y: -90`, `opacity: 0`) khi cuộn xuống để tối ưu không gian đọc, và tự động trượt xuống xuất hiện ngay lập tức khi người dùng cuộn ngược lên ở bất kỳ đâu trên trang (có ngưỡng delta 6px chống rung giật).
   * Đã tổ chức hệ thống tài liệu thiết kế & chuyển động chuyên biệt tại thư mục [`docs/design-system/`](file:///home/levi/Desktop/Projects/Dopefolio/docs/design-system/README.md).
   * Các file case study dự án trong `docs/`: `Studymate.md`, `metro.md`, `slack.md`, `Vietsneaker.md`, `info.md` và [`docs/system-design/`](file:///home/levi/Desktop/Projects/Dopefolio/docs/system-design/README.md).
 

@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'profile',
@@ -105,16 +105,55 @@ export default defineType({
       initialValue: 'nducvi.information@gmail.com',
     }),
     defineField({
-      name: 'linkedin',
-      title: 'LinkedIn URL',
-      type: 'url',
-      initialValue: 'https://linkedin.com/in/nducviinformation/',
-    }),
-    defineField({
-      name: 'github',
-      title: 'GitHub URL',
-      type: 'url',
-      initialValue: 'https://github.com/DuvNguyen',
+      name: 'socialLinks',
+      title: 'Social Links & Profiles',
+      description:
+        'Add, reorder, or customize social profiles (e.g. LinkedIn, GitHub, X, LeetCode, Facebook, Telegram) with platform name and URL link',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'socialItem',
+          title: 'Social Link',
+          fields: [
+            defineField({
+              name: 'name',
+              title: 'Platform Name',
+              type: 'string',
+              description: 'e.g. LinkedIn, GitHub, X (Twitter), LeetCode, Facebook',
+              validation: (Rule) => Rule.required().error('Platform name is required'),
+            }),
+            defineField({
+              name: 'url',
+              title: 'Profile URL',
+              type: 'url',
+              description: 'https://...',
+              validation: (Rule) =>
+                Rule.required().uri({
+                  scheme: ['http', 'https', 'mailto'],
+                }),
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'name',
+              subtitle: 'url',
+            },
+          },
+        }),
+      ],
+      initialValue: [
+        {
+          _key: 'linkedin',
+          name: 'LinkedIn',
+          url: 'https://linkedin.com/in/nducviinformation/',
+        },
+        {
+          _key: 'github',
+          name: 'GitHub',
+          url: 'https://github.com/DuvNguyen',
+        },
+      ],
     }),
     defineField({
       name: 'cvFile',

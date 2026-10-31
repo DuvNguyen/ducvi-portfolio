@@ -168,8 +168,22 @@ export async function getProfile(): Promise<ProfileData> {
       contactHeading: data.contactHeading || defaultProfile.contactHeading,
       contactSubtitle: data.contactSubtitle || defaultProfile.contactSubtitle,
       email: data.email || defaultProfile.email,
-      linkedin: data.linkedin || defaultProfile.linkedin,
-      github: data.github || defaultProfile.github,
+      socialLinks: data.socialLinks?.length
+        ? data.socialLinks
+        : data.linkedin || data.github
+          ? [
+              ...(data.linkedin ? [{ name: 'LinkedIn', url: data.linkedin }] : []),
+              ...(data.github ? [{ name: 'GitHub', url: data.github }] : []),
+            ]
+          : defaultProfile.socialLinks,
+      linkedin:
+        data.socialLinks?.find((s: any) => s.name?.toLowerCase().includes('linkedin'))?.url ||
+        data.linkedin ||
+        defaultProfile.linkedin,
+      github:
+        data.socialLinks?.find((s: any) => s.name?.toLowerCase().includes('github'))?.url ||
+        data.github ||
+        defaultProfile.github,
       cvUrl: data.cvUrl || defaultProfile.cvUrl,
     }
   } catch (error) {

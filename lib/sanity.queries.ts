@@ -86,6 +86,10 @@ export const profileQuery = `*[_type == "profile"][0] {
   contactHeading,
   contactSubtitle,
   email,
+  socialLinks[] {
+    name,
+    url
+  },
   linkedin,
   github,
   "cvUrl": cvFile.asset->url

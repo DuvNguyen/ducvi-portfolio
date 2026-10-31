@@ -58,6 +58,11 @@ export interface CapabilityItem {
   description: string
 }
 
+export interface SocialLinkItem {
+  name: string
+  url: string
+}
+
 export interface ProfileData {
   name: string
   headline: string
@@ -68,6 +73,7 @@ export interface ProfileData {
   aboutParagraphs: string[]
   skills: string[]
   email: string
+  socialLinks?: SocialLinkItem[]
   linkedin: string
   github: string
   cvUrl: string
@@ -147,6 +153,16 @@ export const defaultProfile: ProfileData = {
     'Tailwind CSS',
   ],
   email: 'nducvi.information@gmail.com',
+  socialLinks: [
+    {
+      name: 'LinkedIn',
+      url: 'https://linkedin.com/in/nducviinformation/',
+    },
+    {
+      name: 'GitHub',
+      url: 'https://github.com/DuvNguyen',
+    },
+  ],
   linkedin: 'https://linkedin.com/in/nducviinformation/',
   github: 'https://github.com/DuvNguyen',
   cvUrl: '/assets/cv.pdf',

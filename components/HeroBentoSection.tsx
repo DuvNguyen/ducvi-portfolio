@@ -95,24 +95,26 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
           </div>
 
           {/* Right: Clean Social Navigation */}
-          <div className="flex items-center gap-3 sm:gap-5 text-zinc-500 font-medium text-xs sm:text-sm">
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-zinc-950 transition-colors py-1"
-            >
-              LinkedIn
-            </a>
-            <span className="text-zinc-300 font-light">/</span>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-zinc-950 transition-colors py-1"
-            >
-              GitHub
-            </a>
+          <div className="flex items-center flex-wrap justify-center sm:justify-end gap-3 sm:gap-5 text-zinc-500 font-medium text-xs sm:text-sm">
+            {(profile.socialLinks && profile.socialLinks.length > 0
+              ? profile.socialLinks
+              : [
+                  { name: 'LinkedIn', url: profile.linkedin },
+                  { name: 'GitHub', url: profile.github },
+                ]
+            ).map((social, idx) => (
+              <React.Fragment key={social.name || idx}>
+                {idx > 0 && <span className="text-zinc-300 font-light">/</span>}
+                <a
+                  href={social.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-zinc-950 transition-colors py-1"
+                >
+                  {social.name}
+                </a>
+              </React.Fragment>
+            ))}
             <span className="text-zinc-300 font-light">/</span>
             <a
               href={`mailto:${displayEmail}`}

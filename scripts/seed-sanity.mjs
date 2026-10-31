@@ -150,6 +150,18 @@ async function seed() {
       'Tailwind CSS',
     ],
     email: 'nducvi.information@gmail.com',
+    socialLinks: [
+      {
+        _key: 'linkedin',
+        name: 'LinkedIn',
+        url: 'https://linkedin.com/in/nducviinformation/',
+      },
+      {
+        _key: 'github',
+        name: 'GitHub',
+        url: 'https://github.com/DuvNguyen',
+      },
+    ],
     linkedin: 'https://linkedin.com/in/nducviinformation/',
     github: 'https://github.com/DuvNguyen',
   }

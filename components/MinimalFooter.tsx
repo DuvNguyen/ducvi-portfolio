@@ -19,24 +19,26 @@ export function MinimalFooter({ profile }: MinimalFooterProps) {
         </p>
 
         {/* Right: Minimal Social Navigation */}
-        <div className="flex items-center gap-3 sm:gap-6">
-          <a
-            href={profile.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            className="hover:text-zinc-950 transition-colors"
-          >
-            LinkedIn
-          </a>
-          <span className="text-zinc-300">/</span>
-          <a
-            href={profile.github}
-            target="_blank"
-            rel="noreferrer"
-            className="hover:text-zinc-950 transition-colors"
-          >
-            GitHub
-          </a>
+        <div className="flex items-center flex-wrap justify-center sm:justify-end gap-3 sm:gap-6">
+          {(profile.socialLinks && profile.socialLinks.length > 0
+            ? profile.socialLinks
+            : [
+                { name: 'LinkedIn', url: profile.linkedin },
+                { name: 'GitHub', url: profile.github },
+              ]
+          ).map((social, idx) => (
+            <React.Fragment key={social.name || idx}>
+              {idx > 0 && <span className="text-zinc-300">/</span>}
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-zinc-950 transition-colors"
+              >
+                {social.name}
+              </a>
+            </React.Fragment>
+          ))}
           <span className="text-zinc-300">/</span>
           <a
             href={`mailto:${profile.email}`}

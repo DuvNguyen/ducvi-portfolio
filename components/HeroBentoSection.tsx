@@ -26,7 +26,7 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
   }
 
   return (
-    <section className="w-full pt-4 sm:pt-6 md:pt-10 pb-4 sm:pb-6 px-3.5 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
+    <section className="w-full pt-3.5 sm:pt-6 md:pt-8 pb-4 sm:pb-6 px-3.5 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
       {/* Main Soft Bento Card */}
       <motion.div
         variants={containerVariants}

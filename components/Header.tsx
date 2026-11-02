@@ -9,31 +9,33 @@ import { motion } from 'framer-motion'
 
 export function Header() {
   const pathname = usePathname()
-  const [isVisible, setIsVisible] = useState(true)
+  const isHome = pathname === '/'
+  // Start hidden at the top of the homepage so there is no reserved space or gap at first
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     let lastScrollY = window.scrollY || document.documentElement.scrollTop
-    const SCROLL_THRESHOLD = 6 // Minimum scroll delta in pixels to trigger state change
-    const TOP_OFFSET = 50 // Always stay visible within 50px of the top
+    const SCROLL_THRESHOLD = 10 // Minimum scroll delta in pixels to trigger state change
+    const TOP_OFFSET = 80 // When near the top, keep hidden so hero stays clean
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY || document.documentElement.scrollTop
       const diff = currentScrollY - lastScrollY
 
-      // 1. Always reveal and stay visible when near the very top of the page
+      // 1. Hide when near the very top of the page (no header & no gap at first)
       if (currentScrollY <= TOP_OFFSET) {
-        setIsVisible(true)
+        setIsVisible(false)
         lastScrollY = currentScrollY
         return
       }
 
-      // 2. Only react if scroll delta exceeds the threshold (prevents micro-jitter)
+      // 2. When scrolled past TOP_OFFSET:
       if (Math.abs(diff) >= SCROLL_THRESHOLD) {
         if (diff > 0) {
-          // Scrolling DOWN -> slide up & hide to grant 100% full-screen reading focus
+          // Scrolling DOWN -> slide up & hide for clean reading focus
           setIsVisible(false)
         } else {
-          // Scrolling UP -> smoothly reveal header for quick navigation
+          // Scrolling UP -> smoothly reveal floating header
           setIsVisible(true)
         }
         lastScrollY = currentScrollY
@@ -43,24 +45,25 @@ export function Header() {
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [pathname])
+  }, [pathname, isHome])
 
   // Inside Sanity Studio, hide the floating header so CMS has full viewport control
   if (pathname.startsWith('/studio')) {
     return null
   }
 
-  const isHome = pathname === '/'
-
   return (
     <motion.header
-      initial={{ y: 0, opacity: 1 }}
+      initial={{ y: -90, opacity: 0 }}
       animate={{
         y: isVisible ? 0 : -90,
         opacity: isVisible ? 1 : 0,
       }}
-      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-      className="sticky top-4 z-50 w-full px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto pointer-events-none mb-2 sm:mb-4"
+      transition={{
+        duration: 0.65,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="fixed top-4 inset-x-0 z-50 w-full px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto pointer-events-none"
     >
       <div
         className={`flex items-center justify-between bg-white/90 backdrop-blur-md border border-zinc-200/90 rounded-full px-4 py-2 sm:px-6 sm:py-2.5 shadow-sm hover:shadow-md transition-all ${
@@ -95,12 +98,12 @@ export function Header() {
           <Link href="/#about" className="hover:text-zinc-950 transition-colors">
             About
           </Link>
-          <a
+          <Link
             href="/#contact"
             className="rounded-full bg-zinc-950 px-4 py-1.5 text-xs sm:text-sm font-medium text-white hover:bg-zinc-800 transition-colors shadow-2xs"
           >
             Contact
-          </a>
+          </Link>
         </nav>
       </div>
     </motion.header>

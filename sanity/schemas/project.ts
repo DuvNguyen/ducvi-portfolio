@@ -87,6 +87,21 @@ export default defineType({
       name: 'liveDemo',
       title: 'Live Demo URL',
       type: 'url',
+      description: 'The Live Demo button only appears when this link field is filled in and not hidden.',
+    }),
+    defineField({
+      name: 'hideLiveDemo',
+      title: 'Hide Live Demo Button',
+      type: 'boolean',
+      description: 'Check -> hide, dont check -> display (Live Demo button)',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'hidden',
+      title: 'Hide Project',
+      type: 'boolean',
+      description: 'Check -> hide, dont check -> display (Entire project)',
+      initialValue: false,
     }),
     defineField({
       name: 'githubFrontend',

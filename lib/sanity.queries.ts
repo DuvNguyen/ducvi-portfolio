@@ -1,4 +1,4 @@
-export const projectsQuery = `*[_type == "project"] | order(order asc) {
+export const projectsQuery = `*[_type == "project" && (!defined(hidden) || hidden == false) && slug.current != "metrohcmc" && _id != "project-metrohcmc"] | order(order asc) {
   _id,
   title,
   "slug": slug.current,
@@ -14,11 +14,13 @@ export const projectsQuery = `*[_type == "project"] | order(order asc) {
   mainImage,
   toolsUsed,
   liveDemo,
+  hideLiveDemo,
+  hidden,
   githubFrontend,
   githubBackend
 }`
 
-export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug][0] {
+export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug && slug.current != "metrohcmc" && _id != "project-metrohcmc" && (!defined(hidden) || hidden == false)][0] {
   _id,
   title,
   "slug": slug.current,
@@ -57,6 +59,8 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
   },
   toolsUsed,
   liveDemo,
+  hideLiveDemo,
+  hidden,
   githubFrontend,
   githubBackend,
   architectureImage,

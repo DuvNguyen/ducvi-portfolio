@@ -102,7 +102,7 @@ export function ProjectsBentoSection({ projects }: ProjectsBentoSectionProps) {
                 </Link>
 
                 <div className="flex items-center gap-2">
-                  {project.liveDemo && (
+                  {Boolean(project.liveDemo && project.liveDemo.trim() !== '' && !project.hideLiveDemo) && (
                     <motion.a
                       variants={pillButtonVariants}
                       initial="rest"

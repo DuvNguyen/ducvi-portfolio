@@ -18,7 +18,14 @@ export async function getProjects(): Promise<ProjectItem[]> {
       return defaultProjects
     }
 
-    return data.map((item) => {
+    const visibleData = data.filter(
+      (item) =>
+        !item.hidden &&
+        item.slug !== 'metrohcmc' &&
+        item._id !== 'project-metrohcmc'
+    )
+
+    return visibleData.map((item) => {
       let resolvedImg: string | undefined = undefined
       if (item.mainImage) {
         if (typeof item.mainImage === 'string' && item.mainImage.trim() !== '') {
@@ -29,6 +36,11 @@ export async function getProjects(): Promise<ProjectItem[]> {
         }
       }
 
+      const liveDemoClean =
+        typeof item.liveDemo === 'string' && item.liveDemo.trim() !== ''
+          ? item.liveDemo.trim()
+          : undefined
+
       return {
         _id: item._id,
         title: item.title,
@@ -38,7 +50,9 @@ export async function getProjects(): Promise<ProjectItem[]> {
         statusBadge: item.statusBadge,
         imageUrl: resolvedImg,
         toolsUsed: item.toolsUsed || [],
-        liveDemo: item.liveDemo,
+        liveDemo: liveDemoClean,
+        hideLiveDemo: Boolean(item.hideLiveDemo),
+        hidden: Boolean(item.hidden),
         githubFrontend: item.githubFrontend,
         githubBackend: item.githubBackend,
       }
@@ -50,7 +64,11 @@ export async function getProjects(): Promise<ProjectItem[]> {
 }
 
 export async function getProjectBySlug(slug: string): Promise<ProjectItem | null> {
-  const defaultProj = defaultProjects.find((p) => p.slug === slug) || null
+  if (slug === 'metrohcmc' || slug === 'project-metrohcmc') {
+    return null
+  }
+
+  const defaultProj = defaultProjects.find((p) => p.slug === slug && !p.hidden) || null
 
   if (!isSanityConfigured) {
     return defaultProj
@@ -63,7 +81,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
       revalidate: 60,
     })
 
-    if (!item) {
+    if (!item || item.hidden) {
       return defaultProj
     }
 
@@ -108,6 +126,11 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
       }
     }
 
+    const liveDemoClean =
+      typeof item.liveDemo === 'string' && item.liveDemo.trim() !== ''
+        ? item.liveDemo.trim()
+        : defaultProj?.liveDemo?.trim()
+
     return {
       _id: item._id,
       title: item.title,
@@ -125,7 +148,9 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
       lessons: item.lessons || defaultProj?.lessons,
       overview: overview.length > 0 ? overview : defaultProj?.overview,
       toolsUsed: item.toolsUsed || defaultProj?.toolsUsed || [],
-      liveDemo: item.liveDemo || defaultProj?.liveDemo,
+      liveDemo: liveDemoClean,
+      hideLiveDemo: typeof item.hideLiveDemo === 'boolean' ? item.hideLiveDemo : defaultProj?.hideLiveDemo || false,
+      hidden: typeof item.hidden === 'boolean' ? item.hidden : defaultProj?.hidden || false,
       githubFrontend: item.githubFrontend || defaultProj?.githubFrontend,
       githubBackend: item.githubBackend || defaultProj?.githubBackend,
       gallery: gallery.length > 0 ? gallery : (defaultProj?.gallery || []),

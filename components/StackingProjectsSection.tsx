@@ -111,7 +111,7 @@ function DesktopStackingCard({ project, index, total }: DesktopCardProps) {
                 <ArrowUpRight className="w-4 h-4 text-zinc-400" />
               </Link>
 
-              {project.liveDemo && (
+              {Boolean(project.liveDemo && project.liveDemo.trim() !== '' && !project.hideLiveDemo) && (
                 <motion.a
                   variants={pillButtonVariants}
                   initial="rest"
@@ -291,7 +291,7 @@ function MobileCoverflowCarousel({ projects }: MobileCoverflowProps) {
                     <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
                   </Link>
 
-                  {project.liveDemo && (
+                  {Boolean(project.liveDemo && project.liveDemo.trim() !== '' && !project.hideLiveDemo) && (
                     <a
                       href={project.liveDemo}
                       target="_blank"

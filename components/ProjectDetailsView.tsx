@@ -219,7 +219,7 @@ export function ProjectDetailsView({ project, nextProject }: ProjectDetailsViewP
 
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center gap-3 pt-2">
-            {project.liveDemo && (
+            {Boolean(project.liveDemo && project.liveDemo.trim() !== '' && !project.hideLiveDemo) && (
               <motion.a
                 variants={pillButtonVariants}
                 initial="rest"

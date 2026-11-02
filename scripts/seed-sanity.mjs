@@ -363,102 +363,10 @@ async function seed() {
       ],
     },
     {
-      id: 'project-metrohcmc',
-      title: 'HCMC Metro System',
-      slug: 'metrohcmc',
-      order: 3,
-      role: 'Fullstack Developer & Biometric AI Engineer (University Team Project)',
-      subtitle:
-        'A smart transit management simulation for HCMC Metro Line 1, integrating interactive geospatial route planning, PayOS digital ticketing, and client-side facial recognition gates.',
-      statusBadge: 'Biometric AI & Transit',
-      mainImagePath: 'assets/png/metrohcmc/homepage.png',
-      problemStatement:
-        'As urban transit modernizes with the opening of HCMC Metro Line 1 (Ben Thanh - Suoi Tien), traditional paper ticketing causes severe bottlenecking at fare gates during peak rush hours. Furthermore, passengers lack accessible digital tools for real-time station routing and automated cashless fare calculations. This project modernizes urban mobility through digital-first transit engineering.',
-      process: {
-        tabRationale:
-          'Architected across 3 modular operational pillars: Geospatial Route Navigation (interactive Leaflet maps), Automated Digital Ticketing & Cashless Settlement (PayOS), and High-Throughput Biometric Access Control (Face Recognition Gate).',
-        contentCuration:
-          '[Studio Placeholder: Geospatial data validation] Digitized precise GPS coordinates, station topologies, and transfer hubs across all 14 stations of Metro Line 1; integrated distance-based progressive fare algorithms and scheduled train runtimes.',
-        architectureData:
-          'Node.js / Express backend with PostgreSQL managing stations, schedules, routes, and transactional bookings. React 19 / TypeScript frontend integrates Leaflet for geospatial rendering and TensorFlow.js / Face-api.js for in-browser client-side facial descriptor processing.',
-      },
-      challenges: [
-        {
-          title: 'Real-Time Edge Biometric Validation at Turnstiles',
-          issue:
-            'Streaming continuous webcam video feeds to the backend server for facial recognition caused prohibitive network latency and server CPU saturation during commuter peak periods.',
-          attempted:
-            'Transmitting base64 frame snapshots to a Python microservice every 500ms.',
-          solution:
-            'Executed Face-api.js (SSD MobileNet) directly in the client browser utilizing TensorFlow.js WebGL acceleration.',
-          reason:
-            'Achieved sub-150ms verification latency on edge devices, completely eliminated server-side AI computation load, and preserved user biometric privacy.',
-        },
-        {
-          title: 'Idempotent Payment Webhook Processing with PayOS',
-          issue:
-            'Network dropouts or duplicate banking callbacks risked either unissued tickets or double-charging during cashless e-wallet transactions.',
-          attempted:
-            'Client-side periodic polling to verify transaction settlement status.',
-          solution:
-            'Engineered a secure webhook receiver with HMAC SHA-256 signature verification and idempotent PostgreSQL transactions.',
-          reason:
-            'Guaranteed that digital QR/Face tickets are issued instantaneously upon bank confirmation without double-billing risks.',
-        },
-        {
-          title: 'Dynamic Progressive Route Calculation & Map Visualization',
-          issue:
-            'Accurately representing track curves, station interchanges, and progressive tariff calculations across any start-to-finish station pair.',
-          attempted: 'Static straight-line SVG connections between station node coordinates.',
-          solution:
-            'Standardized route geo-coordinates using GeoJSON polylines in Leaflet paired with a graph-based distance fare matrix.',
-          reason:
-            'Mirrored real-world rail alignment, providing commuters with clear visual feedback and accurate fare estimates.',
-        },
-      ],
-      results: {
-        modulesCount: '14 Digitized Stations, 1 Biometric Gate, PayOS Gateway',
-        summary:
-          'Engineered a full-featured transit simulation platform combining interactive geospatial navigation, cashless checkout, and instant AI biometric ticket validation.',
-        practicalImpact:
-          'Received top academic evaluation for excellence in applying edge-computing Web AI to real-world municipal infrastructure challenges.',
-      },
-      lessons: {
-        whatToDoDifferently:
-          '[Studio Placeholder: Edge AI model retraining] Gather a broader diversity of facial training datasets under extreme lighting conditions to improve edge recognition accuracy in low-light station environments.',
-        nextSteps:
-          '[Studio Placeholder: Mobile wallet support] Develop a lightweight Progressive Web App (PWA) with offline ticketing and Apple Wallet / Google Wallet pass integrations.',
-      },
-      overview: [
-        'The HCMC Metro Smart Management System is a sophisticated platform designed to modernize urban transit operations. It integrates real-time system monitoring with advanced security features to ensure a safe and efficient passenger experience.',
-        'A standout feature is the AI-powered biometric security system built with TensorFlow.js and Face-api.js. This module aggregates facial descriptors from multiple angles to provide high-accuracy authentication for both login and automated ticket validation.',
-        'The platform also features dynamic metro mapping using Leaflet, an automated e-ticketing system integrated with PayOS, and a comprehensive admin command center for monitoring system statistics and managing line schedules in real-time.',
-      ],
-      toolsUsed: [
-        'React 19',
-        'TypeScript',
-        'Node.js',
-        'PostgreSQL',
-        'TensorFlow.js',
-        'Face-api.js',
-        'Leaflet',
-        'PayOS',
-        'Ant Design',
-        'Swagger',
-        'Node-cron',
-      ],
-      githubBackend: 'https://github.com/Ryhtruly/metroHcmc---web-service',
-      gallery: [
-        { path: 'assets/png/metrohcmc/couponManagement.png', caption: 'Coupon Management' },
-        { path: 'assets/png/metrohcmc/lineManagement.png', caption: 'Metro Line Management' },
-        { path: 'assets/png/metrohcmc/stationManagement.png', caption: 'Station Management' },
-      ],
-    },
-    {
       id: 'project-slack',
       title: 'Slack — Chat Platform',
       slug: 'slack',
-      order: 4,
+      order: 3,
       role: 'Solo Backend & Cloud Architect (Personal Research Project)',
       subtitle:
         'A distributed real-time messaging architecture engineered with NestJS, Apache Kafka, Socket.IO, and Redis, implementing a strict Database-per-Service microservices pattern.',
@@ -583,6 +491,8 @@ async function seed() {
       statusBadge: proj.statusBadge,
       toolsUsed: proj.toolsUsed,
       liveDemo: proj.liveDemo,
+      hideLiveDemo: Boolean(proj.hideLiveDemo),
+      hidden: Boolean(proj.hidden),
       githubBackend: proj.githubBackend,
       githubFrontend: proj.githubFrontend,
       problemStatement: proj.problemStatement,
@@ -603,10 +513,6 @@ async function seed() {
       ...(mainImageRef ? { mainImage: mainImageRef } : {}),
       ...(galleryRefs.length > 0 ? { gallery: galleryRefs } : {}),
     }
-
-    await client.createOrReplace(doc)
-    console.log(`✓ Project [${proj.title}] synced to Sanity.\n`)
-  }
 
     await client.createOrReplace(doc)
     console.log(`✓ Project [${proj.title}] synced to Sanity.\n`)

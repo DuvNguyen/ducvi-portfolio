@@ -118,19 +118,123 @@ async function seed() {
       "I don't have professional work experience yet, but I'm genuinely interested in software development and always trying to improve through building things. I'm open to internship opportunities where I can contribute and keep growing.",
     ],
     skills: [
-      'NestJS',
-      'Spring Boot',
-      'Next.js',
-      'React',
-      'TypeScript',
-      'PostgreSQL',
-      'Redis',
-      'Docker',
-      'Apache Kafka',
-      'CI/CD',
-      'RESTful API',
-      'GIT',
-      'Swagger',
+      {
+        _key: 'skill_nestjs',
+        _type: 'skillItem',
+        name: 'NestJS',
+        yearsOrLevel: 'Proficient • Core Backend Framework',
+        experience:
+          'Architected modular, maintainable backend services following SOLID principles. Built custom metadata reflection decorators and reusable Guard layers for multi-tier RBAC, integrated TypeORM with PostgreSQL, and engineered asynchronous microservices across StudyMate LMS and Slack Chat.',
+        highlights: ['StudyMate LMS', 'Slack Chat Microservices', 'RBAC Guards & Decorators', 'TypeORM Integration'],
+      },
+      {
+        _key: 'skill_springboot',
+        _type: 'skillItem',
+        name: 'Spring Boot',
+        yearsOrLevel: 'Proficient • Enterprise Java',
+        experience:
+          'Developed robust RESTful services and enterprise backends using Java and Spring Boot. Implemented Spring Security with stateless JWT and Google OAuth2, designed JPA Specifications for complex multi-facet filtering, and integrated Redis caching in VietSneaker.',
+        highlights: ['VietSneaker Marketplace', 'Spring Security & JWT', 'JPA Specifications', 'OAuth2 Social Login'],
+      },
+      {
+        _key: 'skill_nextjs',
+        _type: 'skillItem',
+        name: 'Next.js',
+        yearsOrLevel: 'Proficient • Full-Stack SSR & App Router',
+        experience:
+          'Engineered high-performance web applications using Next.js 14 & 15 App Router, Server Components, and Incremental Static Regeneration (ISR). Integrated headless Sanity CMS with visual editing, dynamic routing, and fast client-side transitions.',
+        highlights: ['App Router & ISR', 'StudyMate & VietSneaker UI', 'Sanity Studio CMS', 'Server & Client Components'],
+      },
+      {
+        _key: 'skill_react',
+        _type: 'skillItem',
+        name: 'React',
+        yearsOrLevel: 'Proficient • Modern Frontend',
+        experience:
+          'Crafted interactive, component-driven user interfaces with modern React (hooks, context, state management). Focused on performance optimization, accessible UI components with Tailwind CSS, and fluid interactive modal dialogs.',
+        highlights: ['React 18 & 19', 'Custom Hooks & State', 'Framer Motion Animations', 'Tailwind UI Systems'],
+      },
+      {
+        _key: 'skill_typescript',
+        _type: 'skillItem',
+        name: 'TypeScript',
+        yearsOrLevel: 'Proficient • Type Safety',
+        experience:
+          'Applied strict TypeScript across frontend and backend codebases. Defined shared DTO contracts, domain entities, and runtime schema validation with Zod and class-validator to ensure end-to-end type safety and prevent runtime regressions.',
+        highlights: ['End-to-End Type Safety', 'Zod & Class-Validator', 'Shared DTO Contracts', 'Generic Utility Types'],
+      },
+      {
+        _key: 'skill_postgres',
+        _type: 'skillItem',
+        name: 'PostgreSQL',
+        yearsOrLevel: 'Intermediate • Relational DB',
+        experience:
+          'Designed normalized relational schemas, index strategies, and complex entity relations using TypeORM. Implemented a Database-per-Service pattern in Slack Chat with 3 isolated PostgreSQL instances for complete domain separation.',
+        highlights: ['Database-per-Service Pattern', 'TypeORM Migrations', 'Foreign Keys & Indexes', 'Transaction Management'],
+      },
+      {
+        _key: 'skill_redis',
+        _type: 'skillItem',
+        name: 'Redis',
+        yearsOrLevel: 'Intermediate • Caching & Pub/Sub',
+        experience:
+          'Leveraged Redis for sub-millisecond query caching, user session storage, and refresh token rotation. Integrated the Socket.IO Redis Adapter to distribute real-time WebSocket events horizontally across multi-replica chat nodes.',
+        highlights: ['Socket.IO Redis Adapter', 'Query Cache (VietSneaker)', 'Token Rotation', 'Pub/Sub Event Bus'],
+      },
+      {
+        _key: 'skill_docker',
+        _type: 'skillItem',
+        name: 'Docker',
+        yearsOrLevel: 'Intermediate • Containerization',
+        experience:
+          'Created multi-stage Dockerfiles for optimized production builds. Orchestrated local development environments using Docker Compose—managing PostgreSQL, Kafka, Zookeeper, Redis, and backend service instances seamlessly.',
+        highlights: ['Docker Compose Multi-Container', 'Multi-Stage Builds', 'Kafka & DB Containerization', 'Local Dev Environments'],
+      },
+      {
+        _key: 'skill_kafka',
+        _type: 'skillItem',
+        name: 'Apache Kafka',
+        yearsOrLevel: 'Practical • Distributed Streaming',
+        experience:
+          'Implemented event-driven messaging and Event-Carried State Transfer across microservices. Partitioned topic streams using channelId for strict FIFO message ordering, decoupling burst chat throughput from database write constraints.',
+        highlights: ['Event-Carried State Transfer', 'FIFO Partitioning', 'Consumer Groups', 'Decoupled Microservices'],
+      },
+      {
+        _key: 'skill_cicd',
+        _type: 'skillItem',
+        name: 'CI/CD',
+        yearsOrLevel: 'Practical • Automation Pipelines',
+        experience:
+          'Configured automated GitHub Actions workflows for continuous integration, code linting, automated testing, and zero-downtime continuous deployment pipelines targeting Vercel and cloud platforms upon branch merges.',
+        highlights: ['GitHub Actions Workflows', 'Automated Typecheck & Lint', 'Vercel Continuous Deployment', 'Branch Protection'],
+      },
+      {
+        _key: 'skill_rest',
+        _type: 'skillItem',
+        name: 'RESTful API',
+        yearsOrLevel: 'Proficient • API Architecture',
+        experience:
+          'Designed standardized, resource-oriented RESTful APIs with consistent HTTP status conventions, pagination, filtering, and structured error responses. Implemented secure webhook endpoints with Svix cryptographic signature verification.',
+        highlights: ['API Contract Design', 'Svix Cryptographic Webhooks', 'Pagination & Filtering', 'Idempotent Operations'],
+      },
+      {
+        _key: 'skill_git',
+        _type: 'skillItem',
+        name: 'GIT',
+        yearsOrLevel: 'Proficient • Version Control',
+        experience:
+          'Proficient with Git workflows, Git Flow branching strategies, interactive rebasing, semantic commit conventions, and pull request reviews across solo and collaborative university projects.',
+        highlights: ['Feature Branching & PRs', 'Interactive Rebase', 'Semantic Commits', 'Conflict Resolution'],
+      },
+      {
+        _key: 'skill_swagger',
+        _type: 'skillItem',
+        name: 'Swagger',
+        yearsOrLevel: 'Proficient • OpenAPI Documentation',
+        experience:
+          'Documented RESTful APIs with OpenAPI 3.0 / Swagger annotations in NestJS (@nestjs/swagger) and Spring Boot (springdoc-openapi). Generated interactive API sandboxes to streamline frontend-backend testing and contracts.',
+        highlights: ['OpenAPI 3.0 Specifications', '@nestjs/swagger Decorators', 'Springdoc OpenAPI', 'Interactive Testing Sandbox'],
+      },
     ],
     contactHeading: 'Tell me about your next project or role',
     contactSubtitle:

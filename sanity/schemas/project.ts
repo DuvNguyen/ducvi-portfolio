@@ -51,7 +51,7 @@ export default defineType({
       name: 'stats',
       title: 'Key Impact Numbers / Metrics (SDv26 Bar)',
       type: 'array',
-      description: '3 key impact numbers shown in the top metrics bar (e.g. 500+, <150ms, 90%)',
+      description: 'Key impact metrics shown in the top metrics bar (e.g. 500+, <150ms, 90%)',
       of: [
         {
           type: 'object',
@@ -61,6 +61,17 @@ export default defineType({
             defineField({ name: 'label', title: 'Metric Label', type: 'string' }),
             defineField({ name: 'description', title: 'Description / Context', type: 'text', rows: 2 }),
           ],
+          preview: {
+            select: {
+              title: 'value',
+              subtitle: 'label',
+            },
+            prepare({ title, subtitle }) {
+              return {
+                title: title ? `${title} — ${subtitle || ''}` : subtitle || 'Metric',
+              }
+            },
+          },
         },
       ],
     }),
@@ -194,6 +205,19 @@ export default defineType({
               rows: 2,
             }),
           ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'solution',
+              issue: 'issue',
+            },
+            prepare({ title, subtitle, issue }) {
+              return {
+                title: title || 'Untitled Challenge',
+                subtitle: subtitle ? `Chosen: ${subtitle}` : issue || 'No details yet',
+              }
+            },
+          },
         },
       ],
     }),

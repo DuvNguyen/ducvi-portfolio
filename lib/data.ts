@@ -1,7 +1,64 @@
 import { client, sanityFetch, isSanityConfigured } from './sanity.client'
 import { projectsQuery, projectBySlugQuery, profileQuery } from './sanity.queries'
-import { defaultProjects, defaultProfile, type ProjectItem, type ProfileData } from './defaultData'
+import {
+  defaultProjects,
+  defaultProfile,
+  type ProjectItem,
+  type ProfileData,
+  type SkillItem,
+} from './defaultData'
 import { urlForImage } from './sanity.image'
+
+function normalizeSkills(rawSkills: any[] | undefined): SkillItem[] {
+  if (!rawSkills || !Array.isArray(rawSkills) || rawSkills.length === 0) {
+    return defaultProfile.skills
+  }
+
+  const defaultMap = new Map<string, SkillItem>()
+  for (const s of defaultProfile.skills) {
+    defaultMap.set(s.name.toLowerCase().trim(), s)
+  }
+
+  return rawSkills
+    .map((item): SkillItem | null => {
+      if (!item) return null
+
+      if (typeof item === 'string') {
+        const trimmed = item.trim()
+        if (!trimmed) return null
+        const fallback = defaultMap.get(trimmed.toLowerCase())
+        return {
+          name: trimmed,
+          experience:
+            fallback?.experience ||
+            `Applied ${trimmed} in engineering projects, focusing on scalable architecture, clean code principles, and reliable delivery.`,
+          yearsOrLevel: fallback?.yearsOrLevel || 'Competency',
+          highlights: fallback?.highlights,
+        }
+      }
+
+      if (typeof item === 'object') {
+        const name = (item.name || item.title || '').trim()
+        if (!name) return null
+        const fallback = defaultMap.get(name.toLowerCase())
+        return {
+          name,
+          experience:
+            item.experience?.trim() ||
+            fallback?.experience ||
+            `Applied ${name} in engineering projects, focusing on scalable architecture, clean code principles, and reliable delivery.`,
+          yearsOrLevel: item.yearsOrLevel?.trim() || fallback?.yearsOrLevel || 'Competency',
+          highlights:
+            Array.isArray(item.highlights) && item.highlights.length > 0
+              ? item.highlights.filter(Boolean)
+              : fallback?.highlights,
+        }
+      }
+
+      return null
+    })
+    .filter((s): s is SkillItem => s !== null)
+}
 
 export async function getProjects(): Promise<ProjectItem[]> {
   if (!isSanityConfigured) {
@@ -139,11 +196,11 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
       role: item.role || defaultProj?.role,
       subtitle: item.subtitle || defaultProj?.subtitle || '',
       statusBadge: item.statusBadge || defaultProj?.statusBadge,
-      stats: item.stats || defaultProj?.stats,
+      stats: item.stats?.length ? item.stats : defaultProj?.stats,
       imageUrl: mainImgUrl || defaultProj?.imageUrl,
       problemStatement: item.problemStatement || defaultProj?.problemStatement,
       process: item.process || defaultProj?.process,
-      challenges: item.challenges || defaultProj?.challenges,
+      challenges: item.challenges?.length ? item.challenges : defaultProj?.challenges,
       results: item.results || defaultProj?.results,
       lessons: item.lessons || defaultProj?.lessons,
       overview: overview.length > 0 ? overview : defaultProj?.overview,
@@ -188,7 +245,7 @@ export async function getProfile(): Promise<ProfileData> {
       aboutParagraphs: data.aboutParagraphs?.length
         ? data.aboutParagraphs
         : defaultProfile.aboutParagraphs,
-      skills: data.skills?.length ? data.skills : defaultProfile.skills,
+      skills: normalizeSkills(data.skills),
       marqueeSkills: data.marqueeSkills?.length ? data.marqueeSkills : defaultProfile.marqueeSkills,
       contactHeading: data.contactHeading || defaultProfile.contactHeading,
       contactSubtitle: data.contactSubtitle || defaultProfile.contactSubtitle,

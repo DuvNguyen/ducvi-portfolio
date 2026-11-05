@@ -68,12 +68,63 @@ export default defineType({
     }),
     defineField({
       name: 'skills',
-      title: 'Core Technical Competencies (Skills List)',
+      title: 'Core Technical Competencies & Experience',
+      description:
+        'List of technologies and your practical experience with each. Clicking any skill in the portfolio opens an interactive modal with this experience.',
       type: 'array',
-      of: [{ type: 'string' }],
-      options: {
-        layout: 'tags',
-      },
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'skillItem',
+          title: 'Competency & Experience',
+          fields: [
+            defineField({
+              name: 'name',
+              title: 'Technology Name',
+              type: 'string',
+              description: 'e.g. NestJS, Spring Boot, PostgreSQL, Docker',
+              validation: (Rule) => Rule.required().error('Technology name is required'),
+            }),
+            defineField({
+              name: 'yearsOrLevel',
+              title: 'Proficiency / Experience Level',
+              description: 'e.g. "Proficient • Core Backend", "2+ years", "Academic & Solo Projects"',
+              type: 'string',
+            }),
+            defineField({
+              name: 'experience',
+              title: 'Experience Details',
+              description:
+                'Describe what you built, architecture decisions, libraries used, or key achievements.',
+              type: 'text',
+              rows: 4,
+            }),
+            defineField({
+              name: 'highlights',
+              title: 'Key Highlights / Projects (Optional tags)',
+              description: 'e.g. StudyMate LMS, VietSneaker, Microservices, RBAC',
+              type: 'array',
+              of: [{ type: 'string' }],
+              options: {
+                layout: 'tags',
+              },
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'name',
+              subtitle: 'experience',
+              level: 'yearsOrLevel',
+            },
+            prepare({ title, subtitle, level }) {
+              return {
+                title: title || 'Untitled Skill',
+                subtitle: level ? `[${level}] ${subtitle || ''}` : subtitle || 'No experience details yet',
+              }
+            },
+          },
+        }),
+      ],
     }),
     defineField({
       name: 'marqueeSkills',

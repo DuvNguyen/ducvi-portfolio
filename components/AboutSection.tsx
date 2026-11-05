@@ -35,7 +35,7 @@ export function AboutSection({ profile }: AboutSectionProps) {
             <div className="skills">
               {profile.skills.map((skill, idx) => (
                 <div key={idx} className="skills__skill">
-                  {skill}
+                  {typeof skill === 'string' ? skill : skill.name}
                 </div>
               ))}
             </div>

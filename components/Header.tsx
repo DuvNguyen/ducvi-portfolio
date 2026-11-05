@@ -15,27 +15,53 @@ export function Header() {
 
   useEffect(() => {
     let lastScrollY = window.scrollY || document.documentElement.scrollTop
-    const SCROLL_THRESHOLD = 10 // Minimum scroll delta in pixels to trigger state change
+    let accumulatedUpScroll = 0
+    let accumulatedDownScroll = 0
+
+    // Thresholds modeled after iOS Safari / Facebook mobile navigation bars:
+    // - Downward scroll hides promptly (15px) so content has full viewport focus.
+    // - Upward scroll requires an intentional gesture (50px accumulated upward scroll)
+    //   so micro-scrolls (e.g. 5-30px) when reading lines won't trigger the header.
+    const SCROLL_UP_THRESHOLD = 50
+    const SCROLL_DOWN_THRESHOLD = 15
     const TOP_OFFSET = 80 // When near the top, keep hidden so hero stays clean
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY || document.documentElement.scrollTop
+
+      // Prevent iOS rubber-banding bounce at top from triggering false reveals
+      if (currentScrollY < 0) return
+
       const diff = currentScrollY - lastScrollY
 
       // 1. Hide when near the very top of the page (no header & no gap at first)
       if (currentScrollY <= TOP_OFFSET) {
         setIsVisible(false)
+        accumulatedUpScroll = 0
+        accumulatedDownScroll = 0
         lastScrollY = currentScrollY
         return
       }
 
-      // 2. When scrolled past TOP_OFFSET:
-      if (Math.abs(diff) >= SCROLL_THRESHOLD) {
-        if (diff > 0) {
-          // Scrolling DOWN -> slide up & hide for clean reading focus
+      // 2. Scrolling DOWN -> hide header
+      if (diff > 0) {
+        accumulatedUpScroll = 0
+        accumulatedDownScroll += diff
+
+        if (accumulatedDownScroll >= SCROLL_DOWN_THRESHOLD) {
           setIsVisible(false)
-        } else {
-          // Scrolling UP -> smoothly reveal floating header
+        }
+        lastScrollY = currentScrollY
+        return
+      }
+
+      // 3. Scrolling UP (diff < 0) -> requires intentional upward distance
+      if (diff < 0) {
+        accumulatedDownScroll = 0
+        accumulatedUpScroll += Math.abs(diff)
+
+        // Only reveal if user has intentionally scrolled up past threshold
+        if (accumulatedUpScroll >= SCROLL_UP_THRESHOLD) {
           setIsVisible(true)
         }
         lastScrollY = currentScrollY

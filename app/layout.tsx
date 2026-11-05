@@ -11,12 +11,58 @@ const inter = Inter({
   display: 'swap',
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://vinguyen.id.vn'
+
 export const metadata: Metadata = {
-  title: 'Vi Nguyen',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Vi Nguyen | Software Engineer',
+    template: '%s | Vi Nguyen',
+  },
   description:
-    'Vi Nguyen is a final-year Information Technology student who enjoys building full-stack web applications through personal and academic projects.',
+    'Vi Nguyen is a software engineer specializing in backend systems, distributed architectures, and modern web applications (Java, Spring Boot, NestJS, TypeScript, PostgreSQL, Kafka, Redis).',
+  keywords: [
+    'Vi Nguyen',
+    'Software Engineer',
+    'Backend Engineer',
+    'Java',
+    'Spring Boot',
+    'NestJS',
+    'TypeScript',
+    'PostgreSQL',
+    'Kafka',
+    'Redis',
+    'Distributed Systems',
+  ],
+  authors: [{ name: 'Vi Nguyen' }],
+  creator: 'Vi Nguyen',
   icons: {
     icon: '/assets/png/avatar.png',
+    apple: '/assets/png/avatar.png',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: siteUrl,
+    title: 'Vi Nguyen | Software Engineer',
+    description:
+      'Software engineer specializing in backend systems, distributed architectures, and modern web applications (Java, Spring Boot, NestJS, TypeScript, PostgreSQL, Kafka, Redis).',
+    siteName: 'Vi Nguyen Portfolio',
+    images: [
+      {
+        url: '/assets/png/avatar.png',
+        width: 800,
+        height: 800,
+        alt: 'Vi Nguyen - Software Engineer',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Vi Nguyen | Software Engineer',
+    description:
+      'Software engineer specializing in backend systems, distributed architectures, and modern web applications.',
+    images: ['/assets/png/avatar.png'],
   },
 }
 

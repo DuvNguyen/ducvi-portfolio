@@ -26,6 +26,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${project.title} | Case Study`,
     description: project.subtitle,
+    openGraph: {
+      title: `${project.title} | Vi Nguyen`,
+      description: project.subtitle,
+      images: project.imageUrl ? [{ url: project.imageUrl, alt: project.title }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${project.title} | Vi Nguyen`,
+      description: project.subtitle,
+      images: project.imageUrl ? [project.imageUrl] : undefined,
+    },
   }
 }
 

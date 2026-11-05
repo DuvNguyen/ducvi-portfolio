@@ -113,7 +113,7 @@ export function Header() {
         </Link>
 
         {/* Center / Right: Clean Navigation */}
-        <nav className="flex items-center gap-3 sm:gap-5 text-xs sm:text-sm font-medium text-zinc-600">
+        <nav className="flex items-center gap-2.5 sm:gap-5 text-xs sm:text-sm font-medium text-zinc-600">
           <Link
             href="/#projects"
             className="inline-flex items-center gap-1.5 hover:text-zinc-950 transition-colors"
@@ -124,9 +124,17 @@ export function Header() {
           <Link href="/#about" className="hover:text-zinc-950 transition-colors">
             About
           </Link>
+          <a
+            href="/assets/cv.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-zinc-950 transition-colors"
+          >
+            CV
+          </a>
           <Link
             href="/#contact"
-            className="rounded-full bg-zinc-950 px-4 py-1.5 text-xs sm:text-sm font-medium text-white hover:bg-zinc-800 transition-colors shadow-2xs"
+            className="rounded-full bg-zinc-950 px-3.5 py-1.5 text-xs sm:text-sm font-medium text-white hover:bg-zinc-800 transition-colors shadow-2xs"
           >
             Contact
           </Link>

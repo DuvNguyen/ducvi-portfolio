@@ -11,7 +11,7 @@ const inter = Inter({
   display: 'swap',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://vinguyen.id.vn'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vinguyen.id.vn'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -50,19 +50,20 @@ export const metadata: Metadata = {
     siteName: 'Vi Nguyen Portfolio',
     images: [
       {
-        url: '/assets/png/avatar.png',
-        width: 800,
-        height: 800,
+        url: '/assets/og-image.png',
+        width: 1200,
+        height: 630,
+        type: 'image/png',
         alt: 'Vi Nguyen - Software Engineer',
       },
     ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Vi Nguyen | Software Engineer',
     description:
       'Software engineer specializing in backend systems, distributed architectures, and modern web applications.',
-    images: ['/assets/png/avatar.png'],
+    images: ['/assets/og-image.png'],
   },
 }
 

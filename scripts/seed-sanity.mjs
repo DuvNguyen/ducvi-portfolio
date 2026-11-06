@@ -562,6 +562,125 @@ async function seed() {
         { path: 'assets/png/slack/darkmode.png', caption: 'Sleek Dark Mode Interface' },
       ],
     },
+    {
+      id: 'project-careflow',
+      title: 'CareFlow — Hospital System',
+      slug: 'careflow',
+      order: 4,
+      role: 'Backend & AI Architect (University Capstone Project)',
+      subtitle:
+        'An outpatient clinical healthcare platform engineered with 12+ Spring Boot microservices, PostgreSQL pgvector RAG, dual voice-to-text dictation, and evidence-based clinical decision support.',
+      statusBadge: 'Microservices & Clinical RAG',
+      stats: [
+        {
+          value: '12+',
+          label: 'Decoupled Microservices',
+          description: 'Spring Boot 3 domain services with independent schemas, Eureka discovery, RabbitMQ event bus, and Spring Cloud Gateway.',
+        },
+        {
+          value: '1,095',
+          label: 'Clinical Guideline Chunks',
+          description: 'Hybrid Search (HNSW dense vector + BM25 sparse full-text via RRF k=60) indexing Ministry of Health phác đồ, 15,844 ICD-10 codes, and 701 DDI pairs in pgvector.',
+        },
+        {
+          value: '0%',
+          label: 'Form Re-render Lag',
+          description: 'Zustand decoupled state store powering real-time dual voice dictation (Consultation Clinical STT & Voice Prescription) with 1-click JSON auto-fill.',
+        },
+      ],
+      mainImagePath: 'assets/png/careflow/homepage.png',
+      problemStatement:
+        'Outpatient clinics in public hospitals face severe operational bottlenecks: physicians must process dozens of patients daily, track fluctuating vital signs, document detailed clinical notes, and review complex prescriptions against national guidelines in minutes. Fragmented legacy monoliths lack intelligent clinical decision support, while naive large language models suffer from medical hallucinations and lack Vietnamese clinical context. CareFlow was built to resolve these challenges through a resilient, decoupled microservices architecture with an evidence-grounded Clinical RAG system and real-time voice dictation.',
+      process: {
+        tabRationale:
+          'Architected into 12+ microservices following Domain-Driven Design (DDD) and Database-per-Service patterns: Identity & eKYC, Patient Demographics, Electronic Medical Records (EMR), Appointment Scheduling, FIFO Queue Engine, Clinical Consultation, Prescription & Pharmacy, Laboratory Orders, Push Notifications, Analytics, Hospital Directory, and AI Clinical Assistant.',
+        contentCuration:
+          'Curated and indexed 100% verified Vietnamese medical datasets: 15,844 ICD-10 disease records, 701 contraindicated drug-drug interaction (DDI) pairs from Decision 5948/QĐ-BYT, and Ministry of Health practice guidelines (Type 2 Diabetes, Hypertension, Community-Acquired Pneumonia). Structured with hierarchical breadcrumbs [Guideline > Specialty > Section] and dense 768-dimensional embeddings.',
+        architectureData:
+          'Polyglot persistence: dedicated PostgreSQL databases per microservice + high-performance PostgreSQL 16 pgvector (0.8.7) on port 5433 with HNSW and GIN indexes. Event-driven communication coordinated via RabbitMQ and Spring Cloud Gateway ingress. Next.js 15 doctor frontend styled with SJD Barcelona medical design principles, utilizing Zustand for atomic state updates.',
+      },
+      challenges: [
+        {
+          title: 'Mitigating Clinical Hallucinations with Hybrid RAG & Reciprocal Rank Fusion (RRF)',
+          issue:
+            'Standard dense vector search frequently fails on exact drug names, chemical formulas, and medical codes, while simple keyword matching lacks semantic comprehension of complex clinical symptoms, risking life-critical medical hallucinations.',
+          attempted:
+            'Pure dense vector similarity search using Cosine distance alone.',
+          solution:
+            'Implemented a two-tier Hybrid Search engine in Spring Boot 3 combining pgvector HNSW dense cosine search (<=>) with GIN BM25 sparse full-text ranking (tsv_content), fused using Reciprocal Rank Fusion (RRF, k=60) to retrieve Top 5 guideline chunks, accompanied by strict Human-in-the-Loop prompt guardrails and verifiable evidenceRefs citations.',
+          reason:
+            'Achieved 100% traceable clinical evidence linking directly to official Ministry of Health decisions, eliminating ungrounded medical hallucinations and ensuring doctor review before any clinical action.',
+        },
+        {
+          title: 'Zero-Latency Voice Dictation & Eliminating Form Re-render Freezes',
+          issue:
+            'Integrating real-time speech-to-text (Consultation STT) and live vital monitoring into a complex clinical workspace (>2,600 LOC) caused severe React re-rendering cascades, freezing keyboard input during doctor consultations.',
+          attempted:
+            'Centralized React Context Provider wrapping the entire consultation tree, triggering top-down re-renders on every streaming audio chunk and timer tick.',
+          solution:
+            'Engineered an isolated global store using Zustand (useVoiceStore), decoupling MediaRecorder audio capture, recording duration counters, and transcription status from UI components. Built an instant Cancel/Retry mechanism and an on-demand snapshot extractor that pulls form state only when switching to the AI assistant tab.',
+          reason:
+            'Completely eliminated UI re-rendering overhead (0% form lag) while enabling seamless one-click JSON auto-fill across 11 clinical form fields.',
+        },
+        {
+          title: 'System-Wide SDD Refactoring & 0-Regression Baseline Harmonization',
+          issue:
+            'Coordinating breaking changes across 12+ microservices and a monorepo with 23,000+ symbols risked breaking cross-service contracts, event payloads, and dual voice pipelines during develop (R0–R7) integration.',
+          attempted:
+            'Manual grep searches and ad-hoc endpoint adjustments across individual services.',
+          solution:
+            'Applied GitNexus code intelligence graph (23,803 symbols, 52,888 relationships, 850 execution flows) for upstream/downstream impact analysis before refactoring, combined with Spec-Driven Development (SDD) contracts and automated test suites (13/13 passing in AI service).',
+          reason:
+            'Successfully resolved 7 complex merge conflicts with zero regressions, harmonizing dual voice processing (Consultation STT and Voice Prescription) with clean microservice boundaries.',
+        },
+      ],
+      results: {
+        modulesCount: '12+ Microservices, 1,095 Vector Chunks, 701 DDI Rules, 2 Frontends',
+        summary:
+          'Delivered an enterprise-grade outpatient healthcare ecosystem featuring Spring Boot 3 microservices, an evidence-grounded Clinical RAG engine, and an ergonomic Doctor Web interface built to international SJD Barcelona standards.',
+        practicalImpact:
+          'Successfully presented in university capstone with end-to-end simulated outpatient patient journeys—from mobile queue check-in to real-time doctor consultation, AI guideline recommendations, and automated prescription safety validation.',
+      },
+      lessons: {
+        whatToDoDifferently:
+          'Define formal OpenAPI/Swagger and AsyncAPI event contracts upfront before service decomposition to minimize inter-team coordination overhead and mocking delays.',
+        nextSteps:
+          'Deploy on-premise Whisper STT and quantized Vietnamese medical Small Language Models (e.g. Qwen 2.5 7B via LoRA) directly on local hospital GPU nodes to guarantee 100% data sovereignty and zero cloud egress.',
+      },
+      overview: [
+        'CareFlow is an enterprise-scale outpatient clinical healthcare platform architected as a distributed microservices system. Designed to streamline high-volume outpatient workflows in public hospitals, the system manages the complete patient journey from native mobile registration and QR code check-in to real-time queue management, multi-stage clinical consultation, laboratory orders, and pharmacy dispensing.',
+        'The backend is built with Spring Boot 3 and Java 21, comprising 12+ decoupled microservices adhering to Domain-Driven Design (DDD) and Database-per-Service principles. An integrated Clinical RAG AI service leverages PostgreSQL 16 with pgvector (0.8.7) to index 1,095 clinical guideline chunks from official Ministry of Health directives, 15,844 ICD-10 diagnostic codes, and 701 contraindicated drug-drug interaction (DDI) rules. Hybrid Search combines HNSW dense cosine search with GIN BM25 full-text queries via Reciprocal Rank Fusion (RRF, k=60), delivering 100% auditable clinical evidence citations and preventing LLM medical hallucinations.',
+        'The Doctor Web frontend is engineered with Next.js 15, React 19, TypeScript, and Tailwind CSS, following clinical UI standards modeled on SJD Barcelona Children\'s Hospital. It features a Dual Voice Speech-to-Text (STT) architecture—Consultation Clinical STT with an atomic Zustand store (useVoiceStore) for effortless voice symptom dictation, and Voice Prescription drafting with automated entity parsing and 1-click order fulfillment.',
+      ],
+      toolsUsed: [
+        'Java 21',
+        'Spring Boot 3',
+        'Spring Cloud Gateway',
+        'PostgreSQL',
+        'pgvector',
+        'Next.js 15',
+        'React 19',
+        'TypeScript',
+        'Zustand',
+        'Tailwind CSS',
+        'RabbitMQ',
+        'Docker',
+        'Gemini 2.5 Flash',
+        'Python',
+        'GitNexus',
+        'REST APIs',
+      ],
+      hideLiveDemo: true,
+      githubBackend: 'https://github.com/ntkhai268/careflow',
+      gallery: [
+        { path: 'assets/png/careflow/homepage.png', caption: 'Doctor Web Dashboard & Overview' },
+        { path: 'assets/png/careflow/queue-lanes.png', caption: '3-Lane Outpatient Queue Management' },
+        { path: 'assets/png/careflow/consultation.png', caption: 'Clinical Consultation Workspace & Vitals' },
+        { path: 'assets/png/careflow/clinical-rag.png', caption: 'Clinical RAG Assistant & Guidelines' },
+        { path: 'assets/png/careflow/voice-stt.png', caption: 'Dual Voice-to-Text Dictation & Auto-Fill' },
+        { path: 'assets/png/careflow/pharmacy.png', caption: 'Pharmacy Dispensing & DDI Verification' },
+      ],
+    },
   ]
 
   for (const proj of projects) {
@@ -593,6 +712,14 @@ async function seed() {
       role: proj.role,
       subtitle: proj.subtitle,
       statusBadge: proj.statusBadge,
+      stats: proj.stats
+        ? proj.stats.map((s, i) => ({
+            _key: `stat_${i}`,
+            value: s.value,
+            label: s.label,
+            description: s.description,
+          }))
+        : [],
       toolsUsed: proj.toolsUsed,
       liveDemo: proj.liveDemo,
       hideLiveDemo: Boolean(proj.hideLiveDemo),

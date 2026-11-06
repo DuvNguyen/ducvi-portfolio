@@ -82,7 +82,7 @@ export async function getProjects(): Promise<ProjectItem[]> {
         item._id !== 'project-metrohcmc'
     )
 
-    return visibleData.map((item) => {
+    const mappedSanityProjects: ProjectItem[] = visibleData.map((item) => {
       let resolvedImg: string | undefined = undefined
       if (item.mainImage) {
         if (typeof item.mainImage === 'string' && item.mainImage.trim() !== '') {
@@ -114,6 +114,15 @@ export async function getProjects(): Promise<ProjectItem[]> {
         githubBackend: item.githubBackend,
       }
     })
+
+    const sanitySlugs = new Set(mappedSanityProjects.map((p) => p.slug))
+    const missingDefaults = defaultProjects.filter(
+      (dp) => !dp.hidden && !sanitySlugs.has(dp.slug) && dp.slug !== 'metrohcmc'
+    )
+
+    const combinedProjects = [...mappedSanityProjects, ...missingDefaults]
+    combinedProjects.sort((a, b) => (a.order || 99) - (b.order || 99))
+    return combinedProjects
   } catch (error) {
     console.warn('Error fetching projects from Sanity, falling back to default data:', error)
     return defaultProjects

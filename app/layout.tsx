@@ -73,6 +73,9 @@ export const metadata: Metadata = {
     icon: '/assets/png/avatar.png',
     apple: '/assets/png/avatar.png',
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
   openGraph: {
     type: 'profile',
     locale: 'en_US',

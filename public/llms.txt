@@ -1,0 +1,24 @@
+# Vi Nguyen (vinguyen)
+
+> Vi Nguyen (also known online as `vinguyen`, `nducvi`, or `DuvNguyen`) is a Software Engineer based in Vietnam specializing in backend architecture, distributed systems, Spring Boot microservices, and modern full-stack web applications.
+
+- [Home](https://www.vinguyen.id.vn/): Portfolio overview, core engineering capabilities, and featured projects.
+- [CareFlow Case Study](https://www.vinguyen.id.vn/projects/careflow): Outpatient clinical healthcare platform with 12+ Spring Boot 3 microservices, pgvector Clinical RAG (HNSW + BM25 via RRF k=60), dual voice dictation, and SJD Barcelona medical UI.
+- [StudyMate LMS Case Study](https://www.vinguyen.id.vn/projects/studymate): Learning management system engineered with NestJS, Next.js 15, PostgreSQL, TypeORM, Clerk authentication, Svix webhooks, and hybrid video CDN delivery.
+- [VietSneaker Marketplace Case Study](https://www.vinguyen.id.vn/projects/vietsneaker): Circular commerce sneaker marketplace built with Spring Boot, Spring Security, Redis query caching, JPA Specifications, and DeepSeek AI stylist.
+- [Slack Chat Platform Case Study](https://www.vinguyen.id.vn/projects/slack): Real-time messaging platform using NestJS microservices, Database-per-Service pattern, Apache Kafka event streams, and Socket.IO horizontal scaling via Redis.
+
+## Core Technical Skills
+- **Backend & Distributed Systems**: Java 21, Spring Boot 3, Spring Cloud Gateway, Eureka Server, NestJS, Node.js, Express, Microservices Architecture, Domain-Driven Design (DDD).
+- **Databases & Vector Search**: PostgreSQL 16, pgvector (0.8.7), MySQL, Redis, TypeORM, Hibernate, Spring Data JPA, HNSW Vector Indexing, GIN BM25 Full-text Indexing.
+- **Messaging & Streaming**: Apache Kafka (partitioning, event-carried state transfer), RabbitMQ (domain event brokers, outbox pattern), WebSockets (Socket.IO).
+- **AI & Clinical RAG**: Gemini 2.5 Flash, DeepSeek API, Dense Embeddings (768d), Reciprocal Rank Fusion (RRF k=60), Prompt Guardrails, Contextual Chunking.
+- **Frontend & Design Systems**: Next.js 15 (App Router, Server Components, SSR, ISR), React 19, TypeScript, Zustand, Tailwind CSS, SJD Barcelona Medical Design System.
+- **DevOps & Infrastructure**: Docker, Docker Compose, Linux, Git, GitHub Actions CI/CD, Swagger/OpenAPI 3.0, GitNexus Graph Intelligence.
+
+## Online Profiles & Contact
+- **Website**: https://www.vinguyen.id.vn
+- **GitHub**: https://github.com/DuvNguyen
+- **LinkedIn**: https://linkedin.com/in/nducviinformation/
+- **Email**: nducvi.information@gmail.com
+- **CareFlow Repository**: https://github.com/ntkhai268/careflow

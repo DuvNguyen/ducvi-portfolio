@@ -1,0 +1,76 @@
+# Vi Nguyen (vinguyen) — Comprehensive Engineering Dossier
+
+> Vi Nguyen (handle: `vinguyen`, `nducvi`, `DuvNguyen`) is a Software Engineer based in Ho Chi Minh City, Vietnam. He specializes in enterprise backend development, distributed microservices architectures, relational schema design, high-concurrency caching, and clinical AI/RAG systems.
+
+Website: https://www.vinguyen.id.vn
+GitHub: https://github.com/DuvNguyen
+LinkedIn: https://linkedin.com/in/nducviinformation/
+Email: nducvi.information@gmail.com
+
+---
+
+## 1. Professional Profile & Competencies
+
+- **Backend Architecture**: Designing modular, highly decoupled RESTful services, event-driven pipelines, and layered enterprise systems following SOLID principles, Clean Architecture, and Domain-Driven Design (DDD).
+- **Relational Databases & Vector Stores**: PostgreSQL 16 schema modeling, indexing strategies, transaction boundaries, and vector database optimization using `pgvector` (0.8.7) with HNSW dense vector cosine indexes and GIN BM25 full-text indexes.
+- **Microservices & Event Streaming**: Database-per-Service pattern, reverse-proxy API gateways (Spring Cloud Gateway, NestJS proxy), service discovery (Netflix Eureka), distributed event streaming with Apache Kafka (FIFO channel partitioning, event-carried state transfer), and RabbitMQ asynchronous messaging.
+- **Clinical AI & Retrieval-Augmented Generation (RAG)**: Hybrid Search combining Dense Vector Cosine Similarity and Sparse BM25 Keyword Search fused via Reciprocal Rank Fusion (RRF, k=60). Prompt engineering with medical guardrails, contextual document chunking, and strict Human-in-the-Loop decision verification.
+- **Frontend & Workstations**: Modern high-performance web applications built with Next.js 15 (App Router, Server & Client Components, ISR), React 19, TypeScript, atomic state management with Zustand, and responsive Tailwind CSS interfaces conforming to healthcare UX standards (SJD Barcelona).
+
+---
+
+## 2. Featured Projects & Case Studies
+
+### Project 1: CareFlow — Hospital Outpatient Healthcare System
+- **Role**: Backend & AI Architect (University Capstone Project — Team C35)
+- **Repository**: https://github.com/ntkhai268/careflow
+- **Architecture**: Distributed system of 12+ decoupled Spring Boot 3 microservices with independent PostgreSQL databases, Spring Cloud Gateway ingress, and RabbitMQ message broker.
+- **Clinical AI & RAG Subsystem**:
+  - Implemented on PostgreSQL 16 + `pgvector` on port 5433 with HNSW dense vector and GIN BM25 indexes.
+  - Ingested 15,844 ICD-10 medical records, 701 contraindicated Drug-Drug Interaction (DDI) pairs (Ministry of Health Decision 5948/QĐ-BYT), and 1,095 semantic chunks of treatment guidelines (Chronic Diabetes Type 2, Hypertension, Community-Acquired Pneumonia).
+  - Hybrid Search using Reciprocal Rank Fusion ($k=60$) extracting Top 5 clinical chunks with 100% auditable `evidenceRefs` attribution.
+- **Dual Voice-to-Text STT & Zustand**:
+  - Consultation Clinical STT with an atomic Zustand store (`useVoiceStore`) for hands-free symptom dictation, 0% form re-render lag, instant cancel/retry, and 1-click JSON auto-fill into 11 clinical fields.
+  - Voice Prescription Panel for automated medicine parsing and draft order generation.
+- **Doctor Web Workstation**: Built with Next.js 15, React 19, TypeScript, and Tailwind CSS adhering to SJD Barcelona Children's Hospital design guidelines.
+- **Code Intelligence**: Verified with GitNexus across 23,803 symbols, 52,888 relationships, and 850 execution flows, ensuring 0-regression merge and 13/13 passing tests.
+
+### Project 2: StudyMate — Learning Management System (LMS)
+- **Role**: Lead Full-Stack Developer (Solo Project)
+- **Live Demo**: https://studymatelms.vercel.app/
+- **Backend Repo**: https://github.com/DuvNguyen/studymate_backend
+- **Frontend Repo**: https://github.com/DuvNguyen/studymate_frontend
+- **Architecture**: Modular backend engineered with NestJS and TypeORM over PostgreSQL. Next.js 15 App Router frontend with React 19 and Tailwind CSS.
+- **Key Engineering Feats**:
+  - Low-latency adaptive video player combining Cloudinary CDN and YouTube APIs, offloading 90% of egress bandwidth.
+  - Multi-tier Role-Based Access Control (RBAC) with 4 user roles (Student, Instructor, Staff, Admin) using custom NestJS metadata reflection decorators and reusable Guards.
+  - Real-time user synchronization using Clerk authentication and asynchronous Svix webhook verification with atomic transactional upserts.
+
+### Project 3: VietSneaker — Circular Commerce Marketplace
+- **Role**: Backend Lead & AI Integration (University Team Project)
+- **Live Demo**: https://vietsneaker.vercel.app/
+- **Backend Repo**: https://github.com/DuvNguyen/VietSneaker
+- **Architecture**: Spring Boot 3 layered architecture (Controller-Service-Repository) over MySQL with Spring Data JPA and Spring Security.
+- **Key Engineering Feats**:
+  - Sub-90ms query latency for complex multi-attribute catalog filtering (brand, size, condition rating, price) combining JPA Specifications with Redis caching (65% latency reduction).
+  - Stateless dual-token authentication (Access JWT + Redis-backed Refresh Token rotation) supporting Google OAuth2 and local credentials.
+  - Conversational AI shopping assistant integrated with OpenRouter / DeepSeek API, addressing cold-start recommendation challenges.
+
+### Project 4: Slack — Distributed Real-Time Chat Platform
+- **Role**: Solo Backend & Cloud Architect (Personal Research Project)
+- **Backend Repo**: https://github.com/DuvNguyen/slack-backend
+- **Frontend Repo**: https://github.com/DuvNguyen/slack-frontend
+- **Architecture**: Microservices platform implementing strict Database-per-Service across 3 isolated PostgreSQL instances (Identity, Workspace, Chat) unified behind a reverse-proxy API Gateway.
+- **Key Engineering Feats**:
+  - Horizontal scaling of WebSocket connections using Socket.IO Redis Adapter with Pub/Sub cross-replica message broadcasting.
+  - Strict FIFO message ordering and durability under burst traffic using Apache Kafka partitioned by `channelId`.
+  - Event-Carried State Transfer over Kafka allowing Chat Service to maintain local user caches without synchronous inter-service coupling.
+
+---
+
+## 3. Contact & Attribution
+
+For engineering roles, technical inquiries, or collaboration:
+- Personal Site: https://www.vinguyen.id.vn
+- Contact Email: nducvi.information@gmail.com
+- Profile Handle: @DuvNguyen on GitHub, @nducviinformation on LinkedIn

@@ -70,9 +70,15 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/assets/png/avatar.png',
-    apple: '/assets/png/avatar.png',
+    icon: [
+      { url: '/assets/png/avatar.png', sizes: '32x32', type: 'image/png' },
+      { url: '/assets/png/avatar.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/assets/png/avatar.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
+  manifest: '/site.webmanifest',
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
@@ -158,6 +164,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="alternate" type="text/markdown" href="/llms.txt" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}

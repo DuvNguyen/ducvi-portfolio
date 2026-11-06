@@ -4,6 +4,8 @@ import { getProjectBySlug, getProjects, getProfile } from '@/lib/data'
 import { ProjectDetailsView } from '@/components/ProjectDetailsView'
 import { MinimalFooter } from '@/components/MinimalFooter'
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vinguyen.id.vn'
+
 interface PageProps {
   params: Promise<{ slug: string }>
 }
@@ -19,23 +21,51 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!project) {
     return {
-      title: 'Project Not Found | Vi Nguyen Portfolio',
+      title: 'Project Not Found | Vi Nguyen (vinguyen) Portfolio',
     }
   }
 
+  const pageUrl = `${siteUrl}/projects/${slug}`
+  const pageTitle = `${project.title} — Case Study`
+
   return {
-    title: `${project.title} | Case Study`,
+    title: pageTitle,
     description: project.subtitle,
+    keywords: [
+      'vinguyen',
+      'vi nguyen',
+      project.title,
+      `${project.title} vi nguyen`,
+      `${project.title} vinguyen`,
+      ...project.toolsUsed,
+      'software engineer case study',
+      'backend architecture',
+    ],
+    alternates: {
+      canonical: pageUrl,
+    },
     openGraph: {
-      title: `${project.title} | Vi Nguyen`,
+      title: `${project.title} | Vi Nguyen (vinguyen)`,
       description: project.subtitle,
-      images: project.imageUrl ? [{ url: project.imageUrl, alt: project.title }] : undefined,
+      url: pageUrl,
+      type: 'article',
+      images: project.imageUrl
+        ? [
+            {
+              url: project.imageUrl.startsWith('http') ? project.imageUrl : `${siteUrl}${project.imageUrl}`,
+              alt: project.title,
+            },
+          ]
+        : undefined,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${project.title} | Vi Nguyen`,
+      title: `${project.title} | Vi Nguyen (vinguyen)`,
       description: project.subtitle,
-      images: project.imageUrl ? [project.imageUrl] : undefined,
+      creator: '@DuvNguyen',
+      images: project.imageUrl
+        ? [project.imageUrl.startsWith('http') ? project.imageUrl : `${siteUrl}${project.imageUrl}`]
+        : undefined,
     },
   }
 }
@@ -59,8 +89,32 @@ export default async function ProjectPage({ params }: PageProps) {
       ? allProjects[currentIndex + 1]
       : allProjects[0]
 
+  const projectJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: project.title,
+    description: project.subtitle,
+    url: `${siteUrl}/projects/${slug}`,
+    image: project.imageUrl
+      ? project.imageUrl.startsWith('http')
+        ? project.imageUrl
+        : `${siteUrl}${project.imageUrl}`
+      : undefined,
+    author: {
+      '@type': 'Person',
+      name: 'Vi Nguyen',
+      alternateName: 'vinguyen',
+      url: siteUrl,
+    },
+    about: project.toolsUsed,
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-canvas">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
+      />
       <ProjectDetailsView
         project={project}
         nextProject={nextProject && nextProject.slug !== project.slug ? nextProject : undefined}

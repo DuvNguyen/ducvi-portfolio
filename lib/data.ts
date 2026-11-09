@@ -18,8 +18,14 @@ import {
 } from './defaultData'
 import { urlForImage } from './sanity.image'
 
+const EXCLUDED_CAPABILITY_TITLES = new Set<string>([
+  'security & integrations',
+])
+
 function normalizeCapabilities(rawCapabilities: any[] | undefined): CapabilityItem[] {
-  const defaultCaps = defaultProfile.capabilities || []
+  const defaultCaps = (defaultProfile.capabilities || []).filter(
+    (c) => !EXCLUDED_CAPABILITY_TITLES.has(c.title.toLowerCase().trim())
+  )
   if (!rawCapabilities || !Array.isArray(rawCapabilities) || rawCapabilities.length === 0) {
     return defaultCaps
   }
@@ -27,12 +33,13 @@ function normalizeCapabilities(rawCapabilities: any[] | undefined): CapabilityIt
   const existingTitles = new Set<string>()
   const result: CapabilityItem[] = []
 
-  // 1. Keep all items saved in Sanity
+  // 1. Keep items saved in Sanity (except explicitly removed ones)
   for (const item of rawCapabilities) {
     if (!item) continue
     const title = (item.title || '').trim()
     const description = (item.description || '').trim()
     if (!title) continue
+    if (EXCLUDED_CAPABILITY_TITLES.has(title.toLowerCase())) continue
     existingTitles.add(title.toLowerCase())
     result.push({ title, description })
   }

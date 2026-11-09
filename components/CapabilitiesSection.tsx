@@ -38,12 +38,6 @@ const defaultCapabilities: CapabilityItem[] = [
       'Building modern web interfaces with Next.js 15 and React 19 that connect directly to scalable backend services.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Security & Integrations',
-    description:
-      'Granular RBAC access controls, webhook verification, payment gateways, and third-party API pipelines.',
-  },
-  {
     icon: MessageSquare,
     title: 'Conversational Alignment',
     description:
@@ -112,16 +106,25 @@ export function CapabilitiesSection({ profile }: CapabilitiesSectionProps = {}) 
       </div>
 
       {/* Responsive Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-8">
         {items.map((item, index) => {
           const Icon = item.icon
+          const colSpanClass =
+            items.length === 5
+              ? index < 3
+                ? 'sm:col-span-1 lg:col-span-2'
+                : index === 3
+                  ? 'sm:col-span-1 lg:col-span-3'
+                  : 'sm:col-span-2 lg:col-span-3'
+              : 'sm:col-span-1 lg:col-span-2'
+
           return (
             <motion.div
               key={index}
               variants={cardHoverVariants}
               initial="rest"
               whileHover="hover"
-              className="flex flex-col items-start bg-white/70 hover:bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-black/[0.05] transition-colors shadow-2xs"
+              className={`flex flex-col items-start bg-white/70 hover:bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-black/[0.05] transition-colors shadow-2xs ${colSpanClass}`}
             >
               {/* Clean Monochrome Functional Icon */}
               <div className="p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-zinc-100 text-zinc-800 mb-4 sm:mb-5">

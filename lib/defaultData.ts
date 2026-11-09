@@ -251,11 +251,6 @@ export const defaultProfile: ProfileData = {
         'Building modern web interfaces with Next.js 15 and React 19 that connect directly to scalable backend services.',
     },
     {
-      title: 'Security & Integrations',
-      description:
-        'Granular RBAC access controls, webhook verification, payment gateways, and third-party API pipelines.',
-    },
-    {
       title: 'Conversational Alignment',
       description:
         'Connecting by speaking out. Proactive in discussing requirements, clarifying ambiguities through direct conversation, and articulating trade-offs openly.',

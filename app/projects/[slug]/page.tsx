@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!project) {
     return {
-      title: 'Project Not Found | Vi Nguyen (vinguyen) Portfolio',
+      title: 'Project Not Found | Vi Nguyen (duvnguyen) Portfolio',
     }
   }
 
@@ -32,11 +32,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: pageTitle,
     description: project.subtitle,
     keywords: [
-      'vinguyen',
+      'duvnguyen',
       'vi nguyen',
+      'Nguyễn Đức Vĩ',
+      'Nguyen Duc Vi',
       project.title,
       `${project.title} vi nguyen`,
-      `${project.title} vinguyen`,
+      `${project.title} duvnguyen`,
       ...project.toolsUsed,
       'software engineer case study',
       'backend architecture',
@@ -45,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: pageUrl,
     },
     openGraph: {
-      title: `${project.title} | Vi Nguyen (vinguyen)`,
+      title: `${project.title} | Vi Nguyen (duvnguyen)`,
       description: project.subtitle,
       url: pageUrl,
       type: 'article',
@@ -60,7 +62,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${project.title} | Vi Nguyen (vinguyen)`,
+      title: `${project.title} | Vi Nguyen (duvnguyen)`,
       description: project.subtitle,
       creator: '@DuvNguyen',
       images: project.imageUrl

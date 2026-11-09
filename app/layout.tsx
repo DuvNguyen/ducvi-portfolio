@@ -16,23 +16,27 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vinguyen.id.vn'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Vi Nguyen (vinguyen) — Software Engineer & Backend Developer',
-    template: '%s | Vi Nguyen (vinguyen)',
+    default: 'Vi Nguyen (duvnguyen) | Nguyễn Đức Vĩ — Software Engineer',
+    template: '%s | Vi Nguyen (duvnguyen)',
   },
   description:
-    'Vi Nguyen (vinguyen) is a Software Engineer specializing in backend systems, distributed architectures, microservices, and modern web applications (Java, Spring Boot, NestJS, TypeScript, PostgreSQL, Kafka, Redis, Next.js).',
+    'Portfolio of Vi Nguyen (duvnguyen / Nguyễn Đức Vĩ) — Software Engineer specializing in backend systems, distributed architectures, microservices, and modern web applications (Java, Spring Boot, NestJS, TypeScript, PostgreSQL, Kafka, Redis).',
   keywords: [
-    'vinguyen',
     'vi nguyen',
+    'Vi Nguyen',
+    'Nguyễn Đức Vĩ',
+    'Nguyen Duc Vi',
+    'duvnguyen',
+    'DuvNguyen',
+    'vi nguyen engineer',
+    'vi nguyen backend',
+    'duvnguyen portfolio',
+    'nducvi',
+    'vinguyen',
     'vinguyen portfolio',
     'vi nguyen portfolio',
     'vinguyen.id.vn',
     'https://www.vinguyen.id.vn',
-    'nguyen duc vi',
-    'nguyễn đức vĩ',
-    'duvnguyen',
-    'DuvNguyen',
-    'nducvi',
     'Software Engineer',
     'Backend Engineer',
     'Full Stack Developer',
@@ -53,7 +57,7 @@ export const metadata: Metadata = {
     'Distributed Systems',
   ],
   authors: [{ name: 'Vi Nguyen', url: siteUrl }],
-  creator: 'Vi Nguyen (vinguyen)',
+  creator: 'Vi Nguyen (duvnguyen)',
   publisher: 'Vi Nguyen',
   alternates: {
     canonical: siteUrl,
@@ -88,23 +92,23 @@ export const metadata: Metadata = {
     type: 'profile',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Vi Nguyen (vinguyen) — Software Engineer & Backend Developer',
+    title: 'Vi Nguyen (duvnguyen) | Nguyễn Đức Vĩ — Software Engineer',
     description:
-      'Vi Nguyen (vinguyen) is a Software Engineer specializing in backend systems, distributed architectures, microservices, and modern web applications (Java, Spring Boot, NestJS, TypeScript, PostgreSQL, Kafka, Redis).',
-    siteName: 'Vi Nguyen (vinguyen) Portfolio',
+      'Portfolio of Vi Nguyen (duvnguyen / Nguyễn Đức Vĩ) — Software Engineer specializing in backend systems, distributed architectures, microservices, and modern web applications (Java, Spring Boot, NestJS, TypeScript, PostgreSQL, Kafka, Redis).',
+    siteName: 'Vi Nguyen (duvnguyen) Portfolio',
     images: [
       {
         url: '/assets/og-image.png',
         width: 1200,
         height: 630,
         type: 'image/png',
-        alt: 'Vi Nguyen (vinguyen) - Software Engineer',
+        alt: 'Vi Nguyen (duvnguyen) - Software Engineer',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vi Nguyen (vinguyen) — Software Engineer & Backend Developer',
+    title: 'Vi Nguyen (duvnguyen) | Nguyễn Đức Vĩ — Software Engineer',
     description:
       'Software Engineer specializing in backend systems, distributed architectures, microservices, and modern web applications.',
     creator: '@DuvNguyen',
@@ -115,13 +119,13 @@ export const metadata: Metadata = {
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Vi Nguyen',
-  alternateName: ['vinguyen', 'Nguyen Duc Vi', 'Nguyễn Đức Vĩ', 'DuvNguyen', 'nducvi'],
+  name: 'Vi Nguyen (Nguyễn Đức Vĩ)',
+  alternateName: ['duvnguyen', 'Nguyễn Đức Vĩ', 'Nguyen Duc Vi', 'DuvNguyen', 'vi nguyen', 'nducvi', 'vinguyen'],
   jobTitle: 'Software Engineer',
   description:
-    'Software Engineer specializing in backend architecture, Spring Boot microservices, NestJS, and modern full-stack web applications.',
+    'Backend & Software Engineer specializing in distributed architectures, Spring Boot, NestJS, PostgreSQL, and high-performance web systems.',
   url: siteUrl,
-  image: `${siteUrl}/assets/png/avatar.png`,
+  image: `${siteUrl}/favicon-192x192.png`,
   email: 'nducvi.information@gmail.com',
   sameAs: [
     'https://github.com/DuvNguyen',
@@ -148,14 +152,49 @@ const personJsonLd = {
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Vi Nguyen (vinguyen) Portfolio',
-  alternateName: ['vinguyen', 'Vi Nguyen', 'vinguyen.id.vn'],
+  name: 'Vi Nguyen (duvnguyen) Portfolio',
+  alternateName: ['duvnguyen', 'Vi Nguyen', 'Nguyễn Đức Vĩ', 'Nguyen Duc Vi', 'vinguyen.id.vn'],
   url: siteUrl,
   author: {
     '@type': 'Person',
     name: 'Vi Nguyen',
-    alternateName: 'vinguyen',
+    alternateName: 'duvnguyen',
   },
+}
+
+const sitelinksNavigationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: [
+    {
+      '@type': 'SiteNavigationElement',
+      position: 1,
+      name: 'Home',
+      description: 'Vi Nguyen (duvnguyen) — Software Engineer & Backend Developer Portfolio',
+      url: `${siteUrl}/`,
+    },
+    {
+      '@type': 'SiteNavigationElement',
+      position: 2,
+      name: 'Blog & Engineering Notes',
+      description: 'Architectural deep dives, NestJS, Spring Boot, PostgreSQL, and Redis caching',
+      url: `${siteUrl}/blog`,
+    },
+    {
+      '@type': 'SiteNavigationElement',
+      position: 3,
+      name: 'About Vi Nguyen',
+      description: 'Background, engineering journey, and technical competencies of Nguyễn Đức Vĩ',
+      url: `${siteUrl}/about`,
+    },
+    {
+      '@type': 'SiteNavigationElement',
+      position: 4,
+      name: 'Contact & Hire',
+      description: 'Interview invitation and contact information for Vi Nguyen',
+      url: `${siteUrl}/contact`,
+    },
+  ],
 }
 
 export default function RootLayout({
@@ -174,6 +213,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(sitelinksNavigationJsonLd) }}
         />
       </head>
       <body suppressHydrationWarning>

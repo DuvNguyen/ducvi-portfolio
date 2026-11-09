@@ -218,8 +218,22 @@ export const defaultProfile: ProfileData = {
         'Documented RESTful APIs with OpenAPI 3.0 / Swagger annotations in NestJS (@nestjs/swagger) and Spring Boot (springdoc-openapi). Generated interactive API sandboxes to streamline frontend-backend testing and contracts.',
       highlights: ['OpenAPI 3.0 Specifications', '@nestjs/swagger Decorators', 'Springdoc OpenAPI', 'Interactive Testing Sandbox'],
     },
+    {
+      name: 'AI-Assisted Engineering',
+      yearsOrLevel: 'Proficient • Agentic Workflows',
+      experience:
+        'Proficient with modern developer AI tools including Claude Code, Google Antigravity / Codex, Model Context Protocol (MCP) servers, SKILL.md runbook specs, plugins, and structured prompt engineering to accelerate delivery and code review.',
+      highlights: ['Claude Code', 'Antigravity / Codex', 'MCP Protocols', 'SKILL.md Specifications', 'Automated Code Review'],
+    },
+    {
+      name: 'Conversational Alignment',
+      yearsOrLevel: 'Proficient • Spoken Collaboration',
+      experience:
+        'Believer in connecting by speaking out. Proactive in discussions, articulating technical trade-offs clearly, clarifying ambiguous requirements through direct conversation, and keeping cross-functional teams aligned.',
+      highlights: ['Proactive Dialogue', 'Architectural Discussions', 'Requirement Clarification', 'Cross-Functional Alignment'],
+    },
   ],
-  capabilitiesHeading: 'Collaborate with engineering teams to build impactful systems.',
+  capabilitiesHeading: 'What I bring to an engineering team.',
   capabilities: [
     {
       title: 'Backend Architecture',
@@ -232,14 +246,24 @@ export const defaultProfile: ProfileData = {
         'Relational schema modeling, query optimization with PostgreSQL, and sub-millisecond Redis caching.',
     },
     {
-      title: 'Full-Stack Engineering',
+      title: 'Product Development',
       description:
-        'Modern, performant web applications engineered with Next.js 15 App Router, React 19, and TypeScript.',
+        'Building modern web interfaces with Next.js 15 and React 19 that connect directly to scalable backend services.',
     },
     {
       title: 'Security & Integrations',
       description:
         'Granular RBAC access controls, webhook verification, payment gateways, and third-party API pipelines.',
+    },
+    {
+      title: 'Conversational Alignment',
+      description:
+        'Connecting by speaking out. Proactive in discussing requirements, clarifying ambiguities through direct conversation, and articulating trade-offs openly.',
+    },
+    {
+      title: 'AI & Agentic Workflows',
+      description:
+        'Leveraging modern AI tools — Claude Code, Antigravity, MCP servers, SKILL.md runbooks, plugins, and structured prompt reviews to accelerate engineering velocity.',
     },
   ],
   contactHeading: "Let's discuss how I can bring value to your engineering team",

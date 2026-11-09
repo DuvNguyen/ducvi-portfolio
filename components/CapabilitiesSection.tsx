@@ -2,7 +2,14 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Server, Database, Layers, ShieldCheck } from 'lucide-react'
+import {
+  Server,
+  Database,
+  Layers,
+  ShieldCheck,
+  MessageSquare,
+  Cpu,
+} from 'lucide-react'
 import { cardHoverVariants } from '@/lib/motion'
 
 interface CapabilityItem {
@@ -11,7 +18,7 @@ interface CapabilityItem {
   description: string
 }
 
-const capabilities: CapabilityItem[] = [
+const defaultCapabilities: CapabilityItem[] = [
   {
     icon: Server,
     title: 'Backend Architecture',
@@ -26,9 +33,9 @@ const capabilities: CapabilityItem[] = [
   },
   {
     icon: Layers,
-    title: 'Full-Stack Engineering',
+    title: 'Product Development',
     description:
-      'Modern, performant web applications engineered with Next.js 15 App Router, React 19, and TypeScript.',
+      'Building modern web interfaces with Next.js 15 and React 19 that connect directly to scalable backend services.',
   },
   {
     icon: ShieldCheck,
@@ -36,7 +43,33 @@ const capabilities: CapabilityItem[] = [
     description:
       'Granular RBAC access controls, webhook verification, payment gateways, and third-party API pipelines.',
   },
+  {
+    icon: MessageSquare,
+    title: 'Conversational Alignment',
+    description:
+      'Connecting by speaking out. Proactive in discussing requirements, clarifying ambiguities through direct conversation, and articulating trade-offs openly.',
+  },
+  {
+    icon: Cpu,
+    title: 'AI & Agentic Workflows',
+    description:
+      'Leveraging modern AI tools — Claude Code, Antigravity, MCP servers, SKILL.md runbooks, plugins, and structured prompt reviews to accelerate engineering velocity.',
+  },
 ]
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  'backend architecture': Server,
+  'database & caching': Database,
+  'product development': Layers,
+  'full-stack engineering': Layers,
+  'security & integrations': ShieldCheck,
+  'conversational alignment': MessageSquare,
+  'communication & alignment': MessageSquare,
+  'ai & agentic workflows': Cpu,
+  'ai tooling & agentic workflows': Cpu,
+}
+
+const fallbackIcons = [Server, Database, Layers, ShieldCheck, MessageSquare, Cpu]
 
 interface CapabilitiesSectionProps {
   profile?: {
@@ -47,22 +80,27 @@ interface CapabilitiesSectionProps {
 
 export function CapabilitiesSection({ profile }: CapabilitiesSectionProps = {}) {
   const heading =
-    profile?.capabilitiesHeading ||
-    'Collaborate with engineering teams to build impactful systems.'
+    profile?.capabilitiesHeading || 'What I bring to an engineering team.'
+
   const items =
     profile?.capabilities && profile.capabilities.length > 0
-      ? profile.capabilities.map((c, i) => ({
-          icon: capabilities[i % capabilities.length].icon,
-          title: c.title,
-          description: c.description,
-        }))
-      : capabilities
+      ? profile.capabilities.map((c, i) => {
+          const matchedIcon =
+            iconMap[c.title.toLowerCase().trim()] ||
+            fallbackIcons[i % fallbackIcons.length]
+          return {
+            icon: matchedIcon,
+            title: c.title,
+            description: c.description,
+          }
+        })
+      : defaultCapabilities
 
   return (
     <section className="w-full py-10 sm:py-16 md:py-24 px-3.5 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
       {/* Centered Section Header */}
       <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-8 sm:mb-14">
-        {/* Minimal Pill Badge (Strictly no emojis) */}
+        {/* Minimal Pill Badge */}
         <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-zinc-200/80 bg-white text-zinc-700 text-xs sm:text-sm font-medium shadow-2xs mb-4">
           Capabilities
         </div>
@@ -73,8 +111,8 @@ export function CapabilitiesSection({ profile }: CapabilitiesSectionProps = {}) 
         </h2>
       </div>
 
-      {/* 4-Column Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+      {/* Responsive Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {items.map((item, index) => {
           const Icon = item.icon
           return (

@@ -94,8 +94,15 @@ export function HeroBentoSection({ profile }: HeroBentoSectionProps) {
             </motion.a>
           </div>
 
-          {/* Right: Clean Social Navigation */}
+          {/* Right: Clean Navigation & Links */}
           <div className="flex items-center flex-wrap justify-center sm:justify-end gap-3 sm:gap-5 text-zinc-500 font-medium text-xs sm:text-sm">
+            <a
+              href="#projects"
+              className="hover:text-zinc-950 transition-colors py-1"
+            >
+              Projects
+            </a>
+            <span className="text-zinc-300 font-light">/</span>
             {(profile.socialLinks && profile.socialLinks.length > 0
               ? profile.socialLinks
               : [

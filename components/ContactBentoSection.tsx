@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, FileText, Copy, Check, Mail } from 'lucide-react'
+import React from 'react'
+import { motion } from 'framer-motion'
+import { ArrowUpRight, FileText, Mail } from 'lucide-react'
 import type { ProfileData } from '@/lib/defaultData'
 import { pillButtonVariants } from '@/lib/motion'
 
@@ -11,14 +11,7 @@ interface ContactBentoSectionProps {
 }
 
 export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
-  const [copied, setCopied] = useState(false)
   const displayEmail = profile.email || 'nducvi.information@gmail.com'
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(displayEmail)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
 
   return (
     <section id="contact" className="w-full py-8 sm:py-12 md:py-16 px-3.5 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
@@ -59,29 +52,6 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
             Send Email
             <ArrowUpRight className="w-4 h-4 text-zinc-400" />
           </motion.a>
-
-          {/* Copy Email Button */}
-          <motion.button
-            variants={pillButtonVariants}
-            initial="rest"
-            whileHover="hover"
-            whileTap="tap"
-            type="button"
-            onClick={handleCopyEmail}
-            className="inline-flex items-center justify-center gap-1.5 rounded-full border border-zinc-200 bg-white px-5 py-3 sm:px-6 sm:py-3.5 text-sm sm:text-base font-medium text-zinc-800 hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer"
-          >
-            {copied ? (
-              <>
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span className="text-emerald-700 font-medium">Email Copied</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4 text-zinc-500" />
-                <span>Copy Email</span>
-              </>
-            )}
-          </motion.button>
 
           {/* CV Download Button */}
           <motion.a

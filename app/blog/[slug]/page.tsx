@@ -160,10 +160,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <MarkdownRenderer content={post.content} />
         </article>
 
-        {/* Author Bio & Recruiter Callout */}
-        <section className="bg-gradient-to-br from-white to-zinc-50 rounded-[28px] sm:rounded-[32px] border border-zinc-200 p-6 sm:p-8 md:p-10 shadow-2xs mb-12">
+        {/* Author Bio */}
+        <section className="bg-gradient-to-br from-white to-zinc-50 rounded-[28px] sm:rounded-[32px] border border-zinc-200/80 p-6 sm:p-8 md:p-10 shadow-2xs mb-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-zinc-300 shadow-sm shrink-0">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-zinc-200 shadow-sm shrink-0">
               <Image
                 src="/assets/png/avatar.png"
                 alt={profile.name || 'Vi Nguyen'}
@@ -174,42 +174,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             <div className="flex-1 space-y-1.5">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-lg font-bold text-zinc-950">Written by {profile.name || 'Vi Nguyen'}</h3>
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                  Available for Hire
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
-                Backend & Software Engineer specializing in scalable APIs with NestJS, Spring Boot, PostgreSQL, and Redis.
-                Actively seeking full-time backend and software engineering positions.
+              <h3 className="text-lg font-bold text-zinc-950">{profile.name || 'Vi Nguyen'}</h3>
+              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-normal">
+                {profile.heroBio}
               </p>
             </div>
           </div>
 
-          <div className="mt-6 pt-5 border-t border-zinc-200/80 flex flex-wrap items-center justify-between gap-3">
-            <span className="text-xs text-zinc-500 font-medium">
-              Want to discuss system architecture or discuss open opportunities?
-            </span>
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <a
-                href={profile.cvUrl || '/assets/cv.pdf'}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition-colors shadow-2xs"
-              >
-                <FileText className="w-3.5 h-3.5" />
-                Download CV
-              </a>
-              <a
-                href={`mailto:${profile.email}?subject=Regarding%20Article:%20${encodeURIComponent(post.title)}`}
-                className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full border border-zinc-300 bg-white text-zinc-800 text-xs font-medium hover:bg-zinc-100 transition-colors shadow-2xs"
-              >
-                Contact Me
-                <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
-              </a>
-            </div>
+          <div className="mt-6 pt-5 border-t border-zinc-200/80 flex items-center justify-end gap-2.5 flex-wrap">
+            <a
+              href={profile.cvUrl || '/assets/cv.pdf'}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition-colors shadow-2xs"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              CV
+            </a>
+            <a
+              href={`mailto:${profile.email}?subject=Regarding%20Article:%20${encodeURIComponent(post.title)}`}
+              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full border border-zinc-300 bg-white text-zinc-800 text-xs font-medium hover:bg-zinc-50 transition-colors shadow-2xs"
+            >
+              Contact
+              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
+            </a>
           </div>
         </section>
 

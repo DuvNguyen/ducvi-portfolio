@@ -11,16 +11,13 @@
   
   <!-- Monogram Text -->
   <text
-    x="46"
-    y="62"
+    x="50"
+    y="63"
     font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
     font-size="44"
     font-weight="800"
-    letter-spacing="-2"
+    letter-spacing="-1.5"
     fill="#ffffff"
     text-anchor="middle"
   >VN</text>
-  
-  <!-- Emerald Online / Available Indicator Dot -->
-  <circle cx="78" cy="60" r="5" fill="#10b981" />
 </svg>

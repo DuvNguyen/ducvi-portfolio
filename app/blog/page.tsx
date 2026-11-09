@@ -39,9 +39,9 @@ export default async function BlogIndexPage() {
         {/* Hero Header Bento Card */}
         <section className="bg-white rounded-[28px] sm:rounded-[36px] md:rounded-[44px] border border-black/[0.06] p-6 sm:p-10 md:p-14 shadow-2xs mb-8 sm:mb-12">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200/80 text-zinc-800 text-xs font-semibold uppercase tracking-wider mb-4">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              Engineering Notes & Insights
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-zinc-200/80 bg-zinc-50 text-zinc-700 text-xs sm:text-sm font-medium mb-4">
+              <BookOpen className="w-3.5 h-3.5 text-zinc-600" />
+              Technical Writing & Insights
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-950 leading-[1.15]">
               Architectural Deep Dives & Backend Engineering
@@ -50,27 +50,6 @@ export default async function BlogIndexPage() {
               Practical reflections on microservices, query optimization, high-throughput caching with Redis,
               and security protocols based on real-world engineering projects.
             </p>
-
-            {/* Recruiter Quick Callout */}
-            <div className="mt-6 pt-6 border-t border-zinc-100 flex flex-wrap items-center gap-4 text-xs sm:text-sm text-zinc-600">
-              <span className="font-medium text-zinc-900">Are you hiring?</span>
-              <Link
-                href="/#projects"
-                className="text-zinc-950 font-semibold underline underline-offset-4 hover:text-zinc-600 transition-colors"
-              >
-                Review My Production Projects
-              </Link>
-              <span className="text-zinc-300">•</span>
-              <a
-                href={profile.cvUrl || '/assets/cv.pdf'}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1 font-semibold text-zinc-950 underline underline-offset-4 hover:text-zinc-600 transition-colors"
-              >
-                <FileText className="w-3.5 h-3.5" />
-                Download CV
-              </a>
-            </div>
           </div>
         </section>
 

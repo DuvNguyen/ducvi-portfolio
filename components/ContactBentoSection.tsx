@@ -17,12 +17,6 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
     <section id="contact" className="w-full py-8 sm:py-12 md:py-16 px-3.5 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
       {/* Contact Bento Card */}
       <div className="relative bg-white rounded-[28px] sm:rounded-[36px] md:rounded-[44px] border border-black/[0.06] shadow-sm p-6 sm:p-12 md:p-16 text-center overflow-hidden">
-        {/* Availability Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-semibold mb-5 sm:mb-6">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          {profile.availability || 'Available Immediately • Open to Interview Requests'}
-        </div>
-
         {/* Section Heading */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-950 leading-tight max-w-2xl mx-auto">
           {profile.contactHeading || "Let's discuss how I can bring value to your engineering team"}
@@ -45,7 +39,7 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
             initial="rest"
             whileHover="hover"
             whileTap="tap"
-            href={`mailto:${displayEmail}?subject=Interview%20Invitation%20-%20Backend%20Engineer%20Role`}
+            href={`mailto:${displayEmail}`}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-zinc-950 px-6 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-semibold text-white hover:bg-zinc-800 transition-colors shadow-sm"
           >
             <Mail className="w-4 h-4 text-zinc-300" />
@@ -85,10 +79,6 @@ export function ContactBentoSection({ profile }: ContactBentoSectionProps) {
             </motion.a>
           )}
         </div>
-
-        <p className="mt-6 text-xs text-zinc-400">
-          Guaranteed response within 24 hours. Based in Vietnam, open to remote and relocation.
-        </p>
       </div>
     </section>
   )

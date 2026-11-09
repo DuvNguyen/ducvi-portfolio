@@ -75,6 +75,9 @@ export const profileQuery = `*[_type == "profile"][0] {
   _id,
   name,
   statusText,
+  roleTitle,
+  location,
+  availability,
   headline,
   heroHeadline,
   heroBio,
@@ -97,4 +100,30 @@ export const profileQuery = `*[_type == "profile"][0] {
   linkedin,
   github,
   "cvUrl": cvFile.asset->url
+}`
+
+export const postsQuery = `*[_type == "post"] | order(publishedAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  excerpt,
+  readingTime,
+  tags,
+  featured,
+  mainImage,
+  content
+}`
+
+export const postBySlugQuery = `*[_type == "post" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  excerpt,
+  readingTime,
+  tags,
+  featured,
+  mainImage,
+  content
 }`

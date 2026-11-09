@@ -55,6 +55,19 @@ export interface ProjectItem {
   gallery?: { imageUrl: string; caption?: string; alt?: string }[]
 }
 
+export interface PostItem {
+  _id: string
+  title: string
+  slug: string
+  publishedAt: string
+  excerpt: string
+  readingTime: string
+  tags: string[]
+  featured?: boolean
+  imageUrl?: string
+  content: string
+}
+
 export interface CapabilityItem {
   title: string
   description: string
@@ -76,6 +89,9 @@ export interface ProfileData {
   name: string
   headline: string
   statusText: string
+  roleTitle?: string
+  location?: string
+  availability?: string
   heroHeadline?: string
   heroBio: string
   aboutSubtitle: string
@@ -95,16 +111,20 @@ export interface ProfileData {
 
 export const defaultProfile: ProfileData = {
   name: 'Vi Nguyen',
-  headline: 'Hey, My name is Vi Nguyen',
-  statusText: 'Open to Internship Opportunities',
-  heroHeadline: 'Building digital products, robust backends, and scalable systems.',
+  headline: 'Vi Nguyen — Backend & Software Engineer',
+  statusText: 'Available for Opportunities',
+  roleTitle: 'Backend & Software Engineer',
+  location: 'Ho Chi Minh City, Vietnam (Open to Remote / Relocation)',
+  availability: 'Available Immediately • Full-Time',
+  heroHeadline: 'Architecting high-performance APIs, robust backends, and distributed systems.',
   heroBio:
-    'Final-year Information Technology student skilled in fullstack web development. I enjoy building clean, functional applications using modern frameworks and always eager to learn and improve with every project.',
+    'Backend & Software Engineer specializing in NestJS, Spring Boot, PostgreSQL, and distributed architectures. Focused on clean system design, sub-millisecond Redis caching, event-driven pipelines, and shipping reliable applications.',
   aboutSubtitle:
-    'I enjoy learning about software development and applying what I know through personal and academic projects.',
+    'Passionate software engineer focused on distributed backend architectures, clean API contracts, and practical AI integrations.',
   aboutParagraphs: [
-    "Hey! I'm Vi Nguyen, a final-year Information Technology student. I've been learning full-stack web development on my own and through team projects at university, mainly using NestJS, Spring Boot, and React.",
-    "I don't have professional work experience yet, but I'm genuinely interested in software development and always trying to improve through building things. I'm open to internship opportunities where I can contribute and keep growing.",
+    "Hi, I'm Vi Nguyen — a software engineer with a strong focus on backend systems, clean architecture, and scalable web applications. My core expertise centers around NestJS, Java Spring Boot, TypeScript, and databases like PostgreSQL and Redis.",
+    "I love solving real engineering problems: designing granular multi-role RBAC security models, eliminating query bottlenecks, orchestrating event-driven messaging with Kafka, and integrating intelligent AI recommendation workflows. I treat every project with production standards — emphasizing type safety, automated CI/CD pipelines, comprehensive API contracts, and maintainability.",
+    "I am currently actively seeking full-time backend and software engineering opportunities (remote, hybrid, or on-site). If you are looking for an engineer who communicates clearly, takes ownership, and writes reliable, testable code, let's connect!",
   ],
   skills: [
     {
@@ -222,9 +242,9 @@ export const defaultProfile: ProfileData = {
         'Granular RBAC access controls, webhook verification, payment gateways, and third-party API pipelines.',
     },
   ],
-  contactHeading: 'Tell me about your next project or role',
+  contactHeading: "Let's discuss how I can bring value to your engineering team",
   contactSubtitle:
-    'Currently open to Backend and Full-Stack Developer opportunities. Feel free to reach out directly to discuss how I can contribute.',
+    'Actively interviewing for Backend and Software Engineer roles. Whether you have an open headcount, a contract project, or want to discuss system architecture, my inbox is always open.',
   marqueeSkills: [
     'NestJS',
     'Spring Boot',
@@ -715,5 +735,404 @@ export const defaultProjects: ProjectItem[] = [
       { imageUrl: '/assets/png/careflow/voice-stt.png', caption: 'Dual Voice-to-Text Dictation & Auto-Fill' },
       { imageUrl: '/assets/png/careflow/pharmacy.png', caption: 'Pharmacy Dispensing & DDI Verification' },
     ],
+  },
+]
+
+export const defaultPosts: PostItem[] = [
+  {
+    _id: 'post-rbac-nestjs',
+    title: 'Designing Granular Multi-Role RBAC in NestJS with Custom Decorators & PostgreSQL',
+    slug: 'designing-multi-role-rbac-nestjs-postgresql',
+    publishedAt: '2025-02-18T10:00:00Z',
+    excerpt:
+      'A deep dive into architecting a flexible Role-Based Access Control (RBAC) system in NestJS using reflection decorators, guards, and efficient PostgreSQL schema design.',
+    readingTime: '6 min read',
+    tags: ['NestJS', 'Architecture', 'Security', 'PostgreSQL'],
+    featured: true,
+    content: `Role-Based Access Control (RBAC) is one of the most critical security layers in any enterprise backend. While many beginner tutorials demonstrate simple hardcoded role checks like \`@Roles('ADMIN')\`, real-world applications demand granular permissions, multi-tenant isolation, and resource-level access control.
+
+In this article, I share the architectural patterns I used when engineering the authentication and authorization layer for **StudyMate LMS**, handling Students, Instructors, Auditors, and System Administrators.
+
+---
+
+## 1. The Pitfalls of Naive Role Checks
+
+A standard naive approach often embeds role checks directly within the controller or service:
+
+\`\`\`typescript
+@Get('course/:id/grades')
+async getGrades(@Req() req, @Param('id') courseId: string) {
+  if (req.user.role !== 'INSTRUCTOR' && req.user.role !== 'ADMIN') {
+    throw new ForbiddenException('Access denied');
+  }
+  return this.gradesService.findByCourse(courseId);
+}
+\`\`\`
+
+Why does this fail at scale?
+1. **Coupled Business & Authorization Logic:** Controllers become littered with role comparisons.
+2. **Brittle Role Escalation:** Adding a new role (e.g., "Teaching Assistant" or "Auditor") requires modifying hundreds of endpoints.
+3. **Missing Resource Ownership:** Knowing the user is an \`INSTRUCTOR\` doesn't mean they own *this specific course*.
+
+---
+
+## 2. Decoupling Roles from Granular Permissions
+
+Instead of assigning roles directly to routes, assign **Permissions** to Roles, and attach **Permission Requirements** to routes:
+
+- **Role:** \`INSTRUCTOR\`
+- **Permissions:** \`courses:create\`, \`courses:read\`, \`grades:update\`, \`content:publish\`
+
+### Database Schema Design
+
+We normalize this in PostgreSQL with four key tables:
+
+\`\`\`sql
+CREATE TABLE users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE roles (
+  id VARCHAR(64) PRIMARY KEY, -- e.g. 'ADMIN', 'INSTRUCTOR', 'STUDENT'
+  description TEXT
+);
+
+CREATE TABLE permissions (
+  id VARCHAR(64) PRIMARY KEY, -- e.g. 'courses:write', 'analytics:view'
+  category VARCHAR(64) NOT NULL
+);
+
+CREATE TABLE role_permissions (
+  role_id VARCHAR(64) REFERENCES roles(id) ON DELETE CASCADE,
+  permission_id VARCHAR(64) REFERENCES permissions(id) ON DELETE CASCADE,
+  PRIMARY KEY (role_id, permission_id)
+);
+\`\`\`
+
+---
+
+## 3. Custom Metadata Reflection in NestJS
+
+NestJS allows us to attach metadata to handler routes using \`SetMetadata\` or \`Reflector.createDecorator\`:
+
+\`\`\`typescript
+// permissions.decorator.ts
+import { SetMetadata } from '@nestjs/common';
+
+export const PERMISSIONS_KEY = 'permissions';
+export const RequirePermissions = (...permissions: string[]) =>
+  SetMetadata(PERMISSIONS_KEY, permissions);
+\`\`\`
+
+Now our controller endpoint looks declarative and clean:
+
+\`\`\`typescript
+@Get('course/:id/grades')
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePermissions('grades:read')
+async getGrades(@Param('id') courseId: string) {
+  return this.gradesService.findByCourse(courseId);
+}
+\`\`\`
+
+---
+
+## 4. Crafting the PermissionsGuard
+
+The Guard pulls the required permissions from route metadata and evaluates the authenticated user's permissions:
+
+\`\`\`typescript
+@Injectable()
+export class PermissionsGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
+
+  canActivate(context: ExecutionContext): boolean {
+    const requiredPermissions = this.reflector.getAllAndOverride<string[]>(
+      PERMISSIONS_KEY,
+      [context.getHandler(), context.getClass()]
+    );
+
+    if (!requiredPermissions || requiredPermissions.length === 0) {
+      return true; // No special permissions required
+    }
+
+    const { user } = context.switchToHttp().getRequest();
+    if (!user || !user.permissions) {
+      throw new ForbiddenException('User permissions could not be verified');
+    }
+
+    const hasAll = requiredPermissions.every((perm) =>
+      user.permissions.includes(perm)
+    );
+
+    if (!hasAll) {
+      throw new ForbiddenException('Insufficient privileges for this resource');
+    }
+
+    return true;
+  }
+}
+\`\`\`
+
+---
+
+## 5. Performance: Caching User Permissions
+
+Loading permissions from PostgreSQL on every single API request introduces unnecessary database round-trips. 
+
+To solve this:
+1. **JWT Payload Claims:** For lightweight permissions, embed the permission list into the signed JWT access token.
+2. **Redis In-Memory Session Cache:** For dynamic systems where permissions can be revoked immediately by an admin, store \`user:{id}:permissions\` in Redis with a 15-minute TTL. Upon permission updates, emit an invalidation event.
+
+---
+
+## Conclusion
+
+By separating roles from granular permissions and using declarative NestJS decorators, the authorization codebase becomes extensible, audit-proof, and pleasant to maintain. You can onboard new user types without changing a single line of controller logic.`,
+  },
+  {
+    _id: 'post-redis-spring-boot',
+    title: 'Sub-Millisecond Read Performance: Redis Caching Patterns in Spring Boot',
+    slug: 'sub-millisecond-redis-caching-spring-boot',
+    publishedAt: '2025-01-28T09:30:00Z',
+    excerpt:
+      'Practical caching strategies in Spring Boot: cache-aside, cache-through, TTL eviction, and mitigating cache stampede in high-traffic e-commerce backends.',
+    readingTime: '7 min read',
+    tags: ['Spring Boot', 'Redis', 'Performance', 'Java'],
+    featured: true,
+    content: `In high-concurrency systems, the database is almost always the first bottleneck. During the development of **VietSneaker**, a multi-vendor marketplace with catalog search and filtering, recurring queries for hot product catalogs began consuming database connections.
+
+To ensure sub-millisecond response times, I implemented a robust caching tier using **Redis** and **Spring Boot Cache Abstraction**. Here is a practical breakdown of the architecture, serialization choices, and cache stampede protections.
+
+---
+
+## 1. Choosing the Right Caching Pattern: Cache-Aside
+
+For our read-heavy product catalog, we implemented the **Cache-Aside (Lazy-Loading)** pattern:
+1. Application queries Redis for the cache key (e.g., \`products:page:1:brand:nike\`).
+2. If **Cache Hit**: return the cached payload immediately.
+3. If **Cache Miss**: query MySQL via Spring Data JPA, serialize the result into Redis with a defined TTL, and return it.
+
+\`\`\`mermaid
+flowchart LR
+    Client --> API[Spring Boot Service]
+    API -- 1. Query Cache --> Redis[(Redis Cache)]
+    Redis -. Hit .-> API
+    API -- 2. Miss: Query DB --> MySQL[(MySQL DB)]
+    MySQL -. Result .-> API
+    API -- 3. Store Cache --> Redis
+\`\`\`
+
+---
+
+## 2. Spring Boot Redis Configuration & JSON Serialization
+
+Default Spring Redis templates often use standard Java binary serialization (\`JdkSerializationRedisSerializer\`), which produces opaque byte strings that are unreadable in \`redis-cli\` and sensitive to class versioning.
+
+Instead, we configure **Jackson JSON Serialization**:
+
+\`\`\`java
+@Configuration
+@EnableCaching
+public class RedisConfig {
+
+    @Bean
+    public RedisCacheConfiguration cacheConfiguration() {
+        return RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(Duration.ofMinutes(30))
+            .disableCachingNullValues()
+            .serializeKeysWith(
+                RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())
+            )
+            .serializeValuesWith(
+                RedisSerializationContext.SerializationPair.fromSerializer(
+                    new GenericJackson2JsonRedisSerializer()
+                )
+            );
+    }
+}
+\`\`\`
+
+---
+
+## 3. Implementing @Cacheable and Cache Invalidation
+
+Spring's declarative annotations keep our business service clean:
+
+\`\`\`java
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+
+    private final ProductRepository productRepository;
+
+    @Cacheable(value = "products", key = "#id", unless = "#result == null")
+    public ProductResponseDTO getProductById(Long id) {
+        return productRepository.findById(id)
+            .map(ProductResponseDTO::fromEntity)
+            .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+    }
+
+    @CacheEvict(value = "products", key = "#id")
+    @Transactional
+    public ProductResponseDTO updateProduct(Long id, UpdateProductDTO dto) {
+        Product product = productRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        product.updateFromDto(dto);
+        Product saved = productRepository.save(product);
+        return ProductResponseDTO.fromEntity(saved);
+    }
+}
+\`\`\`
+
+---
+
+## 4. Preventing Cache Stampede & Cache Penetration
+
+### Problem 1: Cache Penetration (Non-existent IDs)
+Attackers repeatedly query non-existent IDs (\`id=999999\`), which miss the cache every time and hammer the database.
+- **Solution:** Cache null values with a very short TTL (e.g., 60 seconds), or implement a Bloom Filter.
+
+### Problem 2: Cache Stampede (Hot Key Expiration)
+When a heavily accessed key expires, hundreds of concurrent threads simultaneously discover a cache miss and query the database at once.
+- **Solution:** Use distributed locking with Redis (\`Redisson\` or \`SETNX\` lock) so only one worker recalculates the cache while others wait briefly.
+
+---
+
+## 5. Measured Impact
+
+| Metric | Before Redis | With Redis Cache | Improvement |
+| :--- | :--- | :--- | :--- |
+| **Catalog Response Time (p95)** | 185 ms | 12 ms | **93.5% reduction** |
+| **Database CPU Utilization** | 78% under load | 14% under load | **82% reduction** |
+| **Max Concurrent Users** | ~400 req/sec | ~3,200 req/sec | **8x throughput** |
+
+---
+
+## Key Takeaway
+
+Caching is not just adding an annotation. Strategic key naming, choosing clean JSON serialization, setting intelligent TTLs, and having an explicit invalidation strategy are essential to building rock-solid, production-grade backends.`,
+  },
+  {
+    _id: 'post-kafka-docker-microservices',
+    title: 'Event-Driven Microservices: Decoupling Chat Workloads with Apache Kafka & Docker',
+    slug: 'event-driven-microservices-kafka-docker',
+    publishedAt: '2025-01-10T14:00:00Z',
+    excerpt:
+      'How I architected an asynchronous message streaming pipeline to handle burst chat throughput without bottlenecking relational databases.',
+    readingTime: '8 min read',
+    tags: ['Kafka', 'Microservices', 'Docker', 'System Design'],
+    featured: false,
+    content: `When designing real-time systems like chat applications, order execution engines, or notification pipelines, naive synchronous HTTP calls between microservices quickly collapse under load spikes.
+
+If service A synchronously calls service B, and service B writes to a slow relational database, service A's connection pool fills up in seconds.
+
+In this article, I discuss how we decoupled real-time chat message ingestion from persistence using **Apache Kafka**, partition key ordering, and containerized orchestration with **Docker Compose**.
+
+---
+
+## 1. The Architectural Challenge
+
+In our real-time chat architecture:
+- Users connect via WebSocket gateways.
+- High-velocity messages (thousands of messages per second in active channels) must be broadcasted immediately to connected participants.
+- Simultaneously, messages must be persisted, user notifications queued, and search indices updated.
+
+Synchronously inserting every message into PostgreSQL inside the WebSocket loop created severe thread blocking.
+
+---
+
+## 2. Event-Driven Solution Architecture
+
+\`\`\`mermaid
+flowchart TD
+    Client1[Client WebSocket] --> WS[WebSocket Gateway Service]
+    WS -- 1. Emit to Socket.IO Adapter --> Redis[(Redis Pub/Sub)]
+    Redis --> WS2[Other Connected Clients]
+    WS -- 2. Produce Event (channelId key) --> Kafka[Apache Kafka Cluster]
+    Kafka --> CG1[Chat Persistence Consumer]
+    Kafka --> CG2[Notification Consumer]
+    CG1 --> Postgres[(PostgreSQL Database)]
+    CG2 --> PushService[Push Notification Worker]
+\`\`\`
+
+By emitting an event to Kafka, the WebSocket Gateway responds in under **3ms**, completely independent of database latency or disk I/O.
+
+---
+
+## 3. Strict FIFO Ordering via Kafka Partition Keys
+
+In chat applications, message ordering matters. If Alice sends *"Hello"* and then *"How are you?"*, Bob must never see them in reverse order.
+
+Kafka guarantees ordering **within a single partition**, but not across multiple partitions in a topic.
+
+To maintain strict ordering:
+\`\`\`typescript
+await this.kafkaProducer.send({
+  topic: 'chat.messages.v1',
+  messages: [
+    {
+      key: message.channelId, // All messages for a given channel hash to the same partition
+      value: JSON.stringify({
+        messageId: message.id,
+        channelId: message.channelId,
+        senderId: message.senderId,
+        content: message.content,
+        timestamp: message.createdAt,
+      }),
+    },
+  ],
+});
+\`\`\`
+
+By using \`channelId\` as the Kafka message key, Kafka's default murmur2 hash algorithm ensures all messages belonging to the same channel always land on the identical partition and are consumed in exact sequence.
+
+---
+
+## 4. Orchestrating with Docker Compose
+
+Running Kafka locally with Zookeeper (or KRaft mode) alongside multiple microservices can be tedious. We encapsulated the entire topology in Docker Compose:
+
+\`\`\`yaml
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+\`\`\`
+
+---
+
+## 5. Handling Consumer Failures with Dead Letter Queues (DLQ)
+
+What happens if a corrupted message fails JSON parsing or triggers an unrecoverable database constraint in the consumer?
+
+If the consumer crashes without committing its offset, it creates a poison pill loop. To prevent this:
+1. Wrap processing in a try/catch.
+2. After 3 failed retry attempts with exponential backoff, route the poison message to a **Dead Letter Queue (DLQ)** topic (\`chat.messages.dlq\`).
+3. Commit the offset and alert the engineering team.
+
+---
+
+## Summary
+
+Asynchronous event streaming transforms brittle monolithic dependencies into resilient, decoupled microservices. Implementing Kafka with partition-key hashing preserves domain ordering while safeguarding application uptime during massive traffic spikes.`,
   },
 ]

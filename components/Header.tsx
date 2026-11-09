@@ -121,6 +121,14 @@ export function Header() {
             {!isHome && <ArrowLeft className="w-3.5 h-3.5 text-zinc-400" />}
             Projects
           </Link>
+          <Link
+            href="/blog"
+            className={`hover:text-zinc-950 transition-colors ${
+              pathname.startsWith('/blog') ? 'text-zinc-950 font-semibold' : ''
+            }`}
+          >
+            Blog
+          </Link>
           <Link href="/#about" className="hover:text-zinc-950 transition-colors">
             About
           </Link>

@@ -1,11 +1,19 @@
 import { client, sanityFetch, isSanityConfigured } from './sanity.client'
-import { projectsQuery, projectBySlugQuery, profileQuery } from './sanity.queries'
+import {
+  projectsQuery,
+  projectBySlugQuery,
+  profileQuery,
+  postsQuery,
+  postBySlugQuery,
+} from './sanity.queries'
 import {
   defaultProjects,
   defaultProfile,
+  defaultPosts,
   type ProjectItem,
   type ProfileData,
   type SkillItem,
+  type PostItem,
 } from './defaultData'
 import { urlForImage } from './sanity.image'
 
@@ -246,6 +254,9 @@ export async function getProfile(): Promise<ProfileData> {
       name: data.name || defaultProfile.name,
       headline: data.headline || defaultProfile.headline,
       statusText: data.statusText || defaultProfile.statusText,
+      roleTitle: data.roleTitle || defaultProfile.roleTitle,
+      location: data.location || defaultProfile.location,
+      availability: data.availability || defaultProfile.availability,
       heroHeadline: data.heroHeadline || defaultProfile.heroHeadline,
       heroBio: data.heroBio || defaultProfile.heroBio,
       capabilitiesHeading: data.capabilitiesHeading || defaultProfile.capabilitiesHeading,
@@ -280,5 +291,98 @@ export async function getProfile(): Promise<ProfileData> {
   } catch (error) {
     console.warn('Error fetching profile from Sanity, falling back:', error)
     return defaultProfile
+  }
+}
+
+export async function getPosts(): Promise<PostItem[]> {
+  if (!isSanityConfigured) {
+    return defaultPosts
+  }
+
+  try {
+    const data = await sanityFetch<any[]>({
+      query: postsQuery,
+      revalidate: 60,
+    })
+
+    if (!data || data.length === 0) {
+      return defaultPosts
+    }
+
+    return data.map((item) => {
+      let resolvedImg: string | undefined = undefined
+      if (item.mainImage) {
+        if (typeof item.mainImage === 'string' && item.mainImage.trim() !== '') {
+          resolvedImg = item.mainImage.trim()
+        } else if (item.mainImage.asset) {
+          const url = urlForImage(item.mainImage)
+          if (url && url.trim() !== '') resolvedImg = url.trim()
+        }
+      }
+
+      const defaultMatch = defaultPosts.find((p) => p.slug === item.slug)
+
+      return {
+        _id: item._id,
+        title: item.title || defaultMatch?.title || 'Untitled Post',
+        slug: item.slug || defaultMatch?.slug || '',
+        publishedAt: item.publishedAt || defaultMatch?.publishedAt || new Date().toISOString(),
+        excerpt: item.excerpt || defaultMatch?.excerpt || '',
+        readingTime: item.readingTime || defaultMatch?.readingTime || '5 min read',
+        tags: Array.isArray(item.tags) ? item.tags : defaultMatch?.tags || [],
+        featured: typeof item.featured === 'boolean' ? item.featured : defaultMatch?.featured || false,
+        imageUrl: resolvedImg || defaultMatch?.imageUrl,
+        content: item.content || defaultMatch?.content || '',
+      }
+    })
+  } catch (error) {
+    console.warn('Error fetching posts from Sanity, falling back:', error)
+    return defaultPosts
+  }
+}
+
+export async function getPostBySlug(slug: string): Promise<PostItem | undefined> {
+  const fallbackPost = defaultPosts.find((p) => p.slug === slug)
+
+  if (!isSanityConfigured) {
+    return fallbackPost
+  }
+
+  try {
+    const item = await sanityFetch<any>({
+      query: postBySlugQuery,
+      params: { slug },
+      revalidate: 60,
+    })
+
+    if (!item) {
+      return fallbackPost
+    }
+
+    let resolvedImg: string | undefined = undefined
+    if (item.mainImage) {
+      if (typeof item.mainImage === 'string' && item.mainImage.trim() !== '') {
+        resolvedImg = item.mainImage.trim()
+      } else if (item.mainImage.asset) {
+        const url = urlForImage(item.mainImage)
+        if (url && url.trim() !== '') resolvedImg = url.trim()
+      }
+    }
+
+    return {
+      _id: item._id,
+      title: item.title || fallbackPost?.title || 'Untitled Post',
+      slug: item.slug || slug,
+      publishedAt: item.publishedAt || fallbackPost?.publishedAt || new Date().toISOString(),
+      excerpt: item.excerpt || fallbackPost?.excerpt || '',
+      readingTime: item.readingTime || fallbackPost?.readingTime || '5 min read',
+      tags: Array.isArray(item.tags) ? item.tags : fallbackPost?.tags || [],
+      featured: typeof item.featured === 'boolean' ? item.featured : fallbackPost?.featured || false,
+      imageUrl: resolvedImg || fallbackPost?.imageUrl,
+      content: item.content || fallbackPost?.content || '',
+    }
+  } catch (error) {
+    console.warn('Error fetching post by slug from Sanity, falling back:', error)
+    return fallbackPost
   }
 }

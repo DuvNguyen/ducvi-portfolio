@@ -14,8 +14,39 @@ import {
   type ProfileData,
   type SkillItem,
   type PostItem,
+  type CapabilityItem,
 } from './defaultData'
 import { urlForImage } from './sanity.image'
+
+function normalizeCapabilities(rawCapabilities: any[] | undefined): CapabilityItem[] {
+  const defaultCaps = defaultProfile.capabilities || []
+  if (!rawCapabilities || !Array.isArray(rawCapabilities) || rawCapabilities.length === 0) {
+    return defaultCaps
+  }
+
+  const existingTitles = new Set<string>()
+  const result: CapabilityItem[] = []
+
+  // 1. Keep all items saved in Sanity
+  for (const item of rawCapabilities) {
+    if (!item) continue
+    const title = (item.title || '').trim()
+    const description = (item.description || '').trim()
+    if (!title) continue
+    existingTitles.add(title.toLowerCase())
+    result.push({ title, description })
+  }
+
+  // 2. Append any default capability not yet saved in Sanity so new capabilities always appear
+  for (const def of defaultCaps) {
+    if (!existingTitles.has(def.title.toLowerCase().trim())) {
+      result.push(def)
+      existingTitles.add(def.title.toLowerCase().trim())
+    }
+  }
+
+  return result
+}
 
 function normalizeSkills(rawSkills: any[] | undefined): SkillItem[] {
   if (!rawSkills || !Array.isArray(rawSkills) || rawSkills.length === 0) {
@@ -27,7 +58,7 @@ function normalizeSkills(rawSkills: any[] | undefined): SkillItem[] {
     defaultMap.set(s.name.toLowerCase().trim(), s)
   }
 
-  return rawSkills
+  const skills = rawSkills
     .map((item): SkillItem | null => {
       if (!item) return null
 
@@ -66,6 +97,16 @@ function normalizeSkills(rawSkills: any[] | undefined): SkillItem[] {
       return null
     })
     .filter((s): s is SkillItem => s !== null)
+
+  const existingSkillNames = new Set(skills.map((s) => s.name.toLowerCase().trim()))
+  for (const defSkill of defaultProfile.skills) {
+    if (!existingSkillNames.has(defSkill.name.toLowerCase().trim())) {
+      skills.push(defSkill)
+      existingSkillNames.add(defSkill.name.toLowerCase().trim())
+    }
+  }
+
+  return skills
 }
 
 export async function getProjects(): Promise<ProjectItem[]> {
@@ -260,7 +301,7 @@ export async function getProfile(): Promise<ProfileData> {
       heroHeadline: data.heroHeadline || defaultProfile.heroHeadline,
       heroBio: data.heroBio || defaultProfile.heroBio,
       capabilitiesHeading: data.capabilitiesHeading || defaultProfile.capabilitiesHeading,
-      capabilities: data.capabilities?.length ? data.capabilities : defaultProfile.capabilities,
+      capabilities: normalizeCapabilities(data.capabilities),
       aboutSubtitle: data.aboutSubtitle || defaultProfile.aboutSubtitle,
       aboutParagraphs: data.aboutParagraphs?.length
         ? data.aboutParagraphs
